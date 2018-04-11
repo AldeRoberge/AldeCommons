@@ -1,6 +1,5 @@
 package util;
 
-
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -11,8 +10,7 @@ public class HashMapUtil {
 		list.sort(new Comparator<Object>() {
 			@SuppressWarnings("unchecked")
 			public int compare(Object o1, Object o2) {
-				return ((Comparable<V>) ((Entry<K, V>) (o2)).getValue())
-						.compareTo(((Entry<K, V>) (o1)).getValue());
+				return ((Comparable<V>) ((Entry<K, V>) (o2)).getValue()).compareTo(((Entry<K, V>) (o1)).getValue());
 			}
 		});
 

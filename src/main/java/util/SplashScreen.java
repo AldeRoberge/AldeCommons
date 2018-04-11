@@ -182,8 +182,6 @@ public class SplashScreen {
 			g2d.setComposite(AlphaComposite.SrcAtop.derive(1f));
 			g2d.drawImage(textImage, 0, 0, getWidth(), getHeight(), this);
 
-			//String
-
 			g2d.dispose();
 
 		}

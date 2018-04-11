@@ -1,4 +1,4 @@
-package util;
+package util.math;
 
 /**
  * An algorithm for measuring the difference between two character sequences.

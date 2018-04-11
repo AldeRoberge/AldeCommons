@@ -1,4 +1,4 @@
-package util;
+package util.math;
 
 import java.awt.*;
 

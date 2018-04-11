@@ -1,5 +1,5 @@
 
-package util;
+package util.file;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -24,6 +24,8 @@ import javax.swing.event.DocumentListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import util.text.StackTraceToString;
 
 /**
  * Simple JPanel to allow the user to edit a file on disk
