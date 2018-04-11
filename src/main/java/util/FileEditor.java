@@ -25,8 +25,11 @@ import javax.swing.event.DocumentListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Simple JPanel to allow the user to edit a file on disk
+ */
 public class FileEditor extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = LoggerFactory.getLogger(FileEditor.class);
@@ -119,7 +122,7 @@ public class FileEditor extends JPanel {
 			}
 
 		} catch (IOException ex) {
-			log.error("Error! : " + StackTraceToString.sTTS(ex));
+			log.error(StackTraceToString.sTTS(ex));
 			ex.printStackTrace();
 		}
 
@@ -136,13 +139,13 @@ public class FileEditor extends JPanel {
 
 			bw.write(fileEditor.getText());
 
-			log.info("File saved!");
+			log.debug("File '" + file.getName() + "' saved.");
 
 			bw.close();
 			fw.close();
 
 		} catch (IOException ex) {
-			log.error("Error! : " + StackTraceToString.sTTS(ex));
+			log.error(StackTraceToString.sTTS(ex));
 			ex.printStackTrace();
 		}
 

@@ -30,11 +30,11 @@ public class ProxyHandlerImpl extends ProxyHandler {
 
 	/** Get new proxies (from free proxy lists) */
 	private void reloadAllProxies() {
-        Set<ProxyWrapper> hs = new HashSet<>(ProxyLeecher.getProxies());
-        proxies.clear();
-        proxies.addAll(hs);
+		Set<ProxyWrapper> hs = new HashSet<>(ProxyLeecher.getProxies());
+		proxies.clear();
+		proxies.addAll(hs);
 
-        Collections.shuffle(proxies);
+		Collections.shuffle(proxies);
 
 		log.info("Total of " + proxies.size() + " proxies.");
 
@@ -311,7 +311,7 @@ class ProxyWrapper {
 		}).start();
 	}
 
-	private static final String TEST_URL = "http://www.realmofthemadgod.com/char/list?guid=" + StringGenerator.randomAlphaNumericWithoutAmbiguity(10);
+	private static final String TEST_URL = "http://www.realmofthemadgod.com/char/list?guid=" + StringGenerator.randomAlphaNumeric(10);
 	private static final String SUCCESS = "nextCharId";
 
 	private void testValidity() {

@@ -10,21 +10,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Get a file as a List of Strings
+ * 
+ */
 public class GetFileAsString {
 
 	private static Logger log = LoggerFactory.getLogger(GetFileAsString.class);
 
-	/**
-	 * @param f file to read from
-	 * @return Returns a list of all the strings inside the file
-	 */
 	public static List<String> getFileAsList(File f) {
 
 		List<String> strings = new ArrayList<>();
 
-		if ((f == null) || !f.exists()) {
-			log.error("File does not exist, returning.");
-			return strings;
+		if (f == null) {
+			log.error("File is null.");
+			return null;
+		}
+
+		if (!f.exists()) {
+			log.error("File does not exist.");
+			return null;
 		}
 
 		try (BufferedReader br = new BufferedReader(new FileReader(f))) {

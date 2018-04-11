@@ -2,17 +2,17 @@ package util;
 
 public class SecondsToHMS {
 
-	public static String convert(int secs) {
+	/**
+	 * 120 seconds = 00h02m00s
+	 */
+	public static String convert(long totalSecs) {
+		
+		long hours = totalSecs / 3600;
+		long minutes = (totalSecs % 3600) / 60;
+		long seconds = totalSecs % 60;
 
-		int hours = secs / 3600, remainder = secs % 3600, minutes = remainder / 60, seconds = remainder % 60;
-
-		String disHour = (hours < 10 ? "0" : "") + hours, disMinu = (minutes < 10 ? "0" : "") + minutes,
-				disSec = (seconds < 10 ? "0" : "") + seconds;
-
-		return disHour + "h " + disMinu + "m and " + disSec + "s.";
-
-		// 01:03:48
-		// 01h 03m 48s
+		return String.format("%02dh%02dm%02ds", hours, minutes, seconds);
+		
 	}
 
 }

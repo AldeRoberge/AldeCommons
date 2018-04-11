@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class WriteToFile {
 
@@ -15,7 +16,8 @@ public class WriteToFile {
 	}
 
 	private boolean isAlreadyRunning;
-	private ArrayList<String> bufferedText = new ArrayList<>();
+
+	private List<String> bufferedText = new ArrayList<>();
 
 	public void write(final String text) {
 
@@ -25,10 +27,8 @@ public class WriteToFile {
 				public void run() {
 					isAlreadyRunning = true;
 
-					BufferedWriter bw;
-					try {
-						// APPEND MODE SET HERE
-						bw = new BufferedWriter(new FileWriter(file, true));
+					try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
+
 						bw.write(text);
 						bw.newLine();
 
@@ -37,12 +37,6 @@ public class WriteToFile {
 							bw.write(it.next());
 							bw.newLine();
 							it.remove();
-						}
-
-						try {
-							bw.close();
-						} catch (IOException ioe2) {
-							// just ignore it
 						}
 
 					} catch (IOException ioe) {

@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 
 public class UtilityJFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void setVisible(boolean isVisible) {
 		setLocation(util.MiddleOfTheScreen.getMiddleOfScreenLocationFor(this));

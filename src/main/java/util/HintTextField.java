@@ -4,13 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Text field with hint text that disappears on typing
- * @Author Adam Gawne-Cain - https://stackoverflow.com/a/24571681
+ * Text field with temporary hint text
+ * 
+ * from https://stackoverflow.com/a/24571681
+ * 
+ * @Author Adam Gawne-Cain
  */
 public class HintTextField extends JTextField {
+
+	private final String hint;
+
 	public HintTextField(String hint) {
+		this.hint = hint;
 		setEnabled(true);
-		_hint = hint;
 	}
 
 	@Override
@@ -27,9 +33,8 @@ public class HintTextField extends JTextField {
 			int m = 0xfefefefe;
 			int c2 = ((c0 & m) >>> 1) + ((c1 & m) >>> 1);
 			g.setColor(new Color(c2, true));
-			g.drawString(_hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
+			g.drawString(hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
 		}
 	}
 
-	private final String _hint;
 }
