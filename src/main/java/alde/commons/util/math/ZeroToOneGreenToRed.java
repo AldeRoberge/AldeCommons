@@ -1,4 +1,4 @@
-package util.math;
+package alde.commons.util.math;
 
 import java.awt.*;
 

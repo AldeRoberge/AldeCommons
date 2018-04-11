@@ -1,4 +1,4 @@
-package logger;
+package alde.commons.logger;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package properties;
+package alde.commons.properties;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -75,6 +75,19 @@ public class Property {
 		getEditPropertyPanel().updateFieldWithNewValue();
 
 		return value;
+	}
+
+	public int setNewValue(int value) {
+		String stringValue = Integer.toString(value);
+
+		e.savePropertyValue(key, stringValue);
+		this.value = stringValue;
+
+		return value;
+	}
+
+	public boolean isDefaultValue() {
+		return this.value.equals(defaultValue);
 	}
 
 	public boolean getValueAsBoolean() {

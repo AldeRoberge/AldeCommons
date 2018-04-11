@@ -1,4 +1,4 @@
-package util.math;
+package alde.commons.util.math;
 
 /**
  * An algorithm for measuring the difference between two character sequences.

@@ -1,4 +1,4 @@
-package network;
+package alde.commons.network;
 
 /**
  * Proxy Handler is aimed to be a top level utlity method of type 'get website as string'.

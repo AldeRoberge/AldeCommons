@@ -1,4 +1,4 @@
-package util;
+package alde.commons.util;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,4 +1,4 @@
-package util;
+package alde.commons.util;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,7 +13,7 @@ public class UtilityJFrame extends JFrame {
 
 	@Override
 	public void setVisible(boolean isVisible) {
-		setLocation(util.MiddleOfTheScreen.getMiddleOfScreenLocationFor(this));
+		setLocation(alde.commons.util.MiddleOfTheScreen.getMiddleOfScreenLocationFor(this));
 
 		super.setVisible(isVisible);
 	}

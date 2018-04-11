@@ -1,4 +1,4 @@
-package util;
+package alde.commons.util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ public class SplashScreen {
 
 	private TimerTask close;
 
-	public SplashScreen(final String title, final BufferedImage inImage, final BufferedImage outImage,
+	public SplashScreen(final BufferedImage inImage, final BufferedImage outImage,
 			final BufferedImage titleImage, final JFrame parentComponent, final boolean automaticClose,
 			final int secondsBeforeClose) {
 
@@ -18,7 +18,7 @@ public class SplashScreen {
 			@Override
 			public void run() {
 
-				final JFrame frame = new JFrame(title);
+				final JFrame frame = new JFrame();
 				frame.add(new SplashScreenPane(inImage, outImage, titleImage));
 				frame.setUndecorated(true);
 				frame.setBackground(new Color(0, 0, 0, 0));

@@ -1,11 +1,11 @@
-package properties;
+package alde.commons.properties;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import network.ProxyHandlerImpl;
+import alde.commons.network.ProxyHandlerImpl;
 
 import java.io.File;
 import java.io.IOException;

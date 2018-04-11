@@ -1,11 +1,11 @@
-package network;
+package alde.commons.network;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import util.text.StackTraceToString;
-import util.text.StringGenerator;
+import alde.commons.util.text.StackTraceToString;
+import alde.commons.util.text.StringGenerator;
 
 import java.io.BufferedReader;
 import java.io.IOException;

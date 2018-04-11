@@ -1,16 +1,16 @@
-package properties;
+package alde.commons.properties;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import properties.Properties;
-import properties.Property;
+import alde.commons.properties.Properties;
+import alde.commons.properties.Property;
 
 /**
  * Example of a class extending Properties
  */
-public class PropertiesImpl extends Properties {
+public class PropertiesImplExample extends Properties {
 
 	static {
 		setPropertyFile("pvoac.properties");
@@ -29,10 +29,10 @@ public class PropertiesImpl extends Properties {
 	public static List<Property> getProperties() {
 		List<Property> properties = new ArrayList<>();
 
-		for (Field f : PropertiesImpl.class.getDeclaredFields()) {
+		for (Field f : PropertiesImplExample.class.getDeclaredFields()) {
 			if (f.getType().equals(Property.class)) {
 				try {
-					properties.add((Property) f.get(PropertiesImpl.class));
+					properties.add((Property) f.get(PropertiesImplExample.class));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
 				}

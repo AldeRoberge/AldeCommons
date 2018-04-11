@@ -1,4 +1,4 @@
-package util.text;
+package alde.commons.util.text;
 
 import java.text.DecimalFormat;
 
