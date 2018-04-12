@@ -3,21 +3,24 @@ package alde.commons.properties;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import alde.commons.properties.Properties;
-import alde.commons.properties.Property;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Example of a class extending Properties
  */
-public class PropertiesImplExample extends Properties {
+public class PropertiesExample {
+
+	public static PropertyFileManager propertyFile;
 
 	static {
-		setPropertyFile("pvoac.properties");
+		propertyFile = new PropertyFileManager("alde-commons-example.properties");
 	}
 
 	//@formatter:off
-	public static final Property SHOW_SPLASH_SCREEN = new Property("SHOW_SPLASH_SCREEN", "Display splash screen on start", TRUE, propertyFile);
+	public static final Property SHOW_SPLASH_SCREEN = new Property("SHOW_SPLASH_SCREEN", "Display splash screen on start", Property.TRUE, propertyFile);
 	public static final Property SPLASH_SCREEN_TIME = new Property("SPLASH_SCREEN_TIME","Seconds before closing splash screen", "5", propertyFile);
 	public static final Property DOMAIN_FILE = new Property("DOMAIN_FILE","Relative path to the file containing the domains (separated by line breaks)", "domains.txt", propertyFile);
 	//@formatter:on
@@ -29,10 +32,10 @@ public class PropertiesImplExample extends Properties {
 	public static List<Property> getProperties() {
 		List<Property> properties = new ArrayList<>();
 
-		for (Field f : PropertiesImplExample.class.getDeclaredFields()) {
+		for (Field f : PropertiesExample.class.getDeclaredFields()) {
 			if (f.getType().equals(Property.class)) {
 				try {
-					properties.add((Property) f.get(PropertiesImplExample.class));
+					properties.add((Property) f.get(PropertiesExample.class));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					e.printStackTrace();
 				}

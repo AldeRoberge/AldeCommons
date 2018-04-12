@@ -25,7 +25,5 @@ public class PropertiesPanel extends JPanel {
 		for (Property p : properties) {
 			propertyPanel.add(p.getEditPropertyPanel());
 		}
-
 	}
-
 }

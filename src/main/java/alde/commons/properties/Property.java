@@ -19,29 +19,32 @@ import org.slf4j.LoggerFactory;
 
 public class Property {
 
+	public static final String TRUE = "TRUE";
+	public static final String FALSE = "FALSE";
+
 	private static final Logger logger = LoggerFactory.getLogger(Property.class);
 
-	private PropertyFileManager e; //property file manager used to save and get values on updates
+	private PropertyFileManager propertyManager; //property file manager used to save and get values on updates
 
-	private String key; //name in Properties
+	private String key;
 	private String description;
-	private String value; //current value
+	private String value;
 	private String defaultValue;
 
 	private EditPropertyPanel editPropertyPanel;
 
 	/**
-	 * @param keyName      Key to store value to
-	 * @param description  Description of what this property does
-	 * @param defaultValue Default value returned if no property of this key exists
-	 * @param e            PropertyFileManager used to store and retrieve keys
+	 * @param keyName          Key to store value to
+	 * @param description      Description of what this property does
+	 * @param defaultValue     Default value returned if no property of this key exists
+	 * @param propertyManager  PropertyFileManager used to store and retrieve keys
 	 */
-	public Property(String keyName, String description, String defaultValue, PropertyFileManager e) {
+	public Property(String keyName, String description, String defaultValue, PropertyFileManager propertyManager) {
 		this.key = keyName;
 		this.description = description;
 		this.defaultValue = defaultValue;
-		this.value = e.getPropertyValue(keyName, defaultValue);
-		this.e = e;
+		this.value = propertyManager.getPropertyValue(keyName, defaultValue);
+		this.propertyManager = propertyManager;
 	}
 
 	public EditPropertyPanel getEditPropertyPanel() {
@@ -61,7 +64,7 @@ public class Property {
 	}
 
 	public String setNewValue(String value) {
-		e.savePropertyValue(key, value);
+		propertyManager.savePropertyValue(key, value);
 		this.value = value;
 
 		return value;
@@ -69,7 +72,7 @@ public class Property {
 
 	public boolean setNewValue(Boolean value) {
 		String booleanStringValue = Boolean.toString(value).toUpperCase();
-		e.savePropertyValue(key, booleanStringValue);
+		propertyManager.savePropertyValue(key, booleanStringValue);
 		this.value = booleanStringValue;
 
 		getEditPropertyPanel().updateFieldWithNewValue();
@@ -80,7 +83,7 @@ public class Property {
 	public int setNewValue(int value) {
 		String stringValue = Integer.toString(value);
 
-		e.savePropertyValue(key, stringValue);
+		propertyManager.savePropertyValue(key, stringValue);
 		this.value = stringValue;
 
 		return value;
@@ -92,9 +95,9 @@ public class Property {
 
 	public boolean getValueAsBoolean() {
 		switch (value) {
-		case Properties.TRUE:
+		case TRUE:
 			return true;
-		case Properties.FALSE:
+		case FALSE:
 			return false;
 		default:
 			logger.error("isTrue() on " + key + " for value " + value
@@ -261,7 +264,7 @@ class EditPropertyPanel extends JPanel {
 	}
 
 	private boolean isBooleanStringValue(String value) {
-		return (value.equals(Properties.TRUE) || value.equals(Properties.FALSE));
+		return (value.equals(Property.TRUE) || value.equals(Property.FALSE));
 	}
 
 	/**
