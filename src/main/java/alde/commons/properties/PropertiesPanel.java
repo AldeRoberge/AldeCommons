@@ -2,6 +2,7 @@ package alde.commons.properties;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -11,7 +12,7 @@ public class PropertiesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public PropertiesPanel(ArrayList<Property> properties) {
+	public PropertiesPanel(List<Property> properties) {
 		setLayout(new BorderLayout(0, 0));
 
 		JScrollPane propertyScrollPane = new JScrollPane();

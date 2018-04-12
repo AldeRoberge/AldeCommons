@@ -7,6 +7,31 @@
 	<version>0.1</version>
 	<name>AldeCommons</name>
 	<description>Shared projects used by a multitude of my own personal projects.</description>
+	<url>https://github.com/iObsidian/AldeCommons</url>
+
+
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE</name>
+			<url>https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Alde</name>
+			<email>contact@realmspy.com</email>
+			<organization>RealmSpy</organization>
+			<organizationUrl>http://www.realmspy.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/iObsidian/AldeCommons.git</connection>
+		<developerConnection>scm:git:ssh://github.com:iObsidian/AldeCommons.git</developerConnection>
+		<url>http://github.com/iObsidian/AldeCommons/tree/master</url>
+	</scm>
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -58,6 +83,11 @@
 			<version>1.2.3</version>
 			<scope>test</scope>
 		</dependency>
+
+
+
+		
+
 
 	</dependencies>
 

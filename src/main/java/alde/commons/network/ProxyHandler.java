@@ -7,6 +7,8 @@ package alde.commons.network;
  *
  * It isn't thread safe.
  *
+ * @see ProxyHandlerImpl
+ *
  * @author Alde
  */
 public abstract class ProxyHandler {
