@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import alde.commons.util.text.StackTraceToString;
 
 /**
- * @author VaypeNaysh
+ * @author Alde
  *
  * @param <T> object to deserialize on ObjectSerializer(String fileToSaveTo) and to get with get()
  * Always check if isNull() (if the file exists and is not empty) otherwise get() will return null

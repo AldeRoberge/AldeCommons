@@ -2,8 +2,11 @@ package alde.commons.util.file;
 
 import java.io.File;
 
-//Source https://www.mkyong.com/java/how-to-get-file-size-in-java/
-
+/**
+ * 
+ * @author https://www.mkyong.com/java/how-to-get-file-size-in-java/
+ *
+ */
 public class FileSizeToString {
 
 	public static String getFileSizeAsString(File file) {

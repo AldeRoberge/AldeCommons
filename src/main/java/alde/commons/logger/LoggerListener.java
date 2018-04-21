@@ -1,18 +1,17 @@
 package alde.commons.logger;
 
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
- * LogBack listener
  * Inspired by Florent Moisson
  */
 public class LoggerListener extends AppenderBase<ILoggingEvent> {
@@ -28,7 +27,7 @@ public class LoggerListener extends AppenderBase<ILoggingEvent> {
 	}
 
 	public void addListener(LoggerReceiver l) {
-		this.loggerReceiverList.add(l);
+		loggerReceiverList.add(l);
 	}
 
 	@Override

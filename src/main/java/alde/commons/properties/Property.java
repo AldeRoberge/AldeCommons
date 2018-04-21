@@ -24,7 +24,7 @@ public class Property {
 
 	private static final Logger logger = LoggerFactory.getLogger(Property.class);
 
-	private PropertyFileManager propertyManager; //property file manager used to save and get values on updates
+	private PropertyFileManager propertyManager; // property file manager used to save and get values on updates
 
 	private String key;
 	private String description;

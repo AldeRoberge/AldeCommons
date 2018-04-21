@@ -65,7 +65,7 @@ public class PropertyFileManager {
 			}
 
 		} catch (ConfigurationException e) {
-			logger.error("Could not get property value for '" + key + "', returning default value. ", e);
+			logger.error("Error getting property '" + key + "', returning default value '" + defaultValue + "'. ", e);
 			e.printStackTrace();
 		}
 		return defaultValue;

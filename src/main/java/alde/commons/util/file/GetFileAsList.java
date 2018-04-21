@@ -10,17 +10,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Get a file as a List of Strings
- * 
- */
-public class GetFileAsString {
+public class GetFileAsList {
 
-	private static Logger log = LoggerFactory.getLogger(GetFileAsString.class);
+	private static Logger log = LoggerFactory.getLogger(GetFileAsList.class);
 
+	/**
+	 * Returns a List<String> from the content of a file
+	 */
 	public static List<String> getFileAsList(File f) {
-
-		List<String> strings = new ArrayList<>();
 
 		if (f == null) {
 			log.error("File is null.");
@@ -32,6 +29,8 @@ public class GetFileAsString {
 			return null;
 		}
 
+		List<String> strings = new ArrayList<>();
+
 		try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -39,7 +38,7 @@ public class GetFileAsString {
 			}
 
 		} catch (IOException e) {
-			log.error("Error with file " + f.getAbsolutePath() + ", exception thrown : ");
+			log.error("Error with file '" + f.getAbsolutePath() + "', exception thrown : ");
 			e.printStackTrace();
 		}
 

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Example of a class extending Properties
+ * Example of a Properties class
  */
 public class PropertiesExample {
 
