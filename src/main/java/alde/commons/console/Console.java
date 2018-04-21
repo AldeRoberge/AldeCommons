@@ -9,13 +9,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
 import alde.commons.util.autoComplete.jtextfield.AutoCompleteMemoryJTextField;
 import alde.commons.util.autoComplete.jtextfield.AutoCompleteService;
+import alde.commons.util.math.LevenshteinDistance;
 
 public class Console implements InputListener {
 
@@ -63,7 +68,31 @@ public class Console implements InputListener {
 		}
 
 		if (!accepted) {
-			log.error("No action found for input '" + command + "'.");
+			log.error("No action found for input '" + command + "'." + getSuggestion(command));
+
+		}
+
+	}
+
+	private String getSuggestion(String imput) {
+
+		int closest = 99999;
+		String suggestion = "";
+
+		for (ConsoleAction c : actions) {
+			String keyword = c.getKeyword();
+			int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, imput);
+
+			if (distance < closest) {
+				closest = distance;
+				suggestion = keyword;
+			}
+		}
+
+		if (closest <= 3) {
+			return " Did you mean '" + suggestion + "'?";
+		} else {
+			return "";
 		}
 
 	}
@@ -125,8 +154,6 @@ class ConsoleInputPanel extends JPanel {
 
 	org.slf4j.Logger log = LoggerFactory.getLogger(ConsoleInputPanel.class);
 
-	Color backgroundColor = new Color(250, 170, 0);
-
 	AutoCompleteMemoryJTextField inputField;
 
 	public ConsoleInputPanel(AutoCompleteService s, final InputListener inputListener) {
@@ -151,9 +178,16 @@ class ConsoleInputPanel extends JPanel {
 		});
 
 		inputField.setFont(getFont().deriveFont(Font.BOLD));
-		inputField.setBackground(backgroundColor);
-		inputField.setForeground(Color.WHITE);
+		inputField.setBackground(Color.WHITE);
+		inputField.setForeground(new Color(29, 29, 29)); // Very dark gray
 		inputField.setCaretColor(Color.WHITE);
+
+		Border line = BorderFactory.createLineBorder(Color.DARK_GRAY);
+		Border empty = new EmptyBorder(5, 5, 5, 0);
+		CompoundBorder border = new CompoundBorder(line, empty);
+		inputField.setBorder(border);
+
+		setBorder(null);
 
 		add(inputField, BorderLayout.CENTER);
 
