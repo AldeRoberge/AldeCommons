@@ -1,8 +1,10 @@
 package alde.commons.logger;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
@@ -76,6 +78,10 @@ public class LoggerUI extends JTextPane implements LoggerReceiver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void clear() {
+		setText("");
 	}
 
 	@Override

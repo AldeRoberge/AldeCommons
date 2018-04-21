@@ -1,5 +1,7 @@
 package alde.commons.console;
 
+import java.util.Arrays;
+
 /**
  * ConsoleAction defines an action to be performed when the user inputs text including a trigger
  * 
@@ -29,6 +31,29 @@ public abstract class ConsoleAction {
 	 * 
 	 * @return the keyword
 	 */
-	public abstract String getKeyword();
+	public abstract String[] getKeywords();
+
+	@Override
+	public String toString() {
+		return getKeywordsAsString() + " : " + getDescription() + ".";
+	}
+
+	public String getKeywordsAsString() {
+		StringBuffer a = new StringBuffer();
+
+		String keywords[] = getKeywords();
+
+		for (int i = 0; i < keywords.length; i++) {
+
+			if (i != keywords.length - 1) {
+				a.append(keywords[i] + ", ");
+			} else {
+				a.append(keywords[i]);
+			}
+		}
+
+		return a.toString();
+
+	}
 
 }

@@ -51,4 +51,10 @@ public class AutoCompleteService implements CompletionService<String> {
 		return hit;
 	}
 
+	public void addData(String[] keywords) {
+		for (String k : keywords) {
+			addData(k);
+		}
+	}
+
 }

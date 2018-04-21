@@ -5,7 +5,19 @@
 	<groupId>alde.commons</groupId>
 	<artifactId>AldeCommons</artifactId>
 	<version>0.1</version>
-	<name>AldeCommons</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <name>AldeCommons</name>
 	<description>Shared projects used by a multitude of my own personal projects.</description>
 	<url>https://github.com/iObsidian/AldeCommons</url>
 

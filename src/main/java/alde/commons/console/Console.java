@@ -1,26 +1,22 @@
 package alde.commons.console;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
 import alde.commons.util.autoComplete.jtextfield.AutoCompleteMemoryJTextField;
 import alde.commons.util.autoComplete.jtextfield.AutoCompleteService;
 import alde.commons.util.math.LevenshteinDistance;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class Console implements InputListener {
 
@@ -36,7 +32,7 @@ public class Console implements InputListener {
 	private Console() {
 	}
 
-	public static final Console getConsole() {
+	private static Console getConsole() {
 
 		if (console == null) {
 			console = new Console();
@@ -55,21 +51,24 @@ public class Console implements InputListener {
 	/**
 	 * Receive input from the consoleInputPanel
 	 */
-	@Override
 	public void receive(String command) {
 
 		boolean accepted = false;
 
 		for (ConsoleAction t : actions) {
-			if (command.contains(t.getKeyword())) {
-				accepted = true;
-				t.accept(command);
+
+			for (String s : t.getKeywords()) {
+				if (command.contains(s)) {
+					accepted = true;
+					t.accept(command);
+
+					break;
+				}
 			}
 		}
 
 		if (!accepted) {
-			log.error("No action found for input '" + command + "'." + getSuggestion(command));
-
+			log.error("No action found for input '" + command + "'" + getSuggestion(command));
 		}
 
 	}
@@ -80,19 +79,22 @@ public class Console implements InputListener {
 		String suggestion = "";
 
 		for (ConsoleAction c : actions) {
-			String keyword = c.getKeyword();
-			int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, imput);
 
-			if (distance < closest) {
-				closest = distance;
-				suggestion = keyword;
+			for (String keyword : c.getKeywords()) {
+				int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, imput);
+
+				if (distance < closest) {
+					closest = distance;
+					suggestion = keyword;
+				}
 			}
+
 		}
 
 		if (closest <= 3) {
-			return " Did you mean '" + suggestion + "'?";
+			return ", did you mean '" + suggestion + "'?";
 		} else {
-			return "";
+			return ".";
 		}
 
 	}
@@ -104,15 +106,18 @@ public class Console implements InputListener {
 
 			ConsoleAction otherAction = it.next();
 
-			if (otherAction.getKeyword().equalsIgnoreCase(c.getKeyword())) {
-				log.error("New keyword '" + c.getKeyword() + "' overrides other action with description "
-						+ otherAction.getDescription());
+			for (String keyword : c.getKeywords()) {
 
-				it.remove();
+				for (String otherKeyword : otherAction.getKeywords()) {
+					if (otherKeyword.equalsIgnoreCase(keyword)) {
+						log.error("New keyword '" + c.toString() + "' overrides other action '" + c.toString() + "'.");
+						it.remove();
+					}
+				}
 			}
 		}
 
-		autoComplete.addData(c.getKeyword());
+		autoComplete.addData(c.getKeywords());
 		actions.add(c);
 
 	}
@@ -134,7 +139,7 @@ class HelpAction extends ConsoleAction {
 	@Override
 	public void accept(String command) {
 		for (ConsoleAction c : consoleActions) {
-			log.info(c.getKeyword() + " : " + c.getDescription());
+			log.info(c.toString());
 		}
 	}
 
@@ -144,8 +149,8 @@ class HelpAction extends ConsoleAction {
 	}
 
 	@Override
-	public String getKeyword() {
-		return "help";
+	public String[] getKeywords() {
+		return new String[] { "help" };
 	}
 
 }
@@ -173,7 +178,6 @@ class ConsoleInputPanel extends JPanel {
 					inputField.setText("");
 
 				}
-
 			}
 		});
 
