@@ -1,6 +1,7 @@
 package alde.commons.console;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import alde.commons.util.autoComplete.jtextfield.AutoCompleteMemoryJTextField;
 import alde.commons.util.autoComplete.jtextfield.AutoCompleteService;
 
-public class Console implements ImputListener {
+public class Console implements InputListener {
 
 	public static Console console;
 
@@ -25,7 +26,7 @@ public class Console implements ImputListener {
 	static org.slf4j.Logger log = LoggerFactory.getLogger(Console.class);
 
 	private static final AutoCompleteService autoComplete = new AutoCompleteService();
-	private final static JPanel consoleImputPanel = new ConsoleInputPanel(autoComplete, getConsole());
+	private final static JPanel consoleInputPanel = new ConsoleInputPanel(autoComplete, getConsole());
 
 	private Console() {
 	}
@@ -42,12 +43,12 @@ public class Console implements ImputListener {
 		return console;
 	}
 
-	public static JPanel getConsoleImputPanel() {
-		return consoleImputPanel;
+	public static JPanel getConsoleInputPanel() {
+		return consoleInputPanel;
 	}
 
 	/**
-	 * Receive input from the consoleImputPanel
+	 * Receive input from the consoleInputPanel
 	 */
 	@Override
 	public void receive(String command) {
@@ -62,7 +63,7 @@ public class Console implements ImputListener {
 		}
 
 		if (!accepted) {
-			log.error("No action found for imput '" + command + "'.");
+			log.error("No action found for input '" + command + "'.");
 		}
 
 	}
@@ -124,37 +125,42 @@ class ConsoleInputPanel extends JPanel {
 
 	org.slf4j.Logger log = LoggerFactory.getLogger(ConsoleInputPanel.class);
 
-	AutoCompleteMemoryJTextField imputField;
+	Color backgroundColor = new Color(250, 170, 0);
 
-	public ConsoleInputPanel(AutoCompleteService s, final ImputListener imputListener) {
+	AutoCompleteMemoryJTextField inputField;
+
+	public ConsoleInputPanel(AutoCompleteService s, final InputListener inputListener) {
 
 		setLayout(new BorderLayout());
 
-		imputField = new AutoCompleteMemoryJTextField(s);
+		inputField = new AutoCompleteMemoryJTextField(s);
 
-		imputField.addActionListener(new ActionListener() {
+		inputField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (!StringUtils.isAllBlank(imputField.getText())) {
+				if (!StringUtils.isAllBlank(inputField.getText())) {
 
-					imputListener.receive(imputField.getText());
+					inputListener.receive(inputField.getText());
 
-					imputField.remember(imputField.getText());
-					imputField.setText("");
+					inputField.remember(inputField.getText());
+					inputField.setText("");
 
 				}
 
 			}
 		});
 
-		imputField.setFont(getFont().deriveFont(Font.BOLD));
+		inputField.setFont(getFont().deriveFont(Font.BOLD));
+		inputField.setBackground(backgroundColor);
+		inputField.setForeground(Color.WHITE);
+		inputField.setCaretColor(Color.WHITE);
 
-		add(imputField, BorderLayout.CENTER);
+		add(inputField, BorderLayout.CENTER);
 
 	}
 
 }
 
-interface ImputListener {
+interface InputListener {
 	public void receive(String s);
 }

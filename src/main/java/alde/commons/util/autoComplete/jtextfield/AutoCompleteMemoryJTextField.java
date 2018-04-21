@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
 /**
- * A JTextField that remembers imputs and offers the AutoComplete service
+ * A JTextField that remembers inputs and offers the AutoComplete service
  * 
  * Press UP, DOWN to show
  * 
@@ -20,7 +20,7 @@ public class AutoCompleteMemoryJTextField extends AutoCompleteJTextField {
 
 	org.slf4j.Logger log = LoggerFactory.getLogger(AutoCompleteMemoryJTextField.class);
 
-	private List<String> previousImputs = new ArrayList<String>();
+	private List<String> previousInputs = new ArrayList<String>();
 	private int currentIndex = 0;
 
 	public AutoCompleteMemoryJTextField(AutoCompleteService s) {
@@ -54,10 +54,10 @@ public class AutoCompleteMemoryJTextField extends AutoCompleteJTextField {
 
 	}
 
-	public void remember(String imput) {
+	public void remember(String input) {
 		if (!StringUtils.isAllBlank(getText())) {
-			previousImputs.add(getText());
-			currentIndex = previousImputs.size();
+			previousInputs.add(getText());
+			currentIndex = previousInputs.size();
 		}
 	}
 
@@ -69,12 +69,12 @@ public class AutoCompleteMemoryJTextField extends AutoCompleteJTextField {
 			currentIndex = 0;
 		}
 
-		if (currentIndex > previousImputs.size() - 1) { // Maximum
-			currentIndex = previousImputs.size() - 1;
+		if (currentIndex > previousInputs.size() - 1) { // Maximum
+			currentIndex = previousInputs.size() - 1;
 		}
 
-		if (!(previousImputs.size() == 0)) {
-			setText(previousImputs.get(currentIndex));
+		if (!(previousInputs.size() == 0)) {
+			setText(previousInputs.get(currentIndex));
 		}
 
 	}
