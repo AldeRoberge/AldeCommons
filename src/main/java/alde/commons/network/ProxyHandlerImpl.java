@@ -1,12 +1,5 @@
 package alde.commons.network;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import alde.commons.util.text.StackTraceToString;
-import alde.commons.util.text.StringGenerator;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +8,21 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.util.text.StackTraceToString;
 
 public class ProxyHandlerImpl extends ProxyHandler {
+
+	public static boolean debug = false;
 
 	private static final Logger log = LoggerFactory.getLogger(ProxyHandlerImpl.class);
 
@@ -30,19 +35,31 @@ public class ProxyHandlerImpl extends ProxyHandler {
 
 	/** Get new proxies (from free proxy lists) */
 	private void reloadAllProxies() {
+		log.info("Reloading proxies...");
+
 		Set<ProxyWrapper> hs = new HashSet<>(ProxyLeecher.getProxies());
 		proxies.clear();
 		proxies.addAll(hs);
 
-		Collections.shuffle(proxies);
-
 		log.info("Total of " + proxies.size() + " proxies.");
-
 	}
 
 	@Override
 	public String getWebsiteAsString(String url, String error, int maxRetry) {
-		String websiteAsString = "null";
+
+		List<String> websiteContent = getWebsiteAsStringList(url, error, maxRetry);
+
+		StringBuilder output = new StringBuilder();
+		for (String s : websiteContent) {
+			output.append(s + System.lineSeparator());
+		}
+		return output.toString();
+
+	}
+
+	@Override
+	public List<String> getWebsiteAsStringList(String url, String error, int maxRetry) {
+		List<String> websiteAsString = new ArrayList<>();
 
 		for (int i = 0; i < maxRetry; i++) {
 
@@ -52,30 +69,32 @@ public class ProxyHandlerImpl extends ProxyHandler {
 
 			ProxyWrapper proxy = getProxy();
 
-			websiteAsString = proxy.getWebsiteAsString(url, true);
+			websiteAsString = proxy.getWebsiteAsStringList(url);
 
 			if (websiteAsString.contains(error)) {
 				proxy.isValid = false;
+
+				log.debug("Answer has error... Retrying...");
 			} else {
-				if (!StringUtils.isAllBlank(websiteAsString)) {
+				if (!websiteAsString.isEmpty()) {
 					return websiteAsString;
 				} else {
 					log.error("String answer for '" + url + "' is all blank... Retrying...");
 				}
 			}
+
 		}
 
 		log.warn("Error : Max retry (" + maxRetry + ") reached! Returning '" + websiteAsString + "'.");
 
 		return websiteAsString;
-
 	}
 
 	private ProxyWrapper getProxy() {
 
-		// Get valid proxy
 		ProxyWrapper proxy = null;
 
+		// Find a valid proxy
 		for (ProxyWrapper proxyWrapper : proxies) {
 			if (proxyWrapper.isValid) {
 				proxy = proxyWrapper;
@@ -117,18 +136,20 @@ class ProxyLeecher {
 
 	public static List<ProxyWrapper> getProxies() {
 
-		List<ProxyWrapper> allProxies = new ArrayList<>();
+		List<ProxyWrapper> proxies = new ArrayList<>();
 
 		log.info("Getting all proxies...");
 
-		allProxies.addAll(getProxiesFromFreeProxyListDotNet("https://www.us-proxy.org/"));
-		allProxies.addAll(getProxiesFromFreeProxyListDotNet("https://free-proxy-list.net/"));
-		allProxies.addAll(getProxiesFromGithub());
-		allProxies.addAll(getProxiesFromSecondGithub());
+		proxies.addAll(getProxiesFromFreeProxyListDotNet("https://www.us-proxy.org/"));
+		proxies.addAll(getProxiesFromFreeProxyListDotNet("https://free-proxy-list.net/"));
+		proxies.addAll(getProxiesFromGithub());
+		proxies.addAll(getProxiesFromSecondGithub());
 
-		log.info("Total of " + allProxies.size() + " proxies.");
+		log.info("Total of " + proxies.size() + " proxies.");
 
-		return allProxies;
+		Collections.shuffle(proxies);
+
+		return proxies;
 	}
 
 	private static List<ProxyWrapper> getProxiesFromSecondGithub() {
@@ -288,60 +309,40 @@ class ProxyLeecher {
 
 class ProxyWrapper {
 
-	private boolean debug = false;
-
 	private static final Logger log = LoggerFactory.getLogger(ProxyWrapper.class);
 
 	private String host;
 	private int port;
 
-	boolean isValid = false;
+	boolean isValid = true;
 
 	public ProxyWrapper(String host, int port) {
 		this.host = host;
 		this.port = port;
-
-		new Thread(new Runnable() {
-			public void run() {
-				if (debug)
-					log.debug("Testing own validity...");
-
-				testValidity();
-			}
-		}).start();
 	}
 
-	private static final String TEST_URL = "http://www.realmofthemadgod.com/char/list?guid=" + StringGenerator.randomAlphaNumeric(10);
-	private static final String SUCCESS = "nextCharId";
+	public List<String> getWebsiteAsStringList(String url) {
 
-	private void testValidity() {
+		List<String> websiteContent = new ArrayList<String>();
 
-		String answer = getWebsiteAsString(TEST_URL, false);
-
-		isValid = answer.contains(SUCCESS);
-	}
-
-	public String getWebsiteAsString(String url, boolean debugLog) {
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host, port));
 		try {
 			URLConnection conn = new URL(url).openConnection(proxy);
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-			StringBuilder output = new StringBuilder();
-
 			String inputLine;
 			while ((inputLine = in.readLine()) != null) {
-				output.append(inputLine);
+				websiteContent.add(inputLine);
 			}
 
 			in.close();
 
-			return output.toString();
+			return websiteContent;
 		} catch (IOException e) {
-			if (debugLog)
+			if (ProxyHandlerImpl.debug)
 				log.error("Error with proxy : " + e.getMessage());
 		}
-		return "";
+		return websiteContent;
 	}
 
 	@Override

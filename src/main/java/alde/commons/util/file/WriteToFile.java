@@ -46,7 +46,7 @@ public class WriteToFile {
 	 * Write
 	 * @param text : String to write to file
 	 */
-	public void add(String text) {
+	public void write(String text) {
 		if (!isAlreadyRunning) {
 
 			isAlreadyRunning = true;

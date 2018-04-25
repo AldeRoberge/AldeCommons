@@ -1,6 +1,6 @@
 package alde.commons.util.math;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ZeroToOneGreenToRed {
 	/**

@@ -6,7 +6,15 @@ import java.util.List;
 public class AutoCompleteService implements CompletionService<String> {
 
 	/** Our name data. */
-	private List<String> data = new ArrayList<String>();
+	private List<String> data;
+
+	public AutoCompleteService() {
+		data = new ArrayList<String>();
+	}
+
+	public AutoCompleteService(List<String> data) {
+		setData(data);
+	}
 
 	public void setData(List<String> data) {
 		this.data = data;

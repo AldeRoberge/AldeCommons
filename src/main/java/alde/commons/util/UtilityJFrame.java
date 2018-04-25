@@ -9,6 +9,14 @@ import javax.swing.JFrame;
 
 public class UtilityJFrame extends JFrame {
 
+	public UtilityJFrame() {
+		super();
+	}
+
+	public UtilityJFrame(String name) {
+		super(name);
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Override

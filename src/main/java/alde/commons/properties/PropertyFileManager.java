@@ -24,7 +24,7 @@ public class PropertyFileManager {
 
 		propertyFile = new File(fileName);
 
-		logger.info("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
+		logger.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
 
 		try {
 			Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
@@ -34,7 +34,7 @@ public class PropertyFileManager {
 
 	}
 
-	public void savePropertyValue(String key, String value) {
+	public String savePropertyValue(String key, String value) {
 
 		logger.debug("Saving property '" + key + "' with value '" + value + "'.");
 
@@ -47,6 +47,9 @@ public class PropertyFileManager {
 			logger.error("Error while setting property '" + key + "' from '" + propertyFile.getPath() + "'.", e);
 			e.printStackTrace();
 		}
+
+		return value;
+
 	}
 
 	public String getPropertyValue(String key, String defaultValue) {

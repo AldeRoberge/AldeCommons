@@ -1,7 +1,5 @@
 package alde.commons.console;
 
-import java.util.Arrays;
-
 /**
  * ConsoleAction defines an action to be performed when the user inputs text including a trigger
  * 
@@ -22,7 +20,10 @@ public abstract class ConsoleAction {
 	 * 
 	 * Used by the default Help console keyword
 	 * 
+	 * Description is a basic phrase (ends with a dot).
+	 * 
 	 * @return simple description of parameters
+	 * 
 	 */
 	public abstract String getDescription();
 
@@ -35,7 +36,7 @@ public abstract class ConsoleAction {
 
 	@Override
 	public String toString() {
-		return getKeywordsAsString() + " : " + getDescription() + ".";
+		return getKeywordsAsString() + " : " + getDescription();
 	}
 
 	public String getKeywordsAsString() {

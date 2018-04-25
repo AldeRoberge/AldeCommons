@@ -1,5 +1,10 @@
 package alde.commons.util.autoComplete.jtextfield;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -7,11 +12,19 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
-public class AutoCompleteJTextField extends JTextField {
+import org.apache.commons.lang3.StringUtils;
 
-	public AutoCompleteJTextField(CompletionService c) {
-		super();
-		
+import alde.commons.util.HintTextField;
+
+public class AutoCompleteJTextField extends HintTextField {
+
+	List<AutoCompleteInputReceiver> inputReceivers = new ArrayList<AutoCompleteInputReceiver>();
+
+	public AutoCompleteJTextField(CompletionService<?> c, final AutoCompleteInputReceiver receiver, String hint) {
+		super(hint);
+
+		inputReceivers.add(receiver);
+
 		// Create the auto completing document model with a reference to the
 		// service and the input field.
 		Document autoCompleteDocument = new AutoCompleteDocument(c, this);
@@ -19,6 +32,23 @@ public class AutoCompleteJTextField extends JTextField {
 		// Set the auto completing document as the document model on our input
 		// field.
 		setDocument(autoCompleteDocument);
+
+		addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!StringUtils.isAllBlank(getText())) {
+					for (AutoCompleteInputReceiver a : inputReceivers) {
+						a.receive(getText());
+						setText("");
+					}
+				}
+			}
+		});
+
+	}
+
+	public void addListener(AutoCompleteInputReceiver input) {
+		inputReceivers.add(input);
 	}
 
 }

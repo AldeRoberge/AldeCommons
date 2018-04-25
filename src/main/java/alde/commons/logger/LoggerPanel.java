@@ -1,10 +1,8 @@
 package alde.commons.logger;
 
 import java.awt.Color;
-import java.io.IOException;
 
 import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
@@ -18,11 +16,11 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 /**
  * Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
  */
-public class LoggerUI extends JTextPane implements LoggerReceiver {
+public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
 	private static final long serialVersionUID = 1L;
 
-	private Logger log = LoggerFactory.getLogger(LoggerUI.class);
+	private Logger log = LoggerFactory.getLogger(LoggerPanel.class);
 
 	public static final LoggerListener loggerListener = new LoggerListener();
 
@@ -53,7 +51,7 @@ public class LoggerUI extends JTextPane implements LoggerReceiver {
 
 	private int currentLine = 0;
 
-	public LoggerUI() {
+	public LoggerPanel() {
 
 		loggerListener.addListener(this);
 
@@ -103,7 +101,7 @@ public class LoggerUI extends JTextPane implements LoggerReceiver {
 
 		String lineNumber = colorize("   " + currentLine + "  ", LINE_NUMBER_COLOR);
 
-		lineNumber = colorizeBackground(lineNumber, LINE_NUMBER_BACKGROUND_COLOR);
+		//lineNumber = colorizeBackground(lineNumber, LINE_NUMBER_BACKGROUND_COLOR);
 
 		String level = event.getLevel().levelStr;
 

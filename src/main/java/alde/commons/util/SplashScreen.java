@@ -1,53 +1,53 @@
 package alde.commons.util;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagLayout;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class SplashScreen {
 
 	private TimerTask close;
 
-	public SplashScreen(final BufferedImage inImage, final BufferedImage outImage,
-			final BufferedImage titleImage, final JFrame parentComponent, final boolean automaticClose,
-			final int secondsBeforeClose) {
+	public SplashScreen(final BufferedImage inImage, final BufferedImage outImage, final BufferedImage titleImage,
+			final JFrame parentComponent, final boolean automaticClose, final int secondsBeforeClose) {
 
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 
 				final JFrame frame = new JFrame();
-				frame.add(new SplashScreenPane(inImage, outImage, titleImage));
+
+				SplashScreenPane s = new SplashScreenPane(inImage, outImage, titleImage, frame);
+
+				frame.add(s);
 				frame.setUndecorated(true);
 				frame.setBackground(new Color(0, 0, 0, 0));
 				frame.pack();
 				frame.setLocationRelativeTo(null);
 				frame.setOpacity(0f);
 				frame.setVisible(true);
-
-				/* Fade in */
-
-				new Thread("Fade in") {
-
-					@Override
-					public void run() {
-						float previousOpacity = 0;
-						float increments = 0.2f;
-						boolean go = true;
-
-						while (go) { //gradually increase opacity
-							if ((previousOpacity + increments) >= 1) {
-								go = false;
-								frame.setOpacity(1f);
-							} else {
-								frame.setOpacity(frame.getOpacity() + increments);
-								previousOpacity = frame.getOpacity() + increments;
-							}
-						}
-					}
-				}.start();
 
 				/* Automatic close */
 
@@ -81,10 +81,12 @@ public class SplashScreen {
 		});
 	}
 
+	public float currentFrameOpacity = 0F;
+
 	class SplashScreenPane extends JPanel {
 		private static final long serialVersionUID = 1L;
 
-		static final long RUNNING_TIME = 800;
+		static final long RUNNING_TIME = 2000;
 
 		private BufferedImage bgInImage;
 		private BufferedImage bgOutImage;
@@ -94,7 +96,8 @@ public class SplashScreen {
 		private float alpha = 0f;
 		private long startTime = -1;
 
-		SplashScreenPane(BufferedImage bgInImage, BufferedImage bgOutImage, BufferedImage titleImage) {
+		SplashScreenPane(BufferedImage bgInImage, BufferedImage bgOutImage, BufferedImage titleImage,
+				final JFrame frame) {
 
 			this.bgInImage = bgInImage;
 			this.bgOutImage = bgOutImage;
@@ -103,8 +106,6 @@ public class SplashScreen {
 			//
 
 			setLayout(new GridBagLayout());
-
-			go();
 
 			addMouseListener(new MouseAdapter() {
 
@@ -121,26 +122,34 @@ public class SplashScreen {
 
 			});
 
-		}
-
-		void go() {
 			alpha = 0f;
 			BufferedImage tmp = bgInImage;
 			bgInImage = bgOutImage;
 			bgOutImage = tmp;
 
-			final Timer timer = new Timer(0, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+			Runnable helloRunnable = new Runnable() {
+				public void run() {
 					if (startTime < 0) {
 						startTime = System.currentTimeMillis();
 					} else {
 
 						long time = System.currentTimeMillis();
 						long duration = time - startTime;
+
+						if ((currentFrameOpacity + alpha) >= 1) {
+							currentFrameOpacity = 1;
+
+							frame.setOpacity(1);
+						} else {
+							currentFrameOpacity = alpha;
+							frame.setOpacity(currentFrameOpacity);
+						}
+
 						if (duration >= RUNNING_TIME) {
 							startTime = -1;
-							((Timer) e.getSource()).stop();
+							executor.shutdown();
 							alpha = 0f;
 						} else {
 							alpha = 1f - ((float) duration / (float) RUNNING_TIME);
@@ -148,9 +157,9 @@ public class SplashScreen {
 						repaint();
 					}
 				}
-			});
+			};
 
-			timer.start();
+			executor.scheduleAtFixedRate(helloRunnable, 0, 50, TimeUnit.MILLISECONDS);
 
 		}
 
@@ -182,8 +191,33 @@ public class SplashScreen {
 			g2d.setComposite(AlphaComposite.SrcAtop.derive(1f));
 			g2d.drawImage(textImage, 0, 0, getWidth(), getHeight(), this);
 
+			Rectangle r = new Rectangle(0, 0, (int) (bgOutImage.getWidth() / 1.5) - 1,
+					(int) (bgOutImage.getHeight() / 1.5) - 1);
+
+			g2d.setColor(Color.WHITE);
+			g2d.draw(r);
+
+			centerString(g2d, r, "Version 3", new Font("Arial", Font.BOLD, 12),
+					(int) (bgOutImage.getHeight() / 1.5 / 3));
+
 			g2d.dispose();
 
+		}
+
+		public void centerString(Graphics g, Rectangle r, String s, Font font, int yOffset) {
+			FontRenderContext frc = new FontRenderContext(null, true, true);
+
+			Rectangle2D r2D = font.getStringBounds(s, frc);
+			int rWidth = (int) Math.round(r2D.getWidth());
+			int rHeight = (int) Math.round(r2D.getHeight());
+			int rX = (int) Math.round(r2D.getX());
+			int rY = (int) Math.round(r2D.getY());
+
+			int a = (r.width / 2) - (rWidth / 2) - rX;
+			int b = (r.height / 2) - (rHeight / 2) - rY;
+
+			g.setFont(font);
+			g.drawString(s, r.x + a, r.y + b + yOffset);
 		}
 
 	}

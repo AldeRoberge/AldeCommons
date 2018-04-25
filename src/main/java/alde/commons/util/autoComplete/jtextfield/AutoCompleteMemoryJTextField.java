@@ -1,7 +1,5 @@
 package alde.commons.util.autoComplete.jtextfield;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -23,8 +21,18 @@ public class AutoCompleteMemoryJTextField extends AutoCompleteJTextField {
 	private List<String> previousInputs = new ArrayList<String>();
 	private int currentIndex = 0;
 
-	public AutoCompleteMemoryJTextField(AutoCompleteService s) {
-		super(s);
+	public AutoCompleteMemoryJTextField(AutoCompleteService s, AutoCompleteInputReceiver a, String hint) {
+		super(s, a, hint);
+
+		addListener(new AutoCompleteInputReceiver() { // Save in memory when enter is pressed
+			@Override
+			public void receive(String input) {
+				if (!StringUtils.isAllBlank(getText())) {
+					previousInputs.add(getText());
+					currentIndex = previousInputs.size();
+				}
+			}
+		});
 
 		addKeyListener(new KeyListener() {
 
@@ -52,13 +60,6 @@ public class AutoCompleteMemoryJTextField extends AutoCompleteJTextField {
 			}
 		});
 
-	}
-
-	public void remember(String input) {
-		if (!StringUtils.isAllBlank(getText())) {
-			previousInputs.add(getText());
-			currentIndex = previousInputs.size();
-		}
 	}
 
 	private void setIndex(int i) {

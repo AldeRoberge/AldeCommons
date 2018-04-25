@@ -1,22 +1,27 @@
 package alde.commons.console;
 
-import alde.commons.util.autoComplete.jtextfield.AutoCompleteMemoryJTextField;
-import alde.commons.util.autoComplete.jtextfield.AutoCompleteService;
-import alde.commons.util.math.LevenshteinDistance;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.util.autoComplete.jtextfield.AutoCompleteInputReceiver;
+import alde.commons.util.autoComplete.jtextfield.AutoCompleteMemoryJTextField;
+import alde.commons.util.autoComplete.jtextfield.AutoCompleteService;
+import alde.commons.util.math.LevenshteinDistance;
 
 public class Console implements InputListener {
 
@@ -165,21 +170,14 @@ class ConsoleInputPanel extends JPanel {
 
 		setLayout(new BorderLayout());
 
-		inputField = new AutoCompleteMemoryJTextField(s);
+		inputField = new AutoCompleteMemoryJTextField(s, new AutoCompleteInputReceiver() {
 
-		inputField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				if (!StringUtils.isAllBlank(inputField.getText())) {
-
-					inputListener.receive(inputField.getText());
-
-					inputField.remember(inputField.getText());
-					inputField.setText("");
-
-				}
+			@Override
+			public void receive(String input) {
+				inputListener.receive(inputField.getText());
 			}
-		});
+
+		}, "Insert command here");
 
 		inputField.setFont(getFont().deriveFont(Font.BOLD));
 		inputField.setBackground(Color.WHITE);
