@@ -1,60 +1,81 @@
 package alde.commons.console;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
-import alde.commons.util.autoComplete.jtextfield.AutoCompleteInputReceiver;
-import alde.commons.util.autoComplete.jtextfield.AutoCompleteMemoryJTextField;
-import alde.commons.util.autoComplete.jtextfield.AutoCompleteService;
+import alde.commons.util.autoCompleteJTextField.StringReceiver;
+import alde.commons.util.autoCompleteJTextField.UtilityJTextField;
 import alde.commons.util.math.LevenshteinDistance;
 
-public class Console implements InputListener {
+/**
+ * Console Singleton
+ * 
+ * Offers input for the user to trigger actions (@see ConsoleAction).
+ * 
+ * Use Console.get().addAction(ConsoleAction) to add actions
+ * 
+ * @author Alde
+ */
+@SuppressWarnings("serial")
+public class Console extends UtilityJTextField implements InputListener {
 
-	public static Console console;
+	private static org.slf4j.Logger log = LoggerFactory.getLogger(Console.class);
 
-	private static ArrayList<ConsoleAction> actions = new ArrayList<>();
+	/** Hint on the JTextField (disappears on input) */
+	public static String HINT = "Enter command here";
 
-	static org.slf4j.Logger log = LoggerFactory.getLogger(Console.class);
+	/** If a user inputs a wrong command, and another command matches by 3 characters, suggest the command. */
+	public static int COMMAND_DISTANCE_MIN = 3;
 
-	private static final AutoCompleteService autoComplete = new AutoCompleteService();
-	private final static JPanel consoleInputPanel = new ConsoleInputPanel(autoComplete, getConsole());
+	/** Singleton instance, use getConsole() to get */
+	private static Console console;
+
+	/** List of actions */
+	private static final List<ConsoleAction> actions = new ArrayList<>();
 
 	private Console() {
+		super(HINT, true);
+
+		get().addAction(new HelpAction(actions));
+
+		setFont(getFont().deriveFont(Font.BOLD));
+		setBackground(Color.WHITE);
+		setForeground(new Color(29, 29, 29)); // Very dark gray
+		setCaretColor(Color.WHITE);
+
+		Border line = BorderFactory.createLineBorder(Color.DARK_GRAY);
+		Border empty = new EmptyBorder(5, 5, 5, 0);
+		CompoundBorder border = new CompoundBorder(line, empty);
+		setBorder(border);
 	}
 
-	private static Console getConsole() {
+	/**
+	 * @return Console singleton
+	 */
+	public static Console get() {
 
 		if (console == null) {
 			console = new Console();
-
-			Console.addListener(new HelpAction(actions));
-
 		}
 
 		return console;
 	}
 
-	public static JPanel getConsoleInputPanel() {
-		return consoleInputPanel;
-	}
-
 	/**
-	 * Receive input from the consoleInputPanel
+	 * Receive input from the consoleInputPanel 
+	 * 
+	 * this class implements ImputListener 
+	 * and is hooked in the constructor of ConsoleInputPanel
 	 */
 	public void receive(String command) {
 
@@ -66,45 +87,50 @@ public class Console implements InputListener {
 				if (command.contains(s)) {
 					accepted = true;
 					t.accept(command);
-
 					break;
 				}
 			}
 		}
 
+		/**
+		 * Use levenshtein to get the closest match to the user command.
+		 * 
+		 * If the closest match is too far away, do not suggest anything.
+		 */
 		if (!accepted) {
-			log.error("No action found for input '" + command + "'" + getSuggestion(command));
-		}
 
-	}
+			log.error("No action found for input '" + command + "'.");
 
-	private String getSuggestion(String imput) {
+			int closest = Integer.MAX_VALUE;
+			String suggestion = "";
 
-		int closest = 99999;
-		String suggestion = "";
+			for (ConsoleAction c : actions) {
 
-		for (ConsoleAction c : actions) {
+				for (String keyword : c.getKeywords()) {
+					int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, command);
 
-			for (String keyword : c.getKeywords()) {
-				int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, imput);
-
-				if (distance < closest) {
-					closest = distance;
-					suggestion = keyword;
+					if (distance < closest) {
+						closest = distance;
+						suggestion = keyword;
+					}
 				}
+
 			}
 
+			if (closest <= COMMAND_DISTANCE_MIN) {
+				log.error("Did you mean '" + suggestion + "'?");
+			}
 		}
-
-		if (closest <= 3) {
-			return ", did you mean '" + suggestion + "'?";
-		} else {
-			return ".";
-		}
-
 	}
 
-	public static void addListener(ConsoleAction c) {
+	/**
+	 * Use this static method to addAction listeners.
+	 * 
+	 * Console.addAction(ConsoleAction)
+	 * 
+	 * For an example of implementation, @see HelpAction
+	 */
+	public void addAction(ConsoleAction c) {
 
 		Iterator<ConsoleAction> it = actions.iterator();
 		while (it.hasNext()) {
@@ -122,14 +148,15 @@ public class Console implements InputListener {
 			}
 		}
 
-		autoComplete.addData(c.getKeywords());
+		// Adds the keyWords of the action to the autoCompleteService
+		get().getCompletionService().addData(c.getKeywords());
 		actions.add(c);
 
 	}
 
 }
 
-// A ConsoleAction that shows a list of ConsoleAction (Help)
+/** ConsoleAction that shows a list of all available ConsoleActions */
 class HelpAction extends ConsoleAction {
 
 	static org.slf4j.Logger log = LoggerFactory.getLogger(HelpAction.class);
@@ -156,43 +183,6 @@ class HelpAction extends ConsoleAction {
 	@Override
 	public String[] getKeywords() {
 		return new String[] { "help" };
-	}
-
-}
-
-class ConsoleInputPanel extends JPanel {
-
-	org.slf4j.Logger log = LoggerFactory.getLogger(ConsoleInputPanel.class);
-
-	AutoCompleteMemoryJTextField inputField;
-
-	public ConsoleInputPanel(AutoCompleteService s, final InputListener inputListener) {
-
-		setLayout(new BorderLayout());
-
-		inputField = new AutoCompleteMemoryJTextField(s, new AutoCompleteInputReceiver() {
-
-			@Override
-			public void receive(String input) {
-				inputListener.receive(inputField.getText());
-			}
-
-		}, "Insert command here");
-
-		inputField.setFont(getFont().deriveFont(Font.BOLD));
-		inputField.setBackground(Color.WHITE);
-		inputField.setForeground(new Color(29, 29, 29)); // Very dark gray
-		inputField.setCaretColor(Color.WHITE);
-
-		Border line = BorderFactory.createLineBorder(Color.DARK_GRAY);
-		Border empty = new EmptyBorder(5, 5, 5, 0);
-		CompoundBorder border = new CompoundBorder(line, empty);
-		inputField.setBorder(border);
-
-		setBorder(null);
-
-		add(inputField, BorderLayout.CENTER);
-
 	}
 
 }

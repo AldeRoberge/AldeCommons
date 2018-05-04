@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 
 /**
+ * UI for the global Logger
+ * 
+ * Fancy HTML visualization
+ * 
  * Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
  */
 public class LoggerPanel extends JTextPane implements LoggerReceiver {
@@ -31,8 +35,6 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
 	private static Color BG_COLOR = new Color(39, 40, 34);
 	private static Color LINE_NUMBER_COLOR = new Color(144, 144, 138);
-
-	private static Color LINE_NUMBER_BACKGROUND_COLOR = new Color(62, 60, 50);
 
 	private static Color TAG_COLOR = new Color(250, 151, 32);
 	private static Color DEBUG_COLOR = new Color(166, 226, 45);
@@ -100,8 +102,6 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 		currentLine++;
 
 		String lineNumber = colorize("   " + currentLine + "  ", LINE_NUMBER_COLOR);
-
-		//lineNumber = colorizeBackground(lineNumber, LINE_NUMBER_BACKGROUND_COLOR);
 
 		String level = event.getLevel().levelStr;
 

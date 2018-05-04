@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 
 public class WebsiteReaderImpl extends WebsiteReader {
 
-	public static boolean debug = false;
-
 	private static final Logger log = LoggerFactory.getLogger(WebsiteReaderImpl.class);
+
+	public static boolean debug = false;
 
 	@Override
 	public String getWebsiteAsString(String url) {

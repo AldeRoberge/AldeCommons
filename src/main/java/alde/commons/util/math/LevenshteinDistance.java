@@ -63,6 +63,12 @@ public class LevenshteinDistance {
 		return cost[len0 - 1];
 	}
 
+	/**
+	 * 100% = same
+	 * 0% = different
+	 * 
+	 * TODO fix this code, sometimes return negative?
+	 */
 	public static int getPercentage(String one, String two) {
 
 		int distanceInChar = computeLevenshteinDistance(one, two);
@@ -71,7 +77,14 @@ public class LevenshteinDistance {
 			int numberOfChar = two.length();
 			// numerator = distanceInChar - numberOfChar;
 			// denumerator = numberOfChar;
-			return ((numberOfChar - distanceInChar) * 100 / numberOfChar);
+
+			int percentage = ((numberOfChar - distanceInChar) * 100 / numberOfChar);
+
+			if (percentage < 0) {
+				percentage = 0;
+			}
+
+			return percentage;
 
 		} else {
 			return 100;

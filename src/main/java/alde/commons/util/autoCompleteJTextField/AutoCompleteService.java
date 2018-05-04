@@ -1,27 +1,57 @@
-package alde.commons.util.autoComplete.jtextfield;
+package alde.commons.util.autoCompleteJTextField;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutoCompleteService implements CompletionService<String> {
 
-	/** Our name data. */
-	private List<String> data;
+	private List<String> data = new ArrayList<String>();
 
-	public AutoCompleteService() {
-		data = new ArrayList<String>();
+	/* String */
+	public void addData(String data) {
+		if (!this.data.contains(data)) {
+			this.data.add(data);
+		}
 	}
 
-	public AutoCompleteService(List<String> data) {
-		setData(data);
+	public void removeData(String data) {
+		this.data.remove(data);
 	}
 
+	/* Array */
+	public void addData(String[] data) {
+		for (String k : data) {
+			addData(k);
+		}
+	}
+
+	public void removeData(String[] data) {
+		for (String k : data) {
+			removeData(k);
+		}
+	}
+
+	/* List */
+	public void addData(List<String> dataList) {
+		for (String data : dataList) {
+			addData(data);
+		}
+	}
+
+	public void removeData(List<String> dataList) {
+		for (String data : dataList) {
+			removeData(data);
+		}
+	}
+
+	/* Set */
 	public void setData(List<String> data) {
 		this.data = data;
 	}
 
-	public void addData(String s) {
-		this.data.add(s);
+	public void setData(String data) {
+		this.data.clear();
+		addData(data);
 	}
 
 	@Override
@@ -57,12 +87,6 @@ public class AutoCompleteService implements CompletionService<String> {
 			}
 		}
 		return hit;
-	}
-
-	public void addData(String[] keywords) {
-		for (String k : keywords) {
-			addData(k);
-		}
 	}
 
 }

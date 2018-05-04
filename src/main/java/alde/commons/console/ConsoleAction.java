@@ -3,7 +3,7 @@ package alde.commons.console;
 /**
  * ConsoleAction defines an action to be performed when the user inputs text including a trigger
  * 
- *If the user types 'help' in LoggerUI's ConsoleInputPanel, the HelpAction in Console will be triggered.
+ * If the user types 'help' in Console's input panel, the HelpAction in Console will be triggered.
  * 
  * @see Console.HelpAction for an example
  *
@@ -16,21 +16,13 @@ public abstract class ConsoleAction {
 	public abstract void accept(String command);
 
 	/**
-	 * Returns the description of the keyword
-	 * 
-	 * Used by the default Help console keyword
-	 * 
-	 * Description is a basic phrase (ends with a dot).
-	 * 
-	 * @return simple description of parameters
+	 * Returns a description of the action as a basic phrase that ends with a dot.
 	 * 
 	 */
 	public abstract String getDescription();
 
 	/**
-	 * Returns the keyword used to trigger this action
-	 * 
-	 * @return the keyword
+	 * @return the possible keywords that can trigger this action
 	 */
 	public abstract String[] getKeywords();
 

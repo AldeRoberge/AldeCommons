@@ -1,7 +1,5 @@
 package alde.commons.logger;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +10,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 
 /**
+ * Use this class to listen to global logger events.
+ * 
+ * Used by LoggerPanel.
+ * 
  * Inspired by Florent Moisson
  */
 public class LoggerListener extends AppenderBase<ILoggingEvent> {
