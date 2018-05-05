@@ -22,7 +22,6 @@ import ch.qos.logback.core.AppenderBase;
  * 
  * Fancy HTML visualization
  * 
- * 
  */
 public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
@@ -98,6 +97,7 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
 	public void clear() {
 		setText("");
+		currentLine = 0;
 	}
 
 	@Override

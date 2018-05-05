@@ -76,9 +76,7 @@ public class UtilityJTextField extends HintTextField {
 		// Create the auto completing document model with a reference to the
 		// service and the input field.
 		Document autoCompleteDocument = new AutoCompleteDocument(autoCompleteService, this);
-
-		// Set the auto completing document as the document model on our input
-		// field.
+		// Set the auto completing document as the document model on our input field.
 		setDocument(autoCompleteDocument);
 
 		addActionListener(new ActionListener() {
@@ -86,8 +84,9 @@ public class UtilityJTextField extends HintTextField {
 				if (!StringUtils.isAllBlank(getText())) {
 					for (Consumer<String> a : inputReceivers) {
 						a.accept(getText());
-						setText("");
 					}
+
+					setText("");
 				}
 			}
 		});
@@ -110,38 +109,33 @@ public class UtilityJTextField extends HintTextField {
 
 				@Override
 				public void keyReleased(KeyEvent e) {
-					handle(e);
-				}
 
-				private void handle(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_UP) {
 						setIndex(+1);
-					}
-
-					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 						setIndex(-1);
 					}
-				}
-
-				void setIndex(int i) {
-
-					currentIndex -= i;
-
-					if (currentIndex < 0) { // Minimum
-						currentIndex = 0;
-					}
-
-					if (currentIndex > previousInputs.size() - 1) { // Maximum
-						currentIndex = previousInputs.size() - 1;
-					}
-
-					if (!(previousInputs.size() == 0)) {
-						setText(previousInputs.get(currentIndex));
-					}
 
 				}
-
 			});
+		}
+
+	}
+
+	void setIndex(int i) {
+
+		currentIndex -= i;
+
+		if (currentIndex < 0) { // Minimum
+			currentIndex = 0;
+		}
+
+		if (currentIndex > previousInputs.size() - 1) { // Maximum
+			currentIndex = previousInputs.size() - 1;
+		}
+
+		if (!(previousInputs.size() == 0)) {
+			setText(previousInputs.get(currentIndex));
 		}
 
 	}

@@ -64,15 +64,14 @@ public class Console extends UtilityJTextField {
 
 		if (console == null) {
 			console = new Console();
+			
 			console.addAction(new HelpAction(actions));
 
 			/**
 			 * Receive input
 			 */
 			console.addReceiver(command -> {
-
 				boolean accepted = false;
-
 				for (ConsoleAction t : actions) {
 					for (String s : t.getKeywords()) {
 						if (command.contains(s)) {
@@ -85,7 +84,6 @@ public class Console extends UtilityJTextField {
 
 				/**
 				 * Use levenshtein to get the closest match to the user command.
-				 * 
 				 * If the closest match is too far away, do not suggest anything.
 				 */
 				if (!accepted) {

@@ -16,7 +16,7 @@ public class RunCMD {
 
 			WriteToFile w = new WriteToFile(runFileName);
 
-			w.write("rem Run the program using this file");
+			w.write("rem Run the program using this file"); // Add a comment
 			w.write("@echo off");
 			w.write("color 02");
 			w.write("java -jar " + runnableJarName + ".jar");

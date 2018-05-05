@@ -16,15 +16,24 @@ import org.slf4j.LoggerFactory;
  */
 public class PropertyFileManager {
 
-	private static final Logger logger = LoggerFactory.getLogger(PropertyFileManager.class);
+	private static final Logger log = LoggerFactory.getLogger(PropertyFileManager.class);
 
 	private final File propertyFile;
+
+	PropertiesConfiguration config;
 
 	public PropertyFileManager(String fileName) {
 
 		propertyFile = new File(fileName);
 
-		logger.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
+		try {
+			config = new PropertiesConfiguration(propertyFile);
+		} catch (ConfigurationException e) {
+			log.error("FATAL : Could not create PropertiesConfiguration!");
+			e.printStackTrace();
+		}
+
+		log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
 
 		try {
 			Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
@@ -36,15 +45,13 @@ public class PropertyFileManager {
 
 	public String savePropertyValue(String key, String value) {
 
-		logger.debug("Saving property '" + key + "' with value '" + value + "'.");
+		log.debug("Saving property '" + key + "' with value '" + value + "'.");
 
-		PropertiesConfiguration config;
 		try {
-			config = new PropertiesConfiguration(propertyFile);
 			config.setProperty(key, value);
 			config.save();
 		} catch (ConfigurationException e) {
-			logger.error("Error while setting property '" + key + "' from '" + propertyFile.getPath() + "'.", e);
+			log.error("Error while setting property '" + key + "' from '" + propertyFile.getPath() + "'.", e);
 			e.printStackTrace();
 		}
 
@@ -54,23 +61,15 @@ public class PropertyFileManager {
 
 	public String getPropertyValue(String key, String defaultValue) {
 
-		logger.debug("Getting property '" + key + "'.");
+		log.debug("Getting property '" + key + "'.");
 
-		try {
-			PropertiesConfiguration config = new PropertiesConfiguration(propertyFile);
-			String value = (String) config.getProperty(key);
+		String value = (String) config.getProperty(key);
 
-			if (value == null) {
-				savePropertyValue(key, defaultValue);
-				return defaultValue;
-			} else {
-				return value;
-			}
-
-		} catch (ConfigurationException e) {
-			logger.error("Error getting property '" + key + "', returning default value '" + defaultValue + "'. ", e);
-			e.printStackTrace();
+		if (value == null) {
+			savePropertyValue(key, defaultValue);
+			return defaultValue;
+		} else {
+			return value;
 		}
-		return defaultValue;
 	}
 }

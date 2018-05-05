@@ -22,7 +22,7 @@ public class Property {
 	public static final String TRUE = "TRUE";
 	public static final String FALSE = "FALSE";
 
-	private static final Logger logger = LoggerFactory.getLogger(Property.class);
+	private static final Logger log = LoggerFactory.getLogger(Property.class);
 
 	private PropertyFileManager propertyManager; // property file manager used to save and get values on updates
 
@@ -100,7 +100,7 @@ public class Property {
 		case FALSE:
 			return false;
 		default:
-			logger.error("isTrue() on " + key + " for value " + value
+			log.error("isTrue() on " + key + " for value " + value
 					+ " is impossible. (Boolean string values are case sensitive!)");
 			return false;
 		}
@@ -111,14 +111,14 @@ public class Property {
 		try {
 			return Integer.parseInt(value);
 		} catch (Exception e) {
-			logger.error("Could not get value as int (value : " + value + ", key : " + key
+			log.error("Could not get value as int (value : " + value + ", key : " + key
 					+ "), attempting with default value", e);
 		}
 
 		try {
 			return Integer.parseInt(defaultValue);
 		} catch (Exception e) {
-			logger.error("Could not get default value as int (value : " + defaultValue + ", key : " + key + ")", e);
+			log.error("Could not get default value as int (value : " + defaultValue + ", key : " + key + ")", e);
 		}
 
 		return 0;
