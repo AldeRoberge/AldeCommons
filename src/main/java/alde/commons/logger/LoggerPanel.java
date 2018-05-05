@@ -1,6 +1,8 @@
 package alde.commons.logger;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextPane;
 import javax.swing.text.Element;
@@ -11,14 +13,16 @@ import javax.swing.text.html.StyleSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.AppenderBase;
 
 /**
- * UI for the global Logger
+ * Singleton UI for the global Logger
  * 
  * Fancy HTML visualization
  * 
- * Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
+ * 
  */
 public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
@@ -26,7 +30,9 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
 	private Logger log = LoggerFactory.getLogger(LoggerPanel.class);
 
-	public static final LoggerListener loggerListener = new LoggerListener();
+	public static LoggerPanel loggerPanel;
+
+	private static final LoggerListener loggerListener = new LoggerListener();
 
 	private static final String DEBUG = "DEBUG";
 	private static final String INFO = "INFO";
@@ -51,11 +57,21 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
 	//
 
+	public static LoggerPanel get() {
+		if (loggerPanel == null) {
+			loggerPanel = new LoggerPanel();
+		}
+
+		return loggerPanel;
+	}
+
 	private int currentLine = 0;
 
-	public LoggerPanel() {
+	private LoggerPanel() {
 
 		loggerListener.addListener(this);
+
+		// Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
 
 		StyleSheet styleSheet = new StyleSheet();
 		styleSheet.addRule(".console {font-family: Consolas,monaco,monospace;}");
@@ -152,4 +168,40 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 		return "rgb(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ")";
 	}
 
+}
+
+/**
+ * Use this class to listen to global logger events.
+ * 
+ * Used by LoggerPanel.
+ * 
+ * Inspired by Florent Moisson
+ */
+class LoggerListener extends AppenderBase<ILoggingEvent> {
+
+	private List<LoggerReceiver> loggerReceiverList = new ArrayList<>();
+
+	public LoggerListener() {
+		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		setContext(lc);
+		start();
+
+		lc.getLogger("ROOT").addAppender(this);
+	}
+
+	public void addListener(LoggerReceiver l) {
+		loggerReceiverList.add(l);
+	}
+
+	@Override
+	public void append(ILoggingEvent event) {
+		for (LoggerReceiver l : loggerReceiverList) {
+			l.receive(event);
+		}
+	}
+
+}
+
+interface LoggerReceiver {
+	void receive(ILoggingEvent event);
 }

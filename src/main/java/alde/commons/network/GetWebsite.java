@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
@@ -20,17 +21,36 @@ import org.slf4j.LoggerFactory;
 
 import alde.commons.util.text.StackTraceToString;
 
-public class ProxyHandlerImpl extends ProxyHandler {
+/**
+ * Proxy Handler is aimed to be a top level utlity method of type 'get website as string'.
+ *
+ * Currently it gets free proxies from 4 website (github lists, free-proxy.net, etc).
+ *
+ * It isn't thread safe.
+ *
+ * @author Alde
+ */
+public class GetWebsite {
 
 	public static boolean debug = false;
 
-	private static final Logger log = LoggerFactory.getLogger(ProxyHandlerImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(GetWebsite.class);
+
+	static GetWebsite proxyHandlerImpl;
 
 	/** List of ProxyWrapper (String host, int port) */
 	private static List<ProxyWrapper> proxies = new ArrayList<>();
 
-	public ProxyHandlerImpl() {
+	private GetWebsite() {
 		reloadAllProxies();
+	}
+
+	public static GetWebsite get() {
+		if (proxyHandlerImpl == null) {
+			proxyHandlerImpl = new GetWebsite();
+		}
+
+		return proxyHandlerImpl;
 	}
 
 	/** Get new proxies (from free proxy lists) */
@@ -44,10 +64,9 @@ public class ProxyHandlerImpl extends ProxyHandler {
 		log.info("Total of " + proxies.size() + " proxies.");
 	}
 
-	@Override
-	public String getWebsiteAsString(String url, String error, int maxRetry) {
+	public String getWebsiteAsStringUsingProxy(String url, String error, int maxRetry) {
 
-		List<String> websiteContent = getWebsiteAsStringList(url, error, maxRetry);
+		List<String> websiteContent = getWebsiteAsStringListUsingProxy(url, error, maxRetry);
 
 		StringBuilder output = new StringBuilder();
 		for (String s : websiteContent) {
@@ -57,8 +76,13 @@ public class ProxyHandlerImpl extends ProxyHandler {
 
 	}
 
-	@Override
-	public List<String> getWebsiteAsStringList(String url, String error, int maxRetry) {
+	/**
+	 * @param url Website to get
+	 * @param error Website should not contain to be sure we haven't reached max requests per IP. Otherwise, change proxy.
+	 * @param maxRetry Number of max retries, will return the last string we got from the website (might be null)
+	 * @return returns the website as String (can be null)
+	 */
+	public List<String> getWebsiteAsStringListUsingProxy(String url, String error, int maxRetry) {
 		List<String> websiteAsString = new ArrayList<>();
 
 		for (int i = 0; i < maxRetry; i++) {
@@ -82,7 +106,6 @@ public class ProxyHandlerImpl extends ProxyHandler {
 					log.error("String answer for '" + url + "' is all blank... Retrying...");
 				}
 			}
-
 		}
 
 		log.warn("Error : Max retry (" + maxRetry + ") reached! Returning '" + websiteAsString + "'.");
@@ -126,6 +149,43 @@ public class ProxyHandlerImpl extends ProxyHandler {
 		}
 
 		return proxy;
+	}
+
+	/** Returns the website as a String (without a proxy) */
+	public String getWebsiteAsString(String url) {
+
+		List<String> websiteContent = getWebsiteAsStringList(url);
+
+		StringBuilder output = new StringBuilder();
+		for (String s : websiteContent) {
+			output.append(s + System.lineSeparator());
+		}
+		return output.toString();
+
+	}
+
+	/** Returns the website as a String List (without a proxy) */
+	public List<String> getWebsiteAsStringList(String url) {
+		List<String> websiteAsString = new ArrayList<>();
+
+		URL oracle;
+		try {
+			oracle = new URL(url);
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				websiteAsString.add(inputLine);
+			}
+			in.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return websiteAsString;
 	}
 
 }
@@ -275,6 +335,10 @@ class ProxyLeecher {
 
 	}
 
+	/**
+	 * @see getWebsiteAsStringList
+	 * @return website content as String delimited by System.lineSeparator()
+	 */
 	private static String getWebsiteAsString(String s) {
 
 		URLConnection connection;
@@ -339,7 +403,7 @@ class ProxyWrapper {
 
 			return websiteContent;
 		} catch (IOException e) {
-			if (ProxyHandlerImpl.debug)
+			if (GetWebsite.debug)
 				log.error("Error with proxy : " + e.getMessage());
 		}
 		return websiteContent;

@@ -11,9 +11,9 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
-import alde.commons.util.autoCompleteJTextField.StringReceiver;
 import alde.commons.util.autoCompleteJTextField.UtilityJTextField;
 import alde.commons.util.math.LevenshteinDistance;
 
@@ -27,7 +27,7 @@ import alde.commons.util.math.LevenshteinDistance;
  * @author Alde
  */
 @SuppressWarnings("serial")
-public class Console extends UtilityJTextField implements InputListener {
+public class Console extends UtilityJTextField {
 
 	private static org.slf4j.Logger log = LoggerFactory.getLogger(Console.class);
 
@@ -45,8 +45,6 @@ public class Console extends UtilityJTextField implements InputListener {
 
 	private Console() {
 		super(HINT, true);
-
-		get().addAction(new HelpAction(actions));
 
 		setFont(getFont().deriveFont(Font.BOLD));
 		setBackground(Color.WHITE);
@@ -66,61 +64,60 @@ public class Console extends UtilityJTextField implements InputListener {
 
 		if (console == null) {
 			console = new Console();
-		}
+			console.addAction(new HelpAction(actions));
 
-		return console;
-	}
+			/**
+			 * Receive input
+			 */
+			console.addReceiver(command -> {
 
-	/**
-	 * Receive input from the consoleInputPanel 
-	 * 
-	 * this class implements ImputListener 
-	 * and is hooked in the constructor of ConsoleInputPanel
-	 */
-	public void receive(String command) {
+				boolean accepted = false;
 
-		boolean accepted = false;
-
-		for (ConsoleAction t : actions) {
-
-			for (String s : t.getKeywords()) {
-				if (command.contains(s)) {
-					accepted = true;
-					t.accept(command);
-					break;
-				}
-			}
-		}
-
-		/**
-		 * Use levenshtein to get the closest match to the user command.
-		 * 
-		 * If the closest match is too far away, do not suggest anything.
-		 */
-		if (!accepted) {
-
-			log.error("No action found for input '" + command + "'.");
-
-			int closest = Integer.MAX_VALUE;
-			String suggestion = "";
-
-			for (ConsoleAction c : actions) {
-
-				for (String keyword : c.getKeywords()) {
-					int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, command);
-
-					if (distance < closest) {
-						closest = distance;
-						suggestion = keyword;
+				for (ConsoleAction t : actions) {
+					for (String s : t.getKeywords()) {
+						if (command.contains(s)) {
+							accepted = true;
+							t.accept(command);
+							break;
+						}
 					}
 				}
 
-			}
+				/**
+				 * Use levenshtein to get the closest match to the user command.
+				 * 
+				 * If the closest match is too far away, do not suggest anything.
+				 */
+				if (!accepted) {
 
-			if (closest <= COMMAND_DISTANCE_MIN) {
-				log.error("Did you mean '" + suggestion + "'?");
-			}
+					log.error("No action found for input '" + command + "'.");
+
+					int closest = Integer.MAX_VALUE;
+					String suggestion = "";
+
+					for (ConsoleAction c : actions) {
+
+						for (String keyword : c.getKeywords()) {
+							int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, command);
+
+							if (distance < closest) {
+								closest = distance;
+								suggestion = keyword;
+							}
+						}
+
+					}
+
+					if (closest <= COMMAND_DISTANCE_MIN) {
+						log.error("Did you mean '" + suggestion + "'?");
+					}
+				}
+
+			});
+
 		}
+
+		return console;
 	}
 
 	/**
@@ -185,8 +182,4 @@ class HelpAction extends ConsoleAction {
 		return new String[] { "help" };
 	}
 
-}
-
-interface InputListener {
-	public void receive(String s);
 }

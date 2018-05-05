@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
@@ -50,11 +51,11 @@ public class UtilityJTextField extends HintTextField {
 	/** AutoCompleteService used by suggestions */
 	AutoCompleteService autoCompleteService = new AutoCompleteService();
 
-	/** Subscribers to inputs */
-	List<StringReceiver> inputReceivers = new ArrayList<StringReceiver>();
+	/** Subscribers to inputs (receive text on enter pressed) */
+	List<Consumer<String>> inputReceivers = new ArrayList<Consumer<String>>();
 
-	public void addReceiver(StringReceiver input) {
-		inputReceivers.add(input);
+	public void addReceiver(Consumer<String> receiver) {
+		inputReceivers.add(receiver);
 	}
 
 	public AutoCompleteService getCompletionService() {
@@ -83,8 +84,8 @@ public class UtilityJTextField extends HintTextField {
 		addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!StringUtils.isAllBlank(getText())) {
-					for (StringReceiver a : inputReceivers) {
-						a.receive(getText());
+					for (Consumer<String> a : inputReceivers) {
+						a.accept(getText());
 						setText("");
 					}
 				}
@@ -92,14 +93,9 @@ public class UtilityJTextField extends HintTextField {
 		});
 
 		if (memory) {
-			addReceiver(new StringReceiver() { // Save in memory when enter is pressed
-				@Override
-				public void receive(String input) {
-					if (!StringUtils.isAllBlank(getText())) {
-						previousInputs.add(getText());
-						currentIndex = previousInputs.size();
-					}
-				}
+			addReceiver(input -> { // Save in memory when enter is pressed
+				previousInputs.add(input);
+				currentIndex = previousInputs.size();
 			});
 
 			addKeyListener(new KeyListener() {
@@ -218,8 +214,6 @@ interface CompletionService<T> {
 	 */
 	T autoComplete(String startsWith);
 }
-
-
 
 /**
  * A {@link Document} performing auto completion on the inserted text. This
