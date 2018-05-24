@@ -18,7 +18,6 @@ import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
-
 public class AudioPlayer implements BasicPlayerListener {
 
 	Logger log = LoggerFactory.getLogger(AudioPlayer.class);
