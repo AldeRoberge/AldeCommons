@@ -23,7 +23,7 @@ import ch.qos.logback.core.AppenderBase;
  * Fancy HTML visualization
  * 
  */
-public class LoggerPanel extends JTextPane implements LoggerReceiver {
+public class LoggerPanel extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,13 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 
 	private LoggerPanel() {
 
-		loggerListener.addListener(this);
+		loggerListener.addListener(event -> {
+			try {
+				addContent(formatLogToColorizedHTML(event));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 
 		// Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
 
@@ -98,15 +104,6 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 	public void clear() {
 		setText("");
 		currentLine = 0;
-	}
-
-	@Override
-	public void receive(ILoggingEvent event) {
-		try {
-			addContent(formatLogToColorizedHTML(event));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void addContent(String content) throws Exception {
@@ -168,40 +165,4 @@ public class LoggerPanel extends JTextPane implements LoggerReceiver {
 		return "rgb(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ")";
 	}
 
-}
-
-/**
- * Use this class to listen to global logger events.
- * 
- * Used by LoggerPanel.
- * 
- * Inspired by Florent Moisson
- */
-class LoggerListener extends AppenderBase<ILoggingEvent> {
-
-	private List<LoggerReceiver> loggerReceiverList = new ArrayList<>();
-
-	public LoggerListener() {
-		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		setContext(lc);
-		start();
-
-		lc.getLogger("ROOT").addAppender(this);
-	}
-
-	public void addListener(LoggerReceiver l) {
-		loggerReceiverList.add(l);
-	}
-
-	@Override
-	public void append(ILoggingEvent event) {
-		for (LoggerReceiver l : loggerReceiverList) {
-			l.receive(event);
-		}
-	}
-
-}
-
-interface LoggerReceiver {
-	void receive(ILoggingEvent event);
 }

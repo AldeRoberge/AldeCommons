@@ -6,8 +6,15 @@ import org.junit.Test;
 
 public class StringUtils {
 
+	/**
+	 * Marks the end of a word
+	 */
 	protected static final char[] delimiters = new char[] { ' ', ',', ']', '[', ')', '(', '.', ';', ':' };
 
+	/**
+	 * @param c character
+	 * @return true if character is a delimiter
+	 */
 	protected static boolean isDelimiterCharacter(char c) {
 		for (char d : delimiters) {
 			if (d == c) {
@@ -17,83 +24,128 @@ public class StringUtils {
 		return false;
 	}
 
-	/** Returns the next delimiter */
+	/**
+	 * @param string 
+	 * @return index of the next delimiter in a string
+	 */
 	protected static int indexOfNextDelimiter(String string) {
-		return indexOfNextDelimiter(string, 0);
+		return nextDelimiterIndex(string, 0);
 	}
 
-	protected static int indexOfNextDelimiter(String string, int beginIndex) {
+	/**
+	 * @param string 
+	 * @param beginIndex starts looking for delimiter at index
+	 * @return index of the next delimiter in a string
+	 */
+	protected static int nextDelimiterIndex(String string, int beginIndex) {
 		char[] chars = string.substring(beginIndex).toCharArray();
 
 		for (int i = 0; i < chars.length; i++) {
 			if (isDelimiterCharacter(chars[i])) {
-				return i;
+				return beginIndex + i;
 			}
 		}
 
 		return string.length();
 	}
 
-	protected static int indexOfPreviousDelimiter(String string) {
-		return indexOfPreviousDelimiter(string, 0);
+	/**
+	 * @param string 
+	 * @return index of the previous delimiter in a string
+	 */
+	protected static int previousDelimiterIndex(String string) {
+		return previousDelimiterIndex(string, 0);
 	}
 
-	protected static int indexOfPreviousDelimiter(String string, int beginIndex) {
+	/**
+	 * @param string
+	 * @param beginIndex starts looking for delimiter at index
+	 * @return index of the previous delimiter in a string
+	 */
+	protected static int previousDelimiterIndex(String string, int beginIndex) {
 		char[] chars = string.substring(beginIndex).toCharArray();
 
 		for (int i = 0; i < chars.length; i--) {
 			if (isDelimiterCharacter(chars[i])) {
-				return i;
+				return beginIndex - i;
 			}
 		}
 
 		return 0;
 	}
 
-	protected static String getInbetween(String line, String start, String end) {
-		if (!line.contains(start)) {
-			System.err.println("Error : line does not contain start.");
+	/**
+	 * @param string 
+	 * @return text between 'start' and 'end'
+	 */
+	protected static String getInbetween(String string, String start, String end) {
+		if (!string.contains(start)) {
+			System.err.println("Error : line '" + string + "' does not contain start '" + end + "'.");
 			return "";
-		} else if (!line.contains(end)) {
-			System.err.println("Error : line does not contain end.");
+		} else if (!string.contains(end)) {
+			System.err.println("Error : line '" + string + "' does not contain end '" + end + "'.");
 			return "";
 		}
 
-		return line.substring(line.indexOf(start) + start.length(), line.indexOf(end));
+		return string.substring(string.indexOf(start) + start.length(), string.indexOf(end));
 	}
 
-	protected static String replace(String line, String string, String string2) {
-		if (line.contains(string)) {
-			line = line.replace(string, string2);
+	/**
+	 * @return replaces text contained inside of string
+	 */
+	protected static String replace(String string, String replace, String with) {
+		if (string.contains(replace)) {
+			string = string.replace(replace, with);
 		}
-		return line;
+		return string;
 	}
 
-	protected static String rotate(String line, String rotatePoint) {
-		return rotate(line, rotatePoint, "");
+	/**
+	 * Rotates a string using a string point (uses delimiters as boundaries)
+	 * I.E. : rotate("world Hello", " "); returns "Hello world"
+	 */
+	protected static String rotate(String string, String rotatePoint) {
+		return rotate(string, rotatePoint, "");
 	}
 
-	protected static String rotate(String line, String rotatePoint, String replaceRotatePointWith) {
+	/**
+	 * Rotates a string using a string point (uses delimiters as boundaries)
+	 * I.E. : rotate("world Hello", " "); returns "Hello world"
+	 * if replaceRotatePointWith is not "", replace rotatePoint with this
+	 */
+	protected static String rotate(String string, String rotatePoint, String replaceRotatePointWith) {
 
-		if (line == null || rotatePoint == null) {
+		if (string == null || rotatePoint == null) {
 			System.err.println("Error, input is null.");
 			return "";
-		} else if (line.length() == 0 || rotatePoint.length() == 0) {
+		} else if (string.length() == 0 || rotatePoint.length() == 0) {
 			System.err.println("Error, input is empty.");
 			return "";
 		}
 
-		int beginningOfFirstWord = indexOfPreviousDelimiter(line, line.indexOf(rotatePoint));
-		int endOfFirstWord = line.indexOf(rotatePoint);
+		// Get first word
 
-		String firstWord = line.substring(beginningOfFirstWord, endOfFirstWord);
+		int beginningOfFirstWord = previousDelimiterIndex(string, string.indexOf(rotatePoint));
+		int endOfFirstWord = string.indexOf(rotatePoint);
 
-		int beginningOfSecondWord = line.indexOf(rotatePoint) + rotatePoint.length();
-		int endOfSecondWord = indexOfNextDelimiter(line, line.indexOf(rotatePoint) + rotatePoint.length());
+		System.out.println("First word beginning : " + beginningOfFirstWord + ", end : " + endOfFirstWord);
 
-		String secondWord = line.substring(beginningOfSecondWord, endOfSecondWord);
+		String firstWord = string.substring(beginningOfFirstWord, endOfFirstWord);
 
-		// System.out.println("FIRST WORD : '" + firstWord + "', SECOND WORD : '" + secondWord + "'.");
+		System.out.println("First word : " + firstWord);
+
+		// Get second word
+
+		int beginningOfSecondWord = string.indexOf(rotatePoint) + rotatePoint.length();
+		int endOfSecondWord = nextDelimiterIndex(string, string.indexOf(rotatePoint) + rotatePoint.length());
+
+		System.out.println("Second word beginning : " + beginningOfSecondWord + ", end : " + endOfSecondWord);
+
+		String secondWord = string.substring(beginningOfSecondWord, endOfSecondWord);
+
+		System.out.println("Second word : " + secondWord);
+
+		// Rotate
 
 		if (replaceRotatePointWith.equals("")) {
 			return secondWord + rotatePoint + firstWord;
@@ -102,8 +154,31 @@ public class StringUtils {
 		}
 	}
 
+	/**
+	 * @param string
+	 * @param afterKeyword look after this keyword in a string
+	 * @return returns following keyword (using delimiters)
+	 */
+	protected static String getFollowingWord(String string, String afterKeyword) {
+
+		if (!string.contains(afterKeyword)) {
+			System.err.println("Error : '" + string + "' does not contain '" + afterKeyword + "'.");
+			return "";
+		}
+
+		int endOfKeywordIndex = string.indexOf(afterKeyword) + afterKeyword.length();
+
+		int nextDelimiterIndex = endOfKeywordIndex + indexOfNextDelimiter(string.substring(endOfKeywordIndex));
+
+		return string.substring(endOfKeywordIndex, nextDelimiterIndex);
+	}
+
 	@Test
 	public void test() {
+
+		assertEquals("Alde", getFollowingWord("My name is Alde.", " is "));
+		assertEquals("james;", getFollowingWord("package james;", "package "));
+
 		assertEquals("Hey there", rotate("there Hey", " ", ""));
 
 		assertEquals(false, isDelimiterCharacter('c'));

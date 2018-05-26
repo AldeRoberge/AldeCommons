@@ -64,7 +64,7 @@ public class Console extends UtilityJTextField {
 
 		if (console == null) {
 			console = new Console();
-			
+
 			console.addAction(new HelpAction(actions));
 
 			/**

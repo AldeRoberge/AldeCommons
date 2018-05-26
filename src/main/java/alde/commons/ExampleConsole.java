@@ -1,16 +1,12 @@
 package alde.commons;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import org.apache.log4j.BasicConfigurator;
 
 import alde.commons.console.Console;
 import alde.commons.logger.LoggerPanel;
-
-import java.awt.BorderLayout;
 
 public class ExampleConsole {
 
@@ -21,7 +17,7 @@ public class ExampleConsole {
 	 */
 	public static void main(String[] args) {
 
-		BasicConfigurator.configure();
+		//BasicConfigurator.configure();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
