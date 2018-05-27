@@ -147,8 +147,6 @@ public class UtilityJTextField extends HintTextField {
  */
 class HintTextField extends JTextField {
 
-	boolean displayHintAgain = true;
-
 	private final String hint;
 
 	public HintTextField(String hint) {
@@ -159,7 +157,7 @@ class HintTextField extends JTextField {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if (displayHintAgain && getText().length() == 0) {
+		if (getText().length() == 0) {
 			int h = getHeight();
 			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -171,8 +169,6 @@ class HintTextField extends JTextField {
 			int c2 = ((c0 & m) >>> 1) + ((c1 & m) >>> 1);
 			g.setColor(new Color(c2, true));
 			g.drawString(hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
-		} else {
-			displayHintAgain = false;
 		}
 	}
 

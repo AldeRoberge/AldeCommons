@@ -3,7 +3,7 @@ package alde.commons;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import alde.commons.console.Console;
 import alde.commons.logger.LoggerPanel;
@@ -42,10 +42,10 @@ public class ExampleConsole {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		frame.getContentPane().add(Console.get(), BorderLayout.CENTER);
-		frame.getContentPane().add(LoggerPanel.get(), BorderLayout.SOUTH);
+		frame.getContentPane().add(Console.get(), BorderLayout.SOUTH);
+		frame.getContentPane().add(LoggerPanel.get(), BorderLayout.CENTER);
 	}
 
 }

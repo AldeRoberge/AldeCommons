@@ -1,7 +1,6 @@
 package alde.commons.util.text;
 
 import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 

@@ -1,8 +1,6 @@
 package alde.commons.logger;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JTextPane;
 import javax.swing.text.Element;
@@ -13,9 +11,7 @@ import javax.swing.text.html.StyleSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.AppenderBase;
 
 /**
  * Singleton UI for the global Logger
