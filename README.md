@@ -1,6 +1,7 @@
 # AldeCommons
-Commons project files used by a multitude of my own personal projects.
 
-Temporary local install : 
+AldeCommons is a compilation of many utilities used by a multitude of my own personal projects.
 
-mvn install:install-file -Dfile=C:\\Users\\Alde\\Documents\\alde-commons-1.2.jar -DgroupId=alde.commons -DartifactId=AldeCommons -Dversion=0.1 -Dpackaging=jar -DgeneratePom=true
+As it evolves as I learn, I do not claim it is exemplary.
+
+I aim for it to be compact and very simple to use and understand.

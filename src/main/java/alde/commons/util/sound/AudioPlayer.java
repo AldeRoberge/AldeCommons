@@ -73,6 +73,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	 * @param properties
 	 *            audio stream properties.
 	 */
+	@Override
 	public void opened(Object stream, Map properties) {
 		audioInfo = properties;
 	}
@@ -80,10 +81,11 @@ public class AudioPlayer implements BasicPlayerListener {
 	/**
 	 * A basic copy of javazoom.jlgui.player.amp; PlayerUI -> processProgress
 	 */
+	@Override
 	public void progress(int bytesread, long microseconds, byte[] pcmdata, Map properties) {
 		if (audioInfo.containsKey("basicplayer.sourcedataline")) {
 			// Spectrum/time analyzer
-			audioVis.analyzer.writeDSP(pcmdata);
+			AudioVisualizer.analyzer.writeDSP(pcmdata);
 		}
 
 	}
@@ -129,6 +131,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	 * A copy of javazoom.jlgui.player.amp.processStateUpdated(BasicPlayerEvent event)
 	 * 
 	 */
+	@Override
 	public void stateUpdated(BasicPlayerEvent event) {
 		// Notification of BasicPlayer states (opened, playing, end of media,
 		// ...)
@@ -143,8 +146,8 @@ public class AudioPlayer implements BasicPlayerListener {
 			isPaused = false;
 
 			// stop analyzer
-			audioVis.analyzer.stopDSP();
-			audioVis.analyzer.repaint();
+			AudioVisualizer.analyzer.stopDSP();
+			AudioVisualizer.analyzer.repaint();
 
 		} else if (event.getCode() == BasicPlayerEvent.PAUSED) {
 			newVisualizerStatus("Paused");
@@ -164,8 +167,8 @@ public class AudioPlayer implements BasicPlayerListener {
 			// analyzer
 			if (audioInfo.containsKey("basicplayer.sourcedataline")) {
 
-				audioVis.analyzer.setupDSP((SourceDataLine) audioInfo.get("basicplayer.sourcedataline"));
-				audioVis.analyzer.startDSP((SourceDataLine) audioInfo.get("basicplayer.sourcedataline"));
+				AudioVisualizer.analyzer.setupDSP((SourceDataLine) audioInfo.get("basicplayer.sourcedataline"));
+				AudioVisualizer.analyzer.startDSP((SourceDataLine) audioInfo.get("basicplayer.sourcedataline"));
 
 			}
 
@@ -217,6 +220,7 @@ public class AudioPlayer implements BasicPlayerListener {
 
 			soundPlayThread = new Thread("Sound player") {
 
+				@Override
 				public void run() {
 
 					currentSound = sound;

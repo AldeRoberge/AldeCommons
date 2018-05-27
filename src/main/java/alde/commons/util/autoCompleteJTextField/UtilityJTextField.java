@@ -64,7 +64,7 @@ public class UtilityJTextField extends HintTextField {
 
 	/**
 	 * @param hint   can be set to empty string
-	 * @param memory weither or not to remembers inputs
+	 * @param memory wether or not to remembers inputs
 	 */
 	public UtilityJTextField(String hint, boolean memory) {
 		super(hint);
@@ -76,6 +76,7 @@ public class UtilityJTextField extends HintTextField {
 		setDocument(autoCompleteDocument);
 
 		addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				//if (!StringUtils.isAllBlank(getText())) {
 				for (Consumer<String> a : inputReceivers) {

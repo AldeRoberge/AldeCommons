@@ -24,7 +24,7 @@ public class LoggerListener {
 	private List<Consumer<ILoggingEvent>> loggerReceiverList = new ArrayList<>();
 
 	public LoggerListener() {
-		org.slf4j.Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+		org.slf4j.Logger rootLogger = LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 		ch.qos.logback.classic.Logger log = (ch.qos.logback.classic.Logger) rootLogger;
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 		AppenderBase<ILoggingEvent> appender = new AppenderBase<ILoggingEvent>() {

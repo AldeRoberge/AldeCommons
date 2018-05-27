@@ -3,7 +3,8 @@ package alde.commons;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import alde.commons.console.Console;
 import alde.commons.logger.LoggerPanel;
@@ -18,6 +19,7 @@ public class ExampleConsole {
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					ExampleConsole window = new ExampleConsole();

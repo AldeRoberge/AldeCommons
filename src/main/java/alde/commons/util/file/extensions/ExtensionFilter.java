@@ -24,6 +24,7 @@ public class ExtensionFilter extends FileFilter {
 		this.extensions = extensions.clone();
 	}
 
+	@Override
 	public boolean accept(File file) {
 		if (file.isDirectory()) {
 			return true;
@@ -38,6 +39,7 @@ public class ExtensionFilter extends FileFilter {
 		return false;
 	}
 
+	@Override
 	public String getDescription() {
 		return (description == null ? extensions[0] : description);
 	}

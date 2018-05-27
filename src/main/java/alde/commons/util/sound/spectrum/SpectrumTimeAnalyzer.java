@@ -276,10 +276,10 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 
 	private void drawScope(Graphics pGrp, float[] pSample) {
 		pGrp.setColor(scopeColor);
-		int wLas = (int) (pSample[0] * (float) height_2) + height_2;
+		int wLas = (int) (pSample[0] * height_2) + height_2;
 		int wSt = 2;
 		for (int a = wSt, c = 0; c < width; a += wSt, c++) {
-			int wAs = (int) (pSample[a] * (float) height_2) + height_2;
+			int wAs = (int) (pSample[a] * height_2) + height_2;
 			pGrp.drawLine(c, wLas, c + 1, wAs);
 			wLas = wAs;
 		}
@@ -327,8 +327,8 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 			wLeft += Math.abs(pLeft[a]);
 			wRight += Math.abs(pRight[a]);
 		}
-		wLeft = ((wLeft * 2.0f) / (float) pLeft.length);
-		wRight = ((wRight * 2.0f) / (float) pRight.length);
+		wLeft = ((wLeft * 2.0f) / pLeft.length);
+		wRight = ((wRight * 2.0f) / pRight.length);
 		if (wLeft > 1.0f) {
 			wLeft = 1.0f;
 		}
@@ -359,9 +359,9 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 			}
 		}
 		int wHeight = (height >> 1) - 24;
-		drawVolumeMeterBar(pGrp, 16, 16, (int) (oldLeft * (float) (width - 32)), wHeight);
+		drawVolumeMeterBar(pGrp, 16, 16, (int) (oldLeft * (width - 32)), wHeight);
 		//      drawVolumeMeterBar( pGrp, 16, wHeight + 22, (int)( ( vuAverage / vuSamples ) * (float)( width - 32 ) ), 4 );
-		drawVolumeMeterBar(pGrp, 16, wHeight + 32, (int) (oldRight * (float) (width - 32)), wHeight);
+		drawVolumeMeterBar(pGrp, 16, wHeight + 32, (int) (oldRight * (width - 32)), wHeight);
 		//      pGrp.fillRect( 16, 16, (int)( oldLeft  * (float)( width - 32 ) ), wHeight );
 		//      pGrp.fillRect( 16, 64, (int)( oldRight * (float)( width - 32 ) ), wHeight );
 	}
@@ -482,6 +482,7 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 		return showFPS;
 	}
 
+	@Override
 	public void paintComponent(Graphics pGraphics) {
 		if (displayMode == DISPLAY_MODE_OFF)
 			return;
@@ -496,6 +497,7 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 	private void prepareDisplayToggleListener() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent pEvent) {
 				if (pEvent.getButton() == MouseEvent.BUTTON1) {
 					if (displayMode + 1 > 1) {
@@ -511,6 +513,7 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 	/* (non-Javadoc)
 	 * @see kj.dsp.KJDigitalSignalProcessor#process(float[], float[], float)
 	 */
+	@Override
 	public synchronized void process(float[] pLeft, float[] pRight, float pFrameRateRatioHint) {
 		if (displayMode == DISPLAY_MODE_OFF)
 			return;

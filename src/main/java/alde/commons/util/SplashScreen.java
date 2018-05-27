@@ -130,6 +130,7 @@ public class SplashScreen {
 			final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
 			Runnable helloRunnable = new Runnable() {
+				@Override
 				public void run() {
 					if (startTime < 0) {
 						startTime = System.currentTimeMillis();

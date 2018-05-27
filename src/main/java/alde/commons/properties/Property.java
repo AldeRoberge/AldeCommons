@@ -184,6 +184,7 @@ class EditPropertyPanel extends JPanel {
 
 		saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				property.setNewValue(newValue);
 				setIsEdited(false);
@@ -212,14 +213,17 @@ class EditPropertyPanel extends JPanel {
 		//
 
 		inputField.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 				update();
 			}
 
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 				update();
 			}
 
+			@Override
 			public void insertUpdate(DocumentEvent e) {
 				update();
 			}
