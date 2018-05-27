@@ -34,4 +34,5 @@ Require-Bundle: org.junit,
  org.hamcrest.core,
  org.opentest4j,
  org.apiguardian
-Import-Package: ch.qos.logback.classic
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.classic.spi;version="1.0.7"

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
@@ -24,7 +24,7 @@ public class LoggerListener {
 	private List<Consumer<ILoggingEvent>> loggerReceiverList = new ArrayList<>();
 
 	public LoggerListener() {
-		Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+		org.slf4j.Logger rootLogger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 		ch.qos.logback.classic.Logger log = (ch.qos.logback.classic.Logger) rootLogger;
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 		AppenderBase<ILoggingEvent> appender = new AppenderBase<ILoggingEvent>() {

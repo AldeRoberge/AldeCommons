@@ -1,21 +1,53 @@
 package alde.commons.util.text;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 public class StringUtils {
 
+	@Test
+	public void test() {
+
+		for (char c : delimiters) {
+			System.out.println("'" + c + "'");
+			assertEquals(true, isDelimiterCharacter(c));
+		}
+
+		assertEquals(5, nextDelimiterIndex("Hello my name is Alde", 0));
+		assertEquals(5, nextDelimiterIndex("Hello my name is Alde", 0));
+		assertEquals(5, previousDelimiterIndex("Hello my name is Alde", 7));
+		assertEquals(5, previousDelimiterIndex("Hello my name is Alde", 7));
+
+		assertEquals(7, previousDelimiterIndex("package com.utils.alde;", 11));
+
+	}
+
 	/**
 	 * Marks the end of a word
 	 */
-	protected static final char[] delimiters = new char[] { ' ', ',', ']', '[', ')', '(', '.', ';', ':' };
+	//@formatter:off
+	private static final char[] delimiters = new char[] { 
+			' ', 
+			',', 
+			']', 
+			'[', 
+			')', 
+			'(', 
+			'.', 
+			';', 
+			':',
+			'!',
+			'='
+			};
+	//@formatter:on
 
 	/**
-	 * @param c character
-	 * @return true if character is a delimiter
+	 * @param c
+	 * @return true if c is a delimiter
 	 */
-	protected static boolean isDelimiterCharacter(char c) {
+	public static boolean isDelimiterCharacter(char c) {
 		for (char d : delimiters) {
 			if (d == c) {
 				return true;
@@ -28,7 +60,7 @@ public class StringUtils {
 	 * @param string 
 	 * @return index of the next delimiter in a string
 	 */
-	protected static int indexOfNextDelimiter(String string) {
+	public static int nextDelimiterIndex(String string) {
 		return nextDelimiterIndex(string, 0);
 	}
 
@@ -37,12 +69,21 @@ public class StringUtils {
 	 * @param beginIndex starts looking for delimiter at index
 	 * @return index of the next delimiter in a string
 	 */
-	protected static int nextDelimiterIndex(String string, int beginIndex) {
-		char[] chars = string.substring(beginIndex).toCharArray();
+	public static int nextDelimiterIndex(String string, int beginIndex) {
 
-		for (int i = 0; i < chars.length; i++) {
+		if (beginIndex > string.length()) {
+			System.err.println(
+					"Begin index '" + beginIndex + "' cannot be further than string length '" + string.length() + "'.");
+			return 0;
+		}
+
+		//
+
+		char[] chars = string.toCharArray();
+
+		for (int i = beginIndex + 1; i < chars.length; i++) {
 			if (isDelimiterCharacter(chars[i])) {
-				return beginIndex + i;
+				return i;
 			}
 		}
 
@@ -53,7 +94,7 @@ public class StringUtils {
 	 * @param string 
 	 * @return index of the previous delimiter in a string
 	 */
-	protected static int previousDelimiterIndex(String string) {
+	public static int previousDelimiterIndex(String string) {
 		return previousDelimiterIndex(string, 0);
 	}
 
@@ -62,15 +103,23 @@ public class StringUtils {
 	 * @param beginIndex starts looking for delimiter at index
 	 * @return index of the previous delimiter in a string
 	 */
-	protected static int previousDelimiterIndex(String string, int beginIndex) {
-		char[] chars = string.substring(beginIndex).toCharArray();
+	public static int previousDelimiterIndex(String string, int beginIndex) {
 
-		for (int i = 0; i < chars.length; i--) {
-			if (isDelimiterCharacter(chars[i])) {
-				return beginIndex - i;
-			}
+		if (beginIndex > string.length()) {
+			System.err.println(
+					"Begin index '" + beginIndex + "' cannot be further than string length '" + string.length() + "'.");
+			return 0;
 		}
 
+		// 
+
+		char[] chars = string.toCharArray();
+
+		for (int i = beginIndex - 1; i >= 0; i--) {
+			if (isDelimiterCharacter(chars[i])) {
+				return i;
+			}
+		}
 		return 0;
 	}
 
@@ -78,7 +127,7 @@ public class StringUtils {
 	 * @param string 
 	 * @return text between 'start' and 'end'
 	 */
-	protected static String getInbetween(String string, String start, String end) {
+	public static String getInbetween(String string, String start, String end) {
 		if (!string.contains(start)) {
 			System.err.println("Error : line '" + string + "' does not contain start '" + end + "'.");
 			return "";
@@ -93,7 +142,7 @@ public class StringUtils {
 	/**
 	 * @return replaces text contained inside of string
 	 */
-	protected static String replace(String string, String replace, String with) {
+	public static String replace(String string, String replace, String with) {
 		if (string.contains(replace)) {
 			string = string.replace(replace, with);
 		}
@@ -104,7 +153,7 @@ public class StringUtils {
 	 * Rotates a string using a string point (uses delimiters as boundaries)
 	 * I.E. : rotate("world Hello", " "); returns "Hello world"
 	 */
-	protected static String rotate(String string, String rotatePoint) {
+	public static String rotate(String string, String rotatePoint) {
 		return rotate(string, rotatePoint, "");
 	}
 
@@ -113,7 +162,7 @@ public class StringUtils {
 	 * I.E. : rotate("world Hello", " "); returns "Hello world"
 	 * if replaceRotatePointWith is not "", replace rotatePoint with this
 	 */
-	protected static String rotate(String string, String rotatePoint, String replaceRotatePointWith) {
+	public static String rotate(String string, String rotatePoint, String replaceRotatePointWith) {
 
 		if (string == null || rotatePoint == null) {
 			System.err.println("Error, input is null.");
@@ -128,7 +177,7 @@ public class StringUtils {
 		int beginningOfFirstWord = previousDelimiterIndex(string, string.indexOf(rotatePoint));
 		int endOfFirstWord = string.indexOf(rotatePoint);
 
-		System.out.println("First word beginning : " + beginningOfFirstWord + ", end : " + endOfFirstWord);
+		//System.out.println("First word beginning : " + beginningOfFirstWord + ", end : " + endOfFirstWord);
 
 		String firstWord = string.substring(beginningOfFirstWord, endOfFirstWord);
 
@@ -139,7 +188,7 @@ public class StringUtils {
 		int beginningOfSecondWord = string.indexOf(rotatePoint) + rotatePoint.length();
 		int endOfSecondWord = nextDelimiterIndex(string, string.indexOf(rotatePoint) + rotatePoint.length());
 
-		System.out.println("Second word beginning : " + beginningOfSecondWord + ", end : " + endOfSecondWord);
+		//System.out.println("Second word beginning : " + beginningOfSecondWord + ", end : " + endOfSecondWord);
 
 		String secondWord = string.substring(beginningOfSecondWord, endOfSecondWord);
 
@@ -147,10 +196,13 @@ public class StringUtils {
 
 		// Rotate
 
+		String beginningOfString = string.substring(0, beginningOfFirstWord);
+		String endOfString = string.substring(endOfSecondWord);
+
 		if (replaceRotatePointWith.equals("")) {
-			return secondWord + rotatePoint + firstWord;
+			return beginningOfString + secondWord + rotatePoint + firstWord + endOfString;
 		} else {
-			return secondWord + replaceRotatePointWith + firstWord;
+			return beginningOfString + secondWord + replaceRotatePointWith + firstWord + endOfString;
 		}
 	}
 
@@ -159,7 +211,7 @@ public class StringUtils {
 	 * @param afterKeyword look after this keyword in a string
 	 * @return returns following keyword (using delimiters)
 	 */
-	protected static String getFollowingWord(String string, String afterKeyword) {
+	public static String getFollowingWord(String string, String afterKeyword) {
 
 		if (!string.contains(afterKeyword)) {
 			System.err.println("Error : '" + string + "' does not contain '" + afterKeyword + "'.");
@@ -168,26 +220,9 @@ public class StringUtils {
 
 		int endOfKeywordIndex = string.indexOf(afterKeyword) + afterKeyword.length();
 
-		int nextDelimiterIndex = endOfKeywordIndex + indexOfNextDelimiter(string.substring(endOfKeywordIndex));
+		int nextDelimiterIndex = endOfKeywordIndex + nextDelimiterIndex(string.substring(endOfKeywordIndex));
 
 		return string.substring(endOfKeywordIndex, nextDelimiterIndex);
-	}
-
-	@Test
-	public void test() {
-
-		assertEquals("Alde", getFollowingWord("My name is Alde.", " is "));
-		assertEquals("james;", getFollowingWord("package james;", "package "));
-
-		assertEquals("Hey there", rotate("there Hey", " ", ""));
-
-		assertEquals(false, isDelimiterCharacter('c'));
-		assertEquals(false, isDelimiterCharacter('d'));
-		assertEquals(true, isDelimiterCharacter('['));
-		assertEquals(true, isDelimiterCharacter(' '));
-
-		assertEquals(5, indexOfNextDelimiter("James bond"));
-
 	}
 
 }

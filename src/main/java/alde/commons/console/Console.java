@@ -11,7 +11,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alde.commons.util.autoCompleteJTextField.UtilityJTextField;
@@ -29,7 +29,7 @@ import alde.commons.util.math.LevenshteinDistance;
 @SuppressWarnings("serial")
 public class Console extends UtilityJTextField {
 
-	private static org.slf4j.Logger log = LoggerFactory.getLogger(Console.class);
+	private static Logger log = LoggerFactory.getLogger(Console.class);
 
 	/** Hint on the JTextField (disappears on input) */
 	public static String HINT = "Enter command here";

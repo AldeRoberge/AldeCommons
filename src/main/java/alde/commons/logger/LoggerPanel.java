@@ -67,7 +67,6 @@ public class LoggerPanel extends JTextPane {
 	private int currentLine = 0;
 
 	private LoggerPanel() {
-
 		loggerListener.addListener(event -> {
 			try {
 				addContent(formatLogToColorizedHTML(event));

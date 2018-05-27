@@ -17,8 +17,6 @@ public class ExampleConsole {
 	 */
 	public static void main(String[] args) {
 
-		//BasicConfigurator.configure();
-
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
