@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -61,6 +58,22 @@ public class UtilityJTextField extends HintTextField {
 	public void setCompletionService(AutoCompleteService autoCompleteService) {
 		this.autoCompleteService = autoCompleteService;
 	}
+
+
+	/**public void setNumberOnly() {
+		addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (!((c >= '0') && (c <= '9') ||
+						(c == KeyEvent.VK_BACK_SPACE) ||
+						(c == KeyEvent.VK_DELETE))) {
+					getToolkit().beep();
+					e.consume();
+				}
+			}
+		});
+	}*/
+
 
 	/**
 	 * @param hint   can be set to empty string

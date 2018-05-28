@@ -50,8 +50,8 @@ public class FileImporter extends UtilityJFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FileImporter(Consumer<List<File>> fMan, Image icon, boolean includeSubfolders,
-	                    ExtensionFilter acceptedFileTypes) {
+	public FileImporter(Consumer<List<File>> fileListConsumer, Image icon, boolean includeSubfolders,
+			ExtensionFilter acceptedFileTypes) {
 
 		this.acceptedFileTypes = acceptedFileTypes;
 
@@ -137,22 +137,19 @@ public class FileImporter extends UtilityJFrame {
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (filesToImport.size() > 0) {
-					fMan.accept(filesToImport);
+					fileListConsumer.accept(filesToImport);
 					filesToImport.clear();
 					setVisible(false);
 					dropPanel.updateMessage();
-
 				}
 			}
 		});
 		panel.add(btnImport);
 
 		setVisible(true);
-
 	}
 
 	void importAll(List<File> files) {
-
 		for (File file : files) { //we do this because the user might choose more than 1 folder
 			if (file.isDirectory()) {
 				getAllFiles(file.getAbsolutePath(), true, 0);
@@ -189,7 +186,7 @@ public class FileImporter extends UtilityJFrame {
 
 	private void addFileToImport(File f) {
 		if (filesToImport.contains(f)) {
-			log.error("Error : File to import is already imported.");
+			log.warn("File to import is already imported.");
 		} else {
 			boolean accept = false;
 
@@ -299,6 +296,8 @@ class DropPane extends JPanel {
 
 	class DropTargetHandler implements DropTargetListener {
 
+		private Logger log = LoggerFactory.getLogger(DropTargetHandler.class);
+
 		void processDrag(DropTargetDragEvent dtde) {
 			if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 				dtde.acceptDrag(DnDConstants.ACTION_COPY);
@@ -340,11 +339,9 @@ class DropPane extends JPanel {
 				dtde.acceptDrop(dtde.getDropAction());
 				try {
 
-					System.out.println("Drop event");
-
 					List<File> droppedFiles = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
 
-					System.out.println(droppedFiles + ", size : " + droppedFiles.size());
+					log.info(droppedFiles + ", size : " + droppedFiles.size());
 
 					if (droppedFiles != null && droppedFiles.size() > 0) {
 						fileImporter.importAll(droppedFiles);
