@@ -8,7 +8,7 @@
 package alde.commons.fileImporter;
 
 import alde.commons.util.UtilityJFrame;
-import alde.commons.util.file.extensions.FileTypes;
+import alde.commons.util.file.extensions.ExtensionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +35,13 @@ public class FileImporter extends UtilityJFrame {
 	public static void main(String[] args) {
 		FileImporter f = new FileImporter(k -> {
 			System.out.println("Received " + k.size() + " files.");
-		}, null, true);
+		}, null, true, null);
 
 	}
 
 	private static Logger log = LoggerFactory.getLogger(FileImporter.class);
+
+	public ExtensionFilter acceptedFileTypes;
 
 	private List<File> filesToImport = new ArrayList<File>();
 	private DropPane dropPanel;
@@ -48,7 +50,10 @@ public class FileImporter extends UtilityJFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FileImporter(Consumer<List<File>> fMan, Image icon, boolean includeSubfolders) {
+	public FileImporter(Consumer<List<File>> fMan, Image icon, boolean includeSubfolders,
+	                    ExtensionFilter acceptedFileTypes) {
+
+		this.acceptedFileTypes = acceptedFileTypes;
 
 		//setIconImage(Icons.IMPORT.getImage());
 		setTitle("Import");
@@ -99,7 +104,7 @@ public class FileImporter extends UtilityJFrame {
 				// Format supported by AudioPlayer :
 				// WAV, AU, AIFF ,MP3 and Ogg Vorbis files
 
-				chooser.setFileFilter(FileTypes.AUDIO_FILES);
+				chooser.setFileFilter(acceptedFileTypes);
 
 				chooser.setMultiSelectionEnabled(true); // shift + click to select multiple files
 				chooser.setPreferredSize(new Dimension(800, 600));
@@ -146,13 +151,10 @@ public class FileImporter extends UtilityJFrame {
 
 	}
 
-	void importAll(List<File> transferData) {
+	void importAll(List<File> files) {
 
-		for (File file : transferData) { //we do this because the user might choose more than 1 folder
-
+		for (File file : files) { //we do this because the user might choose more than 1 folder
 			if (file.isDirectory()) {
-				//Properties.INCLUDE_SUBFOLDERS.getValueAsBoolean()
-
 				getAllFiles(file.getAbsolutePath(), true, 0);
 			} else {
 				addFileToImport(file);
@@ -161,10 +163,10 @@ public class FileImporter extends UtilityJFrame {
 
 	}
 
-	void getAllFiles(String directoryName, boolean includeSubfolders, int totalOfFiles) {
+	private void getAllFiles(String directoryName, boolean includeSubfolders, int totalOfFiles) {
 
-		log.info("Getting all files for directory : " + directoryName + ", including subfolders : "
-				+ includeSubfolders);
+		log.info(
+				"Getting all files for directory : " + directoryName + ", including subfolders : " + includeSubfolders);
 
 		File directory = new File(directoryName);
 
@@ -185,11 +187,22 @@ public class FileImporter extends UtilityJFrame {
 		}
 	}
 
-	void addFileToImport(File f) {
-		if (!filesToImport.contains(f) && FileTypes.AUDIO_FILES.accept(f)) {
-			filesToImport.add(f);
+	private void addFileToImport(File f) {
+		if (filesToImport.contains(f)) {
+			log.error("Error : File to import is already imported.");
+		} else {
+			boolean accept = false;
 
-			dropPanel.updateMessage();
+			if (acceptedFileTypes == null) {
+				accept = true;
+			} else if (acceptedFileTypes.accept(f)) {
+				accept = true;
+			}
+
+			if (accept) {
+				filesToImport.add(f);
+				dropPanel.updateMessage();
+			}
 		}
 	}
 
@@ -327,9 +340,14 @@ class DropPane extends JPanel {
 				dtde.acceptDrop(dtde.getDropAction());
 				try {
 
-					List<File> transferData = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-					if (transferData != null && transferData.size() > 0) {
-						fileImporter.importAll(transferData);
+					System.out.println("Drop event");
+
+					List<File> droppedFiles = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+
+					System.out.println(droppedFiles + ", size : " + droppedFiles.size());
+
+					if (droppedFiles != null && droppedFiles.size() > 0) {
+						fileImporter.importAll(droppedFiles);
 						dtde.dropComplete(true);
 					}
 
