@@ -221,11 +221,14 @@ public class AS3ToJava extends StringUtils {
 					line = line.replace("Vector.<", "Vector<");
 				}
 
-				line = replace(line, "<int>", "<Integer>");
-				line = replace(line, "<float>", "<Float>");
-
 				line = line.replace("Number", "double");
 				line = line.replace("<Number>", "<Double>");
+
+				line = replace(line, "<int>", "<Integer>");
+				line = replace(line, "<float>", "<Float>");
+				line = replace(line, "<double>", "<Double>");
+
+				line = replace(line, "double.MAX_VALUE", "Double.MAX_VALUE");
 
 				//
 
@@ -235,6 +238,20 @@ public class AS3ToJava extends StringUtils {
 
 				if (line.contains("for each") && line.contains(" in ")) {
 					line = line.replace(" in ", " : ").replace("for each", "for");
+				}
+
+				/*
+				 * The 'in' keyword in Java does not exist. We'll use .contains instead
+				 */
+				if (line.contains(" in ")) {
+					String dictionaryName = StringUtils.getFollowingWord(line, " in ");
+					String varName = StringUtils.getPreviousWord(line, " in ");
+
+					System.out.println(dictionaryName + ", " + varName);
+
+					line = StringUtils.rotate(line, " in ", ".contains(");
+
+					line = line.replace(varName, varName + ")");
 				}
 
 				//
