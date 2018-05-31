@@ -48,9 +48,7 @@ public class ObjectSerializer<T extends Serializable> {
 				ois.close();
 				fis.close();
 
-			} catch (IOException e) {
-				log.error(StackTraceToString.sTTS(e));
-			} catch (ClassNotFoundException e) {
+			} catch (IOException | ClassNotFoundException e) {
 				log.error(StackTraceToString.sTTS(e));
 			}
 		} else {

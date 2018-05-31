@@ -67,7 +67,7 @@ public class Console extends UtilityJTextField {
 
 			console.addAction(new HelpAction(actions));
 
-			/**
+			/*
 			 * Receive input
 			 */
 			console.addReceiver(command -> {
@@ -82,7 +82,7 @@ public class Console extends UtilityJTextField {
 					}
 				}
 
-				/**
+				/*
 				 * Use levenshtein to get the closest match to the user command.
 				 * If the closest match is too far away, do not suggest anything.
 				 */
@@ -107,14 +107,11 @@ public class Console extends UtilityJTextField {
 					}
 
 					if (closest <= COMMAND_DISTANCE_MIN) {
-						log.error("Did you mean '" + suggestion + "'?");
+						log.info("Did you mean '" + suggestion + "'?");
 					}
 				}
-
 			});
-
 		}
-
 		return console;
 	}
 

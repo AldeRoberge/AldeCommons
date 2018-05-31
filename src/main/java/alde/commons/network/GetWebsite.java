@@ -70,7 +70,7 @@ public class GetWebsite {
 
 		StringBuilder output = new StringBuilder();
 		for (String s : websiteContent) {
-			output.append(s + System.lineSeparator());
+			output.append(s).append(System.lineSeparator());
 		}
 		return output.toString();
 
@@ -158,7 +158,7 @@ public class GetWebsite {
 
 		StringBuilder output = new StringBuilder();
 		for (String s : websiteContent) {
-			output.append(s + System.lineSeparator());
+			output.append(s).append(System.lineSeparator());
 		}
 		return output.toString();
 

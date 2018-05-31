@@ -77,7 +77,7 @@ public class UtilityJTextField extends HintTextField {
 
 	/**
 	 * @param hint   can be set to empty string
-	 * @param memory wether or not to remembers inputs
+	 * @param memory whether or not to remembers inputs
 	 */
 	public UtilityJTextField(String hint, boolean memory) {
 		super(hint);
@@ -153,7 +153,7 @@ public class UtilityJTextField extends HintTextField {
 }
 
 /**
- * Text field with temporary hint text
+ * Text field with hint text
  * <p>
  * from https://stackoverflow.com/a/24571681
  *

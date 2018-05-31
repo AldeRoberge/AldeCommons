@@ -32,14 +32,14 @@ public abstract class ConsoleAction {
 	}
 
 	public String getKeywordsAsString() {
-		StringBuffer a = new StringBuffer();
+		StringBuilder a = new StringBuilder();
 
 		String keywords[] = getKeywords();
 
 		for (int i = 0; i < keywords.length; i++) {
 
 			if (i != keywords.length - 1) {
-				a.append(keywords[i] + ", ");
+				a.append(keywords[i]).append(", ");
 			} else {
 				a.append(keywords[i]);
 			}

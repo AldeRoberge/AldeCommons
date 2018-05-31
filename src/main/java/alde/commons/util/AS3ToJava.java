@@ -77,7 +77,7 @@ public class AS3ToJava extends StringUtils {
 		frame.setTitle("AS3 to Java");
 
 		frame.setBounds(100, 100, 948, 492);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
@@ -286,7 +286,7 @@ public class AS3ToJava extends StringUtils {
 
 					debug("Line : " + line + " treated as a field.");
 
-					String visibility = "";
+					StringBuilder visibility = new StringBuilder();
 
 					String nameAndType = "";
 
@@ -296,7 +296,7 @@ public class AS3ToJava extends StringUtils {
 
 					for (String l : l2) {
 						if (!l.contains(":") && !reachedNameAndType) {
-							visibility += l + " ";
+							visibility.append(l).append(" ");
 						} else {
 							if (!reachedNameAndType) {
 								reachedNameAndType = true;
@@ -330,8 +330,8 @@ public class AS3ToJava extends StringUtils {
 					debug("FIELD : Visiblity : " + visibility + ", Type : " + type + ", Name : " + name + ", Rest : "
 							+ restOfTheDeclaration);
 
-					if (visibility.contains("var ")) {
-						visibility = visibility.replace("var ", " ");
+					if (visibility.toString().contains("var ")) {
+						visibility = new StringBuilder(visibility.toString().replace("var ", " "));
 					}
 
 					return visibility + type + " " + name + restOfTheDeclaration;
@@ -383,10 +383,10 @@ public class AS3ToJava extends StringUtils {
 
 					// Params 
 
-					String actualParamLine = "";
+					StringBuilder actualParamLine = new StringBuilder();
 
 					if (line.contains("()")) {
-						actualParamLine = ""; //Empty parameters
+						actualParamLine = new StringBuilder(); //Empty parameters
 					} else {
 
 						String paramLine = line.substring(line.indexOf("(") + 1, line.indexOf(")"));
@@ -405,9 +405,9 @@ public class AS3ToJava extends StringUtils {
 
 						for (int i = 0; i < parameters.size(); i++) {
 							if (i == parameters.size() - 1) {
-								actualParamLine += parameters.get(i);
+								actualParamLine.append(parameters.get(i));
 							} else {
-								actualParamLine += parameters.get(i) + ", ";
+								actualParamLine.append(parameters.get(i)).append(", ");
 							}
 						}
 
