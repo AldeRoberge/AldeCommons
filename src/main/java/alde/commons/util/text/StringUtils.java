@@ -3,7 +3,11 @@ package alde.commons.util.text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class StringUtils {
+
+	public static String newLine = System.lineSeparator();
 
 	public static Logger stringUtilsLog = LoggerFactory.getLogger(StringUtils.class);
 
@@ -11,19 +15,19 @@ public class StringUtils {
 	 * Marks the end of a word
 	 */
 	//@formatter:off
-	private static final char[] delimiters = new char[] { 
-			' ', 
-			',', 
-			']', 
-			'[', 
-			')', 
-			'(', 
-			'.', 
-			';', 
+	private static final char[] delimiters = new char[]{
+			' ',
+			',',
+			']',
+			'[',
+			')',
+			'(',
+			'.',
+			';',
 			':',
 			'!',
 			'='
-			};
+	};
 	//@formatter:on
 
 	/**
@@ -40,7 +44,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * @param line 
+	 * @param line
 	 * @return index of the next delimiter in a string
 	 */
 	public static int nextDelimiterIndex(String line) {
@@ -48,7 +52,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * @param line 
+	 * @param line
 	 * @param beginIndex starts looking for delimiter at index
 	 * @return index of the next delimiter in a string
 	 */
@@ -74,7 +78,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * @param line 
+	 * @param line
 	 * @return index of the previous delimiter in a string
 	 */
 	public static int previousDelimiterIndex(String line) {
@@ -107,7 +111,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * @param line 
+	 * @param line
 	 * @return text between 'start' and 'end'
 	 */
 	public static String getInbetween(String line, String start, String end) {
@@ -239,4 +243,22 @@ public class StringUtils {
 
 	}
 
+
+	public static String generateSeparatedStringFromStringList(List<String> params, String delimiter) {
+		StringBuilder s = new StringBuilder();
+
+		for (int i = 0; i < params.size(); i++) {
+			s.append(params.get(i));
+
+			if (!(i == params.size() - 1)) {
+				s.append(delimiter);
+			}
+		}
+		return s.toString();
+	}
+
+	public static String generateSeparatedStringFromStringList(List<String> params) {
+		return generateSeparatedStringFromStringList(params, ", ");
+	}
 }
+
