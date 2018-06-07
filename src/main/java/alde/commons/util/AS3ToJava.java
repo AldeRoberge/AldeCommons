@@ -22,7 +22,6 @@ public class AS3ToJava extends StringUtils {
 
 	private boolean hasAddedJavaImports = false;
 
-
 	/**
 	 * Launch the application.
 	 */
@@ -107,8 +106,8 @@ public class AS3ToJava extends StringUtils {
 
 		// Sync scroll between the two
 
-		leftScrollPane.getHorizontalScrollBar().setModel(rightScrollPane.getHorizontalScrollBar().getModel());
-		rightScrollPane.getVerticalScrollBar().setModel(leftScrollPane.getVerticalScrollBar().getModel());
+		/**leftScrollPane.getHorizontalScrollBar().setModel(rightScrollPane.getHorizontalScrollBar().getModel());
+		rightScrollPane.getVerticalScrollBar().setModel(leftScrollPane.getVerticalScrollBar().getModel());*/
 
 		JTextArea rightTextArea = new JTextArea();
 		rightTextArea.setEditable(false);
@@ -141,6 +140,8 @@ public class AS3ToJava extends StringUtils {
 				for (String line : leftTextArea.getText().split(newLine)) {
 					rightTextArea.append(staticParse(line) + newLine);
 					updateInfo();
+
+					System.out.println("Ohhh yeah");
 				}
 			}
 
@@ -187,7 +188,7 @@ public class AS3ToJava extends StringUtils {
 
 				line = "";
 
-				if (hasAddedJavaImports == false) {
+				if (!hasAddedJavaImports) {
 					hasAddedJavaImports = true;
 
 					line = "import java.util.ArrayList; " + newLine + " import java.util.List;";
@@ -230,6 +231,10 @@ public class AS3ToJava extends StringUtils {
 				line = replace(line, "<double>", "<Double>");
 
 				line = replace(line, "double.MAX_VALUE", "Double.MAX_VALUE");
+				line = replace(line, "double.MIN_VALUE", "Double.MIN_VALUE");
+
+				line = replace(line, "int.MAX_VALUE", "Integer.MAX_VALUE");
+				line = replace(line, "int.MIN_VALUE", "Integer.MIN_VALUE");
 
 				//
 
@@ -240,6 +245,8 @@ public class AS3ToJava extends StringUtils {
 				if (line.contains("for each") && line.contains(" in ")) {
 					line = line.replace(" in ", " : ").replace("for each", "for");
 				}
+				
+				line = line.replace("native ", " ");
 
 				/*
 				 * The 'in' keyword in Java does not exist. We'll use .contains instead

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StringUtils {
 
-	public static String newLine = System.lineSeparator();
+	public static String newLine = "\n";
 
 	public static Logger stringUtilsLog = LoggerFactory.getLogger(StringUtils.class);
 
