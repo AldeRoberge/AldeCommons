@@ -11,34 +11,32 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Global property persistence
- * 
- * @see PropertiesConfiguration (from Apache)
+ * @see Apache's PropertiesConfiguration
  */
 public class PropertyFileManager {
 
 	private static final Logger log = LoggerFactory.getLogger(PropertyFileManager.class);
 
 	private final File propertyFile;
-
-	PropertiesConfiguration config;
-
-	public PropertyFileManager(String fileName) {
-
-		propertyFile = new File(fileName);
+	
+	private PropertiesConfiguration config;
+	
+	public PropertyFileManager(String propertyFilePath) {
+		propertyFile = new File(propertyFilePath);
 
 		try {
 			config = new PropertiesConfiguration(propertyFile);
+			
+			log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
+
+			try {
+				Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		} catch (ConfigurationException e) {
-			log.error("FATAL : Could not create PropertiesConfiguration!");
+			log.error("Could not create PropertiesConfiguration.");
 			e.printStackTrace();
-		}
-
-		log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
-
-		try {
-			Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
-		} catch (IOException e1) {
-			e1.printStackTrace();
 		}
 
 	}

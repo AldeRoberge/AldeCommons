@@ -104,10 +104,9 @@ public class AS3ToJava extends StringUtils {
 		JScrollPane rightScrollPane = new JScrollPane();
 		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
 
-		// Sync scroll between the two
-
-		/**leftScrollPane.getHorizontalScrollBar().setModel(rightScrollPane.getHorizontalScrollBar().getModel());
-		rightScrollPane.getVerticalScrollBar().setModel(leftScrollPane.getVerticalScrollBar().getModel());*/
+		// Sync scroll between the two scroll panes
+		leftScrollPane.getHorizontalScrollBar().setModel(rightScrollPane.getHorizontalScrollBar().getModel());
+		rightScrollPane.getVerticalScrollBar().setModel(leftScrollPane.getVerticalScrollBar().getModel());
 
 		JTextArea rightTextArea = new JTextArea();
 		rightTextArea.setEditable(false);
@@ -140,8 +139,6 @@ public class AS3ToJava extends StringUtils {
 				for (String line : leftTextArea.getText().split(newLine)) {
 					rightTextArea.append(staticParse(line) + newLine);
 					updateInfo();
-
-					System.out.println("Ohhh yeah");
 				}
 			}
 
@@ -195,6 +192,9 @@ public class AS3ToJava extends StringUtils {
 				}
 			} else {
 
+				/*
+				Remove '_'
+				 */
 				line = replace(line, "_:", ":");
 				line = replace(line, "_;", ";");
 				line = replace(line, "_ = ", " = ");
@@ -211,8 +211,8 @@ public class AS3ToJava extends StringUtils {
 				line = replace(line, "Boolean", "boolean");
 
 				line = replace(line, ".push(", ".add(");
-				line = replace(line, "ByteArray", "byte[]");
 
+				line = replace(line, "ByteArray", "byte[]");
 				line = replace(line, "new String();", "\"\"");
 
 				line = replace(line, "= NaN", "= 0");
@@ -242,6 +242,12 @@ public class AS3ToJava extends StringUtils {
 
 				//
 
+				/*
+				Converts
+			     for each(loc3 in vec)
+			    to
+			     for (loc3 : vec)
+				 */
 				if (line.contains("for each") && line.contains(" in ")) {
 					line = line.replace(" in ", " : ").replace("for each", "for");
 				}
@@ -262,9 +268,13 @@ public class AS3ToJava extends StringUtils {
 					line = line.replace(varName, varName + ")");
 				}
 
-				//
-
-				if (line.contains("<") && line.contains(">[")) { // Array declaration (switch on the haters)
+				/*
+				Converts AS3's native array declaration to Java's
+				 [...]
+				to
+				 {...}
+				 */
+				if (line.contains("<") && line.contains(">[")) {
 
 					String type = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
 
@@ -284,9 +294,12 @@ public class AS3ToJava extends StringUtils {
 
 				}
 
-				//dict = obj as Dictionary;
-				//dict = (Dictionary) obj;
-
+				/*
+				 * Converts
+				 *  dict = obj as Dictionary;
+				 * to
+				 *  dict = (Dictionary) obj;
+				 */
 				if (line.contains(" as ")) {
 
 					//bitmapData = obj as BitmapData;
@@ -304,10 +317,14 @@ public class AS3ToJava extends StringUtils {
 
 				}
 
-				//Fields (public static var texture:BitmapData;)
-
+				/*
+				Converts fields
+				 public static var texture:BitmapData;
+				to
+				 public static BitmapData texture;
+				 */
 				if (!line.contains("function") && line.contains(":") && !line.contains("{") && line.contains(";")
-						&& !line.contains("?") && !line.contains("return")) { //? break this
+						&& !line.contains("?") && !line.contains("return")) {
 
 					debug("Line : " + line + " treated as a field.");
 
@@ -331,12 +348,8 @@ public class AS3ToJava extends StringUtils {
 						}
 					}
 
-					String name = "";
-					String type = "";
-
-					name = nameAndType.substring(0, nameAndType.indexOf(":"));
-
-					type = nameAndType.substring(nameAndType.indexOf(":") + 1);
+					String name = nameAndType.substring(0, nameAndType.indexOf(":"));
+					String type = nameAndType.substring(nameAndType.indexOf(":") + 1);
 
 					debug("Name  " + name + ", Type : " + type);
 
@@ -394,7 +407,7 @@ public class AS3ToJava extends StringUtils {
 		}
 
 		if (line.contains("static ")) {
-			visibility = visibility + " static";
+			visibility += " static";
 		}
 
 		// Return type
