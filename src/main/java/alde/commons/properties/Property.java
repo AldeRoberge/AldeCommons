@@ -19,19 +19,28 @@ import org.slf4j.LoggerFactory;
 
 public class Property {
 
+	private static final Logger log = LoggerFactory.getLogger(Property.class);
+
 	public static final String TRUE = "TRUE";
 	public static final String FALSE = "FALSE";
 
-	private static final Logger log = LoggerFactory.getLogger(Property.class);
-
-	private PropertyFileManager propertyManager; // property file manager used to save and get values on updates
+	private PropertyFileManager propertyManager;
 
 	private String key;
 	private String description;
-	private String value;
 	private String defaultValue;
+	private String value;
 
 	private EditPropertyPanel editPropertyPanel;
+
+	/**
+	 * @param keyName          Key to store value to
+	 * @param defaultValue     Default value returned if no property of this key exists
+	 * @param propertyManager  PropertyFileManager used to store and retrieve keys
+	 */
+	public Property(String keyName, String defaultValue, PropertyFileManager propertyManager) {
+		this(keyName, defaultValue, "", propertyManager);
+	}
 
 	/**
 	 * @param keyName          Key to store value to
@@ -63,14 +72,17 @@ public class Property {
 		return value;
 	}
 
-	public String setNewValue(String value) {
+	public String setValue(String value) {
 		propertyManager.savePropertyValue(key, value);
 		this.value = value;
 
 		return value;
 	}
 
-	public boolean setNewValue(Boolean value) {
+	/**
+	 * Set boolean value
+	 */
+	public boolean setValue(boolean value) {
 		String booleanStringValue = Boolean.toString(value).toUpperCase();
 		propertyManager.savePropertyValue(key, booleanStringValue);
 		this.value = booleanStringValue;
@@ -80,7 +92,10 @@ public class Property {
 		return value;
 	}
 
-	public int setNewValue(int value) {
+	/**
+	 * Set int value
+	 */
+	public int setValue(int value) {
 		String stringValue = Integer.toString(value);
 
 		propertyManager.savePropertyValue(key, stringValue);
@@ -89,10 +104,9 @@ public class Property {
 		return value;
 	}
 
-	public boolean isDefaultValue() {
-		return this.value.equals(defaultValue);
-	}
-
+	/**
+	 * Returns value as boolean, returns false if parsing is impossible
+	 */
 	public boolean getValueAsBoolean() {
 		switch (value) {
 		case TRUE:
@@ -106,6 +120,10 @@ public class Property {
 		}
 	}
 
+	/**
+	 * Returns value as int, returns 0 if impossible
+	 * @return
+	 */
 	public int getValueAsInt() {
 
 		try {
@@ -124,17 +142,28 @@ public class Property {
 		return 0;
 	}
 
-	@Override
-	public String toString() {
-		return getValue();
+	public boolean isDefaultValue() {
+		return this.value.equals(defaultValue);
 	}
 
 	public String getKey() {
 		return key;
 	}
 
+	@Override
+	public String toString() {
+		return getValue();
+	}
+
 }
 
+enum Type {
+	BOOLEAN, INTEGER, ANY;
+}
+
+/**
+ * JPanel that allows the user to edit the property
+ */
 class EditPropertyPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
@@ -150,12 +179,9 @@ class EditPropertyPanel extends JPanel {
 	private final JButton saveButton;
 
 	/**
-	 * Automatically detected based on the first value
-	 * 1 = boolean
-	 * 2 = number
-	 * 3 = any
+	 * Type is detected based on the default value
 	 */
-	private final int flaggedType;
+	private final Type flaggedType;
 	private final String warning;
 
 	public void updateFieldWithNewValue() {
@@ -167,18 +193,17 @@ class EditPropertyPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		inputField = new JTextField(property.getValue());
-
-		add(inputField, BorderLayout.CENTER);
 		inputField.setColumns(10);
+		add(inputField, BorderLayout.CENTER);
 
 		if (isBooleanStringValue(property.getValue())) {
-			flaggedType = 1;
+			flaggedType = Type.BOOLEAN;
 			warning = "This property was automaticaly flagged as 'string boolean value only'.";
 		} else if (isOnlyNumbers(property.getValue())) {
-			flaggedType = 2;
-			warning = "This property was automaticaly flagged as 'numbers only'";
+			flaggedType = Type.INTEGER;
+			warning = "This property was automaticaly flagged as 'integers only'";
 		} else {
-			flaggedType = 3;
+			flaggedType = Type.ANY;
 			warning = "";
 		}
 
@@ -186,7 +211,7 @@ class EditPropertyPanel extends JPanel {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				property.setNewValue(newValue);
+				property.setValue(newValue);
 				setIsEdited(false);
 			}
 
@@ -228,15 +253,16 @@ class EditPropertyPanel extends JPanel {
 				update();
 			}
 
+			// Notifies the user if the value entered does not match the type
 			void update() {
 				newValue = inputField.getText();
 
-				if (flaggedType == 1 && !isBooleanStringValue(newValue)) { //boolean type
-					showWarningPanel(true);
-				} else if (flaggedType == 2 && !isOnlyNumbers(newValue)) { //number type
-					showWarningPanel(true);
+				if (flaggedType == Type.BOOLEAN && !isBooleanStringValue(newValue)) { //boolean type
+					setWarningPanelVisibility(true);
+				} else if (flaggedType == Type.INTEGER && !isOnlyNumbers(newValue)) { //number type
+					setWarningPanelVisibility(true);
 				} else {
-					showWarningPanel(false);
+					setWarningPanelVisibility(false);
 				}
 
 				if (!property.getValue().equals(newValue)) {
@@ -244,19 +270,17 @@ class EditPropertyPanel extends JPanel {
 				} else {
 					setIsEdited(false);
 				}
-
 			}
-
 		});
 
-		showWarningPanel(false);
+		setWarningPanelVisibility(false);
 
 	}
 
-	private void showWarningPanel(boolean b) {
-		warningPanel.setVisible(b);
+	private void setWarningPanelVisibility(boolean visibility) {
+		warningPanel.setVisible(visibility);
 
-		if (b) {
+		if (visibility) {
 			setMaximumSize(new Dimension(800, 25));
 		} else {
 			setMaximumSize(new Dimension(800, 45));
@@ -272,7 +296,7 @@ class EditPropertyPanel extends JPanel {
 	}
 
 	/**
-	 * @param isEdited weither or not to show 'Save' button and asterix on label
+	 * @param isEdited shows 'Save' button and asterix on label
 	 */
 	private void setIsEdited(boolean isEdited) {
 		saveButton.setVisible(isEdited);

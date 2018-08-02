@@ -4,26 +4,23 @@ import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
 /**
- * Code from Java2s.com
- * <p>
- * FileFilter extention for basic types
+ * Original credits : 
+ * @author Java2s.com
+ * 
+ * FileFilter default for basic types
  */
 public class ExtensionFilter extends FileFilter {
 
-	public static final ExtensionFilter AUDIO_FILES = new ExtensionFilter(
-			"Audio Files",
-			".aiff", ".au", ".mp3", ".ogg", ".mp4", ".wav");
+	public static final ExtensionFilter AUDIO_FILES = new ExtensionFilter("Audio Files", ".aiff", "au", "mp3", "ogg",
+			"mp4", "wav");
 
-	public static final ExtensionFilter VIDEO_FILES = new ExtensionFilter(
-			"Video Files",
-			".webm", ".mkv", ".flv", ".ogg", ".gif", ".avi", ".mov", ".wmv", ".mp4", ".mpg", ".m4v");
+	public static final ExtensionFilter VIDEO_FILES = new ExtensionFilter("Video Files", "webm", "mkv", "flv", "ogg",
+			"gif", "avi", "mov", "wmv", "mp4", "mpg", "m4v");
 
-	public static final ExtensionFilter PICTURE_FILES = new ExtensionFilter(
-			"Picture Files",
-			".jpeg", ".tiff", ".gif", ".bmp", ".png");
+	public static final ExtensionFilter PICTURE_FILES = new ExtensionFilter("Picture Files", "jpeg", "tiff", "gif",
+			"bmp", "png");
 
-	public static final ExtensionFilter TEXT_FILES = new ExtensionFilter("Text Files",
-			".text", ".txt");
+	public static final ExtensionFilter TEXT_FILES = new ExtensionFilter("Text Files", "text", "txt");
 
 	private String extensions[];
 	private String description;
@@ -36,7 +33,7 @@ public class ExtensionFilter extends FileFilter {
 	/*
 	title : "Picture Files"
 	extensions : {".jpeg", ".png"}
-
+	
 	return Picture Files (*.jpeg, *.png)
 	 */
 	public static String generateDescription(String title, String[] extensions) {
@@ -44,12 +41,12 @@ public class ExtensionFilter extends FileFilter {
 
 		for (int i = 0; i < extensions.length; i++) {
 			if (i == 0) {
-				s =  new StringBuilder(title + " ( *." + extensions[i]);
+				s = new StringBuilder(title + " ( *." + extensions[i]);
 			} else {
 				s.append(", *.").append(extensions[i]);
 			}
 
-			 if (i == extensions.length - 1) {
+			if (i == extensions.length - 1) {
 				s.append(")");
 			}
 		}

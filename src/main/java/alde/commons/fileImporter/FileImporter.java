@@ -7,8 +7,9 @@
 
 package alde.commons.fileImporter;
 
-import alde.commons.util.UtilityJFrame;
 import alde.commons.util.file.extensions.ExtensionFilter;
+import alde.commons.util.window.UtilityJFrame;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

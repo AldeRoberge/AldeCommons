@@ -1,32 +1,9 @@
-package alde.commons.util;
+package alde.commons.util.window;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-
-public class UtilityJFrame extends JFrame {
-
-	public UtilityJFrame() {
-		super();
-	}
-
-	public UtilityJFrame(String name) {
-		super(name);
-	}
-
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	public void setVisible(boolean isVisible) {
-		setLocation(alde.commons.util.MiddleOfTheScreen.getMiddleOfScreenLocationFor(this));
-
-		super.setVisible(isVisible);
-	}
-
-}
 
 class MiddleOfTheScreen {
 
