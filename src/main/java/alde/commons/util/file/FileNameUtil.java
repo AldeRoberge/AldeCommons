@@ -7,7 +7,7 @@ package alde.commons.util.file;
  * 
  * from https://stackoverflow.com/questions/924394/how-to-get-the-filename-without-the-extension-in-java
  */
-public class FileNameUtil {
+class FileNameUtil {
 
 	
 

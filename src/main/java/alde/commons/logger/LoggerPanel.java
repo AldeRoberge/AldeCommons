@@ -25,7 +25,7 @@ public class LoggerPanel extends JTextPane {
 
 	private Logger log = LoggerFactory.getLogger(LoggerPanel.class);
 
-	public static LoggerPanel loggerPanel;
+	private static LoggerPanel loggerPanel;
 
 	private static final LoggerListener loggerListener = new LoggerListener();
 

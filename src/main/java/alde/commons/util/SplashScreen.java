@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class SplashScreen {
+class SplashScreen {
 
 	private TimerTask close;
 
@@ -81,7 +81,7 @@ public class SplashScreen {
 		});
 	}
 
-	public float currentFrameOpacity = 0F;
+	private float currentFrameOpacity = 0F;
 
 	class SplashScreenPane extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -205,7 +205,7 @@ public class SplashScreen {
 
 		}
 
-		public void centerString(Graphics g, Rectangle r, String s, Font font, int yOffset) {
+		void centerString(Graphics g, Rectangle r, String s, Font font, int yOffset) {
 			FontRenderContext frc = new FontRenderContext(null, true, true);
 
 			Rectangle2D r2D = font.getStringBounds(s, frc);

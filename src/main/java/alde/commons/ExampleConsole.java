@@ -34,7 +34,7 @@ public class ExampleConsole {
 	/**
 	 * Create the application.
 	 */
-	public ExampleConsole() {
+	private ExampleConsole() {
 		initialize();
 	}
 

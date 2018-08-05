@@ -1,6 +1,6 @@
 package alde.commons.util.text;
 
-public class SecondsToHMS {
+class SecondsToHMS {
 
 	/**
 	 * 120 seconds = 00h02m00s

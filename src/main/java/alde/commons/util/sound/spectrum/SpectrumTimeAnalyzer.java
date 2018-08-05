@@ -622,7 +622,7 @@ public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProce
 	 *
 	 * @param pSize Cannot be more than the size of the sample provided by the DSP.
 	 */
-	synchronized void setSpectrumAnalyserFFTSampleSize(int pSize) {
+	private synchronized void setSpectrumAnalyserFFTSampleSize(int pSize) {
 		saFFTSampleSize = pSize;
 		fft = new KJFFT(saFFTSampleSize);
 		old_FFT = new float[saFFTSampleSize];

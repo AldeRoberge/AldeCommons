@@ -16,7 +16,7 @@ public class AudioVisualizer extends JPanel {
 
 	public static SpectrumTimeAnalyzer analyzer;
 
-	public static AudioVisualizer me;
+	private static AudioVisualizer me;
 
 	private AudioVisualizer() {
 	}

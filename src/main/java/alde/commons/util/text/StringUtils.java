@@ -7,9 +7,9 @@ import java.util.List;
 
 public class StringUtils {
 
-	public static String newLine = "\n";
+	protected static String newLine = "\n";
 
-	public static Logger stringUtilsLog = LoggerFactory.getLogger(StringUtils.class);
+	private static Logger stringUtilsLog = LoggerFactory.getLogger(StringUtils.class);
 
 	/**
 	 * Marks the end of a word
@@ -34,7 +34,7 @@ public class StringUtils {
 	 * @param c
 	 * @return true if c is a delimiter
 	 */
-	public static boolean isDelimiterCharacter(char c) {
+	private static boolean isDelimiterCharacter(char c) {
 		for (char d : delimiters) {
 			if (d == c) {
 				return true;
@@ -47,7 +47,7 @@ public class StringUtils {
 	 * @param line
 	 * @return index of the next delimiter in a string
 	 */
-	public static int nextDelimiterIndex(String line) {
+	private static int nextDelimiterIndex(String line) {
 		return nextDelimiterIndex(line, 0);
 	}
 
@@ -56,7 +56,7 @@ public class StringUtils {
 	 * @param beginIndex starts looking for delimiter at index
 	 * @return index of the next delimiter in a string
 	 */
-	public static int nextDelimiterIndex(String line, int beginIndex) {
+	private static int nextDelimiterIndex(String line, int beginIndex) {
 
 		if (beginIndex > line.length()) {
 			stringUtilsLog.error(
@@ -90,7 +90,7 @@ public class StringUtils {
 	 * @param beginIndex starts looking for delimiter at index
 	 * @return index of the previous delimiter in a string
 	 */
-	public static int previousDelimiterIndex(String line, int beginIndex) {
+	private static int previousDelimiterIndex(String line, int beginIndex) {
 
 		if (beginIndex > line.length()) {
 			stringUtilsLog.error(
@@ -114,7 +114,7 @@ public class StringUtils {
 	 * @param line
 	 * @return text between 'start' and 'end'
 	 */
-	public static String getInbetween(String line, String start, String end) {
+	protected static String getInbetween(String line, String start, String end) {
 		if (!line.contains(start)) {
 			stringUtilsLog.error("Error : line '" + line + "' does not contain start '" + end + "'.");
 			return "";
@@ -129,7 +129,7 @@ public class StringUtils {
 	/**
 	 * @return replaces text contained inside of string
 	 */
-	public static String replace(String line, String replace, String with) {
+	protected static String replace(String line, String replace, String with) {
 		if (line.contains(replace)) {
 			line = line.replace(replace, with);
 		}
@@ -149,7 +149,7 @@ public class StringUtils {
 	 * I.E. : rotate("world Hello", " "); returns "Hello world"
 	 * if replaceRotatePointWith is not "", replace rotatePoint with this
 	 */
-	public static String rotate(String line, String rotatePoint, String replaceRotatePointWith) {
+	protected static String rotate(String line, String rotatePoint, String replaceRotatePointWith) {
 
 		if (line == null || rotatePoint == null) {
 			stringUtilsLog.error("Error, input is null.");
@@ -198,7 +198,7 @@ public class StringUtils {
 	 * @param afterKeyword look after this keyword in a string
 	 * @return returns following keyword (using delimiters)
 	 */
-	public static String getFollowingWord(String line, String afterKeyword) {
+	protected static String getFollowingWord(String line, String afterKeyword) {
 
 		if (!line.contains(afterKeyword)) {
 			stringUtilsLog.error("Error : '" + line + "' does not contain '" + afterKeyword + "'.");
@@ -217,7 +217,7 @@ public class StringUtils {
 	 * @param afterKeyword look after this keyword in a string
 	 * @return returns following keyword (using delimiters)
 	 */
-	public static String getPreviousWord(String line, String beforeKeyword) {
+	protected static String getPreviousWord(String line, String beforeKeyword) {
 		if (!line.contains(beforeKeyword)) {
 			stringUtilsLog.error("Error : '" + line + "' does not contain '" + beforeKeyword + "'.");
 			return "";
@@ -244,7 +244,7 @@ public class StringUtils {
 	}
 
 
-	public static String generateSeparatedStringFromStringList(List<String> params, String delimiter) {
+	private static String generateSeparatedStringFromStringList(List<String> params, String delimiter) {
 		StringBuilder s = new StringBuilder();
 
 		for (int i = 0; i < params.size(); i++) {

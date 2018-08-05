@@ -1,7 +1,6 @@
-package alde.commons.util;
+package alde.commons.util.as3;
 
 import alde.commons.util.text.StringUtils;
-import ch.qos.logback.classic.spi.Configurator;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +13,7 @@ public class AS3ToJava extends StringUtils {
 
 	private JFrame frame;
 
-	JLabel infoButton;
+	private JLabel infoButton;
 
 	private static final boolean DEBUG = true;
 
@@ -48,7 +47,7 @@ public class AS3ToJava extends StringUtils {
 	/**
 	 * Create the application.
 	 */
-	public AS3ToJava() {
+	private AS3ToJava() {
 		initialize();
 	}
 
@@ -174,11 +173,11 @@ public class AS3ToJava extends StringUtils {
 		bottomPanel.add(infoButton);
 	}
 
-	public void updateInfo() {
+	private void updateInfo() {
 		infoButton.setText("Errors : " + numberOfErrors + ", Number of lines : " + numberOfLines);
 	}
 
-	public String staticParse(String line) {
+	private String staticParse(String line) {
 
 		numberOfLines++;
 

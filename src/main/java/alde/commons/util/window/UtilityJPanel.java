@@ -2,7 +2,7 @@ package alde.commons.util.window;
 
 import javax.swing.JPanel;
 
-public class UtilityJPanel extends JPanel {
+class UtilityJPanel extends JPanel {
 
 	@Override
 	public void setVisible(boolean isVisible) {

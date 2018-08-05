@@ -8,7 +8,7 @@ package alde.commons.console;
  * @see Console.HelpAction for an example
  *
  */
-public abstract class ConsoleAction {
+abstract class ConsoleAction {
 
 	/**
 	 * Triggered : accept user input (contains trigger and arguments)
@@ -19,7 +19,7 @@ public abstract class ConsoleAction {
 	 * Returns a description of the action as a basic phrase that ends with a dot.
 	 * 
 	 */
-	public abstract String getDescription();
+	protected abstract String getDescription();
 
 	/**
 	 * @return the possible keywords that can trigger this action
@@ -31,7 +31,7 @@ public abstract class ConsoleAction {
 		return getKeywordsAsString() + " : " + getDescription();
 	}
 
-	public String getKeywordsAsString() {
+	private String getKeywordsAsString() {
 		StringBuilder a = new StringBuilder();
 
 		String keywords[] = getKeywords();

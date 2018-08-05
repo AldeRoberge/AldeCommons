@@ -19,7 +19,7 @@ import ch.qos.logback.core.AppenderBase;
  * https://www.programcreek.com/java-api-examples/?api=ch.qos.logback.core.AppenderBase
  * 
  */
-public class LoggerListener {
+class LoggerListener {
 
 	private List<Consumer<ILoggingEvent>> loggerReceiverList = new ArrayList<>();
 

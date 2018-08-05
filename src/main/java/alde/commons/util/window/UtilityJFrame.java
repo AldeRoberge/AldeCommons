@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class UtilityJFrame extends JFrame {
 
-	public UtilityJFrame() {
+	protected UtilityJFrame() {
 		super();
 	}
 

@@ -2,7 +2,7 @@ package alde.commons.util.math;
 
 import java.awt.Color;
 
-public class ZeroToOneGreenToRed {
+class ZeroToOneGreenToRed {
 	/**
 	 *
 	 * @param power

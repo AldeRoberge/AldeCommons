@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class HashMapUtil {
+class HashMapUtil {
 
 	public static <K, V> Map<K, V> sortByValue(Map<K, V> map) {
 		List<Entry<K, V>> list = new LinkedList<>(map.entrySet());

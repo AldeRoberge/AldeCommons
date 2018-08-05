@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
  * @autho http://www.rgagnon.com/javadetails/java-0426.html
  *
  */
-public class NumberToWords {
+class NumberToWords {
 
 	//@formatter:off
 	private static final String[] tensNames = { 

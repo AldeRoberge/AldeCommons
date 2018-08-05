@@ -8,13 +8,13 @@ public class AutoCompleteService implements CompletionService<String> {
 	private List<String> data = new ArrayList<String>();
 
 	/* String */
-	public void addData(String data) {
+	private void addData(String data) {
 		if (!this.data.contains(data)) {
 			this.data.add(data);
 		}
 	}
 
-	public void removeData(String data) {
+	private void removeData(String data) {
 		this.data.remove(data);
 	}
 

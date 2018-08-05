@@ -7,13 +7,13 @@ import java.io.File;
  * @author https://www.mkyong.com/java/how-to-get-file-size-in-java/
  *
  */
-public class FileSizeToString {
+class FileSizeToString {
 
 	public static String getFileSizeAsString(File file) {
 		return getByteSizeAsString(file.length());
 	}
 
-	public static String getByteSizeAsString(long l) {
+	private static String getByteSizeAsString(long l) {
 		double kilobytes = (l / 1024);
 		double megabytes = (kilobytes / 1024);
 		double gigabytes = (megabytes / 1024);

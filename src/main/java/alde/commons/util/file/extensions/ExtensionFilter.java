@@ -25,7 +25,7 @@ public class ExtensionFilter extends FileFilter {
 	private String extensions[];
 	private String description;
 
-	public ExtensionFilter(String title, String... extensions) {
+	private ExtensionFilter(String title, String... extensions) {
 		this.extensions = extensions;
 		this.description = generateDescription(title, extensions);
 	}
@@ -36,7 +36,7 @@ public class ExtensionFilter extends FileFilter {
 	
 	return Picture Files (*.jpeg, *.png)
 	 */
-	public static String generateDescription(String title, String[] extensions) {
+	private static String generateDescription(String title, String[] extensions) {
 		StringBuilder s = new StringBuilder("");
 
 		for (int i = 0; i < extensions.length; i++) {

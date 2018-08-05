@@ -40,12 +40,12 @@ public class UtilityJTextField extends HintTextField {
 	/**
 	 * AutoCompleteService used by suggestions
 	 */
-	AutoCompleteService autoCompleteService = new AutoCompleteService();
+	private AutoCompleteService autoCompleteService = new AutoCompleteService();
 
 	/**
 	 * Subscribers to inputs (receive text on enter pressed)
 	 */
-	List<Consumer<String>> inputReceivers = new ArrayList<Consumer<String>>();
+	private List<Consumer<String>> inputReceivers = new ArrayList<Consumer<String>>();
 
 	public void addReceiver(Consumer<String> receiver) {
 		inputReceivers.add(receiver);
@@ -60,7 +60,7 @@ public class UtilityJTextField extends HintTextField {
 	}
 
 
-	/**public void setNumberOnly() {
+	/*public void setNumberOnly() {
 		addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -79,7 +79,7 @@ public class UtilityJTextField extends HintTextField {
 	 * @param hint   can be set to empty string
 	 * @param memory whether or not to remembers inputs
 	 */
-	public UtilityJTextField(String hint, boolean memory) {
+	protected UtilityJTextField(String hint, boolean memory) {
 		super(hint);
 
 		/* Create the auto completing document model with a reference to the
@@ -132,7 +132,7 @@ public class UtilityJTextField extends HintTextField {
 
 	}
 
-	void setIndex(int i) {
+	private void setIndex(int i) {
 
 		currentIndex -= i;
 
@@ -163,7 +163,7 @@ class HintTextField extends JTextField {
 
 	private final String hint;
 
-	public HintTextField(String hint) {
+	HintTextField(String hint) {
 		this.hint = hint;
 		setEnabled(true);
 	}
@@ -257,7 +257,7 @@ class AutoCompleteDocument extends PlainDocument {
 	 * @param str the prefix string to complete
 	 * @return the completion or <code>null</code> if completion was found.
 	 */
-	protected String complete(String str) {
+	private String complete(String str) {
 		Object o = completionService.autoComplete(str);
 		return o == null ? null : o.toString();
 	}

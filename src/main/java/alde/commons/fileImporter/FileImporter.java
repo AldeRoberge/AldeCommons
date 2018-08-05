@@ -1,8 +1,7 @@
-
-/**
- * FileImporter is a great way to let your user import files.
- * Requires a class (here FileImporterAgent) that implements the method importFiles(ArrayList<File> files);
- * Call "new FileImporter(FileImporterAgent me)"
+/*
+  FileImporter is a great way to let your user import files.
+  Requires a class (here FileImporterAgent) that implements the method importFiles(ArrayList<File> files);
+  Call "new FileImporter(FileImporterAgent me)"
  */
 
 package alde.commons.fileImporter;
@@ -42,7 +41,7 @@ public class FileImporter extends UtilityJFrame {
 
 	private static Logger log = LoggerFactory.getLogger(FileImporter.class);
 
-	public ExtensionFilter acceptedFileTypes;
+	private ExtensionFilter acceptedFileTypes;
 
 	private List<File> filesToImport = new ArrayList<File>();
 	private DropPane dropPanel;
@@ -51,8 +50,8 @@ public class FileImporter extends UtilityJFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FileImporter(Consumer<List<File>> fileListConsumer, Image icon, boolean includeSubfolders,
-			ExtensionFilter acceptedFileTypes) {
+	private FileImporter(Consumer<List<File>> fileListConsumer, Image icon, boolean includeSubfolders,
+	                     ExtensionFilter acceptedFileTypes) {
 
 		this.acceptedFileTypes = acceptedFileTypes;
 
@@ -249,14 +248,14 @@ class DropPane extends JPanel {
 		return new Dimension(400, 400);
 	}
 
-	DropTarget getMyDropTarget() {
+	private DropTarget getMyDropTarget() {
 		if (dropTarget == null) {
 			dropTarget = new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, null);
 		}
 		return dropTarget;
 	}
 
-	DropTargetHandler getDropTargetHandler() {
+	private DropTargetHandler getDropTargetHandler() {
 		if (dropTargetHandler == null) {
 			dropTargetHandler = new DropTargetHandler();
 		}
@@ -358,12 +357,12 @@ class DropPane extends JPanel {
 		}
 	}
 
-	public class DragUpdate implements Runnable {
+	class DragUpdate implements Runnable {
 
 		private boolean dragOver;
 		private Point dragPoint;
 
-		public DragUpdate(boolean dragOver, Point dragPoint) {
+		DragUpdate(boolean dragOver, Point dragPoint) {
 			this.dragOver = dragOver;
 			this.dragPoint = dragPoint;
 		}

@@ -18,9 +18,9 @@ import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
-public class AudioPlayer implements BasicPlayerListener {
+class AudioPlayer implements BasicPlayerListener {
 
-	Logger log = LoggerFactory.getLogger(AudioPlayer.class);
+	private Logger log = LoggerFactory.getLogger(AudioPlayer.class);
 	
 	/**
 	 * Volume and pan are stored between 0 and 100 in properties and converted from 0 to 1 in setVolume() and setGain()
@@ -40,11 +40,11 @@ public class AudioPlayer implements BasicPlayerListener {
 
 	//
 
-	void newVisualizerStatus(String newStatus) {
+	private void newVisualizerStatus(String newStatus) {
 		log.info(newStatus);
 	}
 
-	public AudioPlayer() {
+	private AudioPlayer() {
 		audioVis = AudioVisualizer.getVisualiser();
 
 		log.info("Initialising...");
@@ -95,7 +95,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	}
 
 	// Between 0 and 100, converted to 0 and 1
-	public void setVolume(double i) {
+	private void setVolume(double i) {
 		try {
 			control.setGain(i / 100);
 			currentAudioVolume = i;
@@ -105,7 +105,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	}
 
 	// Between -50 and 100, converted to -1 and 1
-	public void setPan(double i) {
+	private void setPan(double i) {
 		// setPan should be called after control.play().
 		try {
 			double pan = (i - 50) / 100 * 2;
@@ -188,7 +188,7 @@ public class AudioPlayer implements BasicPlayerListener {
 
 	}
 
-	void stop() {
+	private void stop() {
 		try {
 			control.stop();
 		} catch (BasicPlayerException e) {
@@ -199,7 +199,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	/**
 	 * Return true if its paused
 	 */
-	void pause() {
+	private void pause() {
 		try {
 			control.pause();
 		} catch (BasicPlayerException e) {
@@ -207,7 +207,7 @@ public class AudioPlayer implements BasicPlayerListener {
 		}
 	}
 
-	void resume() {
+	private void resume() {
 		try {
 			control.resume();
 		} catch (BasicPlayerException e) {
