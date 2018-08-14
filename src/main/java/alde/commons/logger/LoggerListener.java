@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
@@ -21,14 +20,13 @@ import ch.qos.logback.core.AppenderBase;
  */
 class LoggerListener {
 
-	private List<Consumer<ILoggingEvent>> loggerReceiverList = new ArrayList<>();
+	private static List<Consumer<ILoggingEvent>> loggerReceiverList = new ArrayList<>();
 
-	public LoggerListener() {
+	static {
 		org.slf4j.Logger rootLogger = LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
 		ch.qos.logback.classic.Logger log = (ch.qos.logback.classic.Logger) rootLogger;
 		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 		AppenderBase<ILoggingEvent> appender = new AppenderBase<ILoggingEvent>() {
-
 			@Override
 			protected void append(ILoggingEvent eventObject) {
 				for (Consumer<ILoggingEvent> c : loggerReceiverList) {

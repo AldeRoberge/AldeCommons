@@ -1,21 +1,14 @@
 package alde.commons.properties;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Property {
 
@@ -39,7 +32,7 @@ public class Property {
 	 * @param propertyManager  PropertyFileManager used to store and retrieve keys
 	 */
 	public Property(String keyName, String defaultValue, PropertyFileManager propertyManager) {
-		this(keyName, defaultValue, "", propertyManager);
+		this(keyName, "", defaultValue, propertyManager);
 	}
 
 	/**
@@ -115,7 +108,8 @@ public class Property {
 			return false;
 		default:
 			log.error("isTrue() on " + key + " for value " + value
-					+ " is impossible. (Boolean string values are case sensitive!)");
+					+ " is impossible. (Boolean string values are case sensitive!).");
+			setValue(defaultValue);
 			return false;
 		}
 	}

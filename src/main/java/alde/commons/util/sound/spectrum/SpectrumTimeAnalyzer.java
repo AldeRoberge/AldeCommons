@@ -34,8 +34,7 @@ import java.util.StringTokenizer;
 import javax.sound.sampled.SourceDataLine;
 import javax.swing.JPanel;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 
 import kj.dsp.KJDigitalSignalProcessingAudioDataConsumer;
 import kj.dsp.KJDigitalSignalProcessor;
@@ -46,9 +45,10 @@ import kj.dsp.KJFFT;
  * 'AbsoluteConstraints constraints' used in the UI
  *
  */
-
 public class SpectrumTimeAnalyzer extends JPanel implements KJDigitalSignalProcessor {
-	private static Log log = LogFactory.getLog(SpectrumTimeAnalyzer.class);
+
+	private static org.slf4j.Logger log = LoggerFactory.getLogger(SpectrumTimeAnalyzer.class);
+
 	public static final int DISPLAY_MODE_SCOPE = 0;
 	public static final int DISPLAY_MODE_SPECTRUM_ANALYSER = 1;
 	public static final int DISPLAY_MODE_OFF = 2;

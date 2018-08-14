@@ -22,18 +22,26 @@ public class PropertyFileManager {
 	private PropertiesConfiguration config;
 	
 	public PropertyFileManager(String propertyFilePath) {
+		
+		if (propertyFilePath == null) {
+			System.err.println("Property file path is null!");
+		} else if (propertyFilePath.equals("")) {
+			System.err.println("Property file path is empty!");
+		} 
+	
 		propertyFile = new File(propertyFilePath);
 
 		try {
-			config = new PropertiesConfiguration(propertyFile);
+			Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
 			
+			config = new PropertiesConfiguration(propertyFile);
 			log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
-
-			try {
-				Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			
 		} catch (ConfigurationException e) {
 			log.error("Could not create PropertiesConfiguration.");
 			e.printStackTrace();

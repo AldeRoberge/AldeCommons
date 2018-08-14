@@ -4,18 +4,16 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  * Example of a Properties class
  */
-class PropertiesExample {
+public abstract class PropertiesExample {
 
-	private static PropertyFileManager propertyFile;
-
-	static {
+	public PropertiesExample(String propertyFilePath) {
 		propertyFile = new PropertyFileManager("alde-commons-example.properties");
 	}
+	
+	private static PropertyFileManager propertyFile;
 
 	//@formatter:off
 	public static final Property SHOW_SPLASH_SCREEN = new Property("SHOW_SPLASH_SCREEN", "Display splash screen on start", Property.TRUE, propertyFile);

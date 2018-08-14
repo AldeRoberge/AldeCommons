@@ -17,16 +17,6 @@ import org.slf4j.LoggerFactory;
 import alde.commons.util.autoCompleteJTextField.UtilityJTextField;
 import alde.commons.util.math.LevenshteinDistance;
 
-/**
- * Console Singleton
- * 
- * Offers input for the user to trigger actions (@see ConsoleAction).
- * 
- * Use Console.get().addAction(ConsoleAction) to add actions
- * 
- * @author Alde
- */
-@SuppressWarnings("serial")
 public class Console extends UtilityJTextField {
 
 	private static Logger log = LoggerFactory.getLogger(Console.class);

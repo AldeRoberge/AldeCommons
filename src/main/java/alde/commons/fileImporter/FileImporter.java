@@ -32,14 +32,15 @@ import java.util.function.Consumer;
 
 public class FileImporter extends UtilityJFrame {
 
+	private static final long serialVersionUID = 1L;
+
+	private static Logger log = LoggerFactory.getLogger(FileImporter.class);
+
 	public static void main(String[] args) {
 		FileImporter f = new FileImporter(k -> {
 			System.out.println("Received " + k.size() + " files.");
-		}, null, true, null);
-
+		}, true, null);
 	}
-
-	private static Logger log = LoggerFactory.getLogger(FileImporter.class);
 
 	private ExtensionFilter acceptedFileTypes;
 
@@ -50,8 +51,8 @@ public class FileImporter extends UtilityJFrame {
 	/**
 	 * Create the frame.
 	 */
-	private FileImporter(Consumer<List<File>> fileListConsumer, Image icon, boolean includeSubfolders,
-	                     ExtensionFilter acceptedFileTypes) {
+	private FileImporter(Consumer<List<File>> fileListConsumer, boolean includeSubfolders,
+			ExtensionFilter acceptedFileTypes) {
 
 		this.acceptedFileTypes = acceptedFileTypes;
 
@@ -84,8 +85,32 @@ public class FileImporter extends UtilityJFrame {
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1);
+
+		JCheckBox chckBoxIncludeSubFolders = new JCheckBox("Include subfolders");
+		panel_1.add(chckBoxIncludeSubFolders);
+
+		JPanel panel_2 = new JPanel();
+		panel.add(panel_2);
 
 		JButton btnOpenFileBrowser = new JButton("Open file browser");
+		panel_2.add(btnOpenFileBrowser);
+
+		btnImport = new JButton("Import");
+		panel_2.add(btnImport);
+		btnImport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (filesToImport.size() > 0) {
+					fileListConsumer.accept(filesToImport);
+					filesToImport.clear();
+					setVisible(false);
+					dropPanel.updateMessage();
+				}
+			}
+		});
 		btnOpenFileBrowser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -131,20 +156,6 @@ public class FileImporter extends UtilityJFrame {
 			}
 
 		});
-		panel.add(btnOpenFileBrowser);
-
-		btnImport = new JButton("Import");
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (filesToImport.size() > 0) {
-					fileListConsumer.accept(filesToImport);
-					filesToImport.clear();
-					setVisible(false);
-					dropPanel.updateMessage();
-				}
-			}
-		});
-		panel.add(btnImport);
 
 		setVisible(true);
 	}
@@ -207,184 +218,4 @@ public class FileImporter extends UtilityJFrame {
 		return filesToImport.size();
 	}
 
-}
-
-/**
- * Based on https://stackoverflow.com/questions/13597233/how-to-drag-and-drop-files-from-a-directory-in-java
- */
-class DropPane extends JPanel {
-
-	private DropTarget dropTarget;
-	private DropTargetHandler dropTargetHandler;
-	private Point dragPoint;
-
-	private boolean dragOver = false;
-	private BufferedImage target;
-
-	private JLabel message;
-
-	private FileImporter fileImporter;
-
-	public DropPane(FileImporter f) {
-		this.fileImporter = f;
-
-		/*try {
-			//target = ImageIO.read(new File(Icons.CROSS.getImagePath()));
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}*/
-
-		setLayout(new GridBagLayout());
-		message = new JLabel();
-		message.setFont(message.getFont().deriveFont(Font.BOLD, 24));
-		add(message);
-
-		updateMessage();
-
-	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(400, 400);
-	}
-
-	private DropTarget getMyDropTarget() {
-		if (dropTarget == null) {
-			dropTarget = new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, null);
-		}
-		return dropTarget;
-	}
-
-	private DropTargetHandler getDropTargetHandler() {
-		if (dropTargetHandler == null) {
-			dropTargetHandler = new DropTargetHandler();
-		}
-		return dropTargetHandler;
-	}
-
-	@Override
-	public void addNotify() {
-		super.addNotify();
-		try {
-			getMyDropTarget().addDropTargetListener(getDropTargetHandler());
-		} catch (TooManyListenersException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	@Override
-	public void removeNotify() {
-		super.removeNotify();
-		getMyDropTarget().removeDropTargetListener(getDropTargetHandler());
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if (dragOver) {
-			Graphics2D g2d = (Graphics2D) g.create();
-			g2d.setColor(new Color(0, 255, 0, 64));
-			g2d.fill(new Rectangle(getWidth(), getHeight()));
-			if (dragPoint != null && target != null) {
-				int x = dragPoint.x - 12;
-				int y = dragPoint.y - 12;
-				g2d.drawImage(target, x, y, this);
-			}
-			g2d.dispose();
-		}
-	}
-
-	class DropTargetHandler implements DropTargetListener {
-
-		private Logger log = LoggerFactory.getLogger(DropTargetHandler.class);
-
-		void processDrag(DropTargetDragEvent dtde) {
-			if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				dtde.acceptDrag(DnDConstants.ACTION_COPY);
-			} else {
-				dtde.rejectDrag();
-			}
-
-			SwingUtilities.invokeLater(new DragUpdate(true, dtde.getLocation()));
-			repaint();
-		}
-
-		@Override
-		public void dragEnter(DropTargetDragEvent dtde) {
-			processDrag(dtde);
-		}
-
-		@Override
-		public void dragOver(DropTargetDragEvent dtde) {
-			processDrag(dtde);
-		}
-
-		@Override
-		public void dropActionChanged(DropTargetDragEvent dtde) {
-		}
-
-		@Override
-		public void dragExit(DropTargetEvent dte) {
-			SwingUtilities.invokeLater(new DragUpdate(false, null));
-			repaint();
-		}
-
-		@Override
-		public void drop(DropTargetDropEvent dtde) {
-
-			SwingUtilities.invokeLater(new DragUpdate(false, null));
-
-			Transferable transferable = dtde.getTransferable();
-			if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				dtde.acceptDrop(dtde.getDropAction());
-				try {
-
-					List<File> droppedFiles = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-
-					log.info(droppedFiles + ", size : " + droppedFiles.size());
-
-					if (droppedFiles != null && droppedFiles.size() > 0) {
-						fileImporter.importAll(droppedFiles);
-						dtde.dropComplete(true);
-					}
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			} else {
-				dtde.rejectDrop();
-			}
-		}
-	}
-
-	class DragUpdate implements Runnable {
-
-		private boolean dragOver;
-		private Point dragPoint;
-
-		DragUpdate(boolean dragOver, Point dragPoint) {
-			this.dragOver = dragOver;
-			this.dragPoint = dragPoint;
-		}
-
-		@Override
-		public void run() {
-			DropPane.this.dragOver = dragOver;
-			DropPane.this.dragPoint = dragPoint;
-			DropPane.this.repaint();
-		}
-	}
-
-	public void updateMessage() {
-		int nbFiles = fileImporter.getTotalFilesToImport();
-
-		if (nbFiles == 0) {
-			message.setText("Drag and drop files here");
-		} else if (nbFiles == 1) {
-			message.setText("Importing " + nbFiles + " file");
-		} else {
-			message.setText("Importing " + nbFiles + " files");
-		}
-
-	}
 }
