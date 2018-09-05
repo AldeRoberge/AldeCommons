@@ -31,7 +31,7 @@ public class SplashScreen {
 	private TimerTask close;
 
 	public SplashScreen(final BufferedImage inImage, final BufferedImage outImage, final BufferedImage titleImage,
-			final JFrame parentComponent, final boolean automaticClose, final int secondsBeforeClose) {
+			final boolean automaticClose, final int secondsBeforeClose, Runnable runAfterClose) {
 
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -55,10 +55,12 @@ public class SplashScreen {
 					close = new TimerTask() {
 						@Override
 						public void run() {
-							parentComponent.setVisible(true); //Show the program
-
 							frame.dispose();
 							close.cancel();
+
+							if (runAfterClose != null) {
+								runAfterClose.run();
+							}
 						}
 					};
 

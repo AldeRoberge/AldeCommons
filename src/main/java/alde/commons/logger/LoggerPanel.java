@@ -64,7 +64,7 @@ public class LoggerPanel extends JTextPane {
 	 * Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
 	 */
 	private LoggerPanel() {
-		loggerListener.addListener(event -> {
+		LoggerListener.addListener(event -> {
 			try {
 				addContent(formatLogToColorizedHTML(event));
 			} catch (Exception e) {
@@ -105,6 +105,9 @@ public class LoggerPanel extends JTextPane {
 	private void addContent(String content) throws Exception {
 		Element contentElement = bodyElement.getElement(bodyElement.getElementCount() - 1);
 		htmlDocument.insertBeforeEnd(contentElement, "<span class=console>" + content + "</span><br>");
+
+		setCaretPosition(getDocument().getLength()); //Scroll to bottom (of JScrollPane)
+
 	}
 
 	private String formatLogToColorizedHTML(ILoggingEvent event) {

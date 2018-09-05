@@ -18,7 +18,7 @@ import ch.qos.logback.core.AppenderBase;
  * https://www.programcreek.com/java-api-examples/?api=ch.qos.logback.core.AppenderBase
  */
 public class LoggerListener {
-
+	
 	private static List<Consumer<ILoggingEvent>> loggerReceiverList = new ArrayList<>();
 
 	static {
@@ -39,7 +39,7 @@ public class LoggerListener {
 		log.info("Applet log appender attached");
 	}
 
-	public void addListener(Consumer<ILoggingEvent> l) {
+	public static void addListener(Consumer<ILoggingEvent> l) {
 		loggerReceiverList.add(l);
 	}
 
