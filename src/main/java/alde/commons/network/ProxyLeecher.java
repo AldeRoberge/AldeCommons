@@ -20,7 +20,7 @@ public class ProxyLeecher {
 
 	private static boolean isLoadingProxies;
 
-	private static Vector<ProxyWrapper> proxies;
+	private static Vector<ProxyWrapper> proxies = new Vector<>();
 
 	public static ProxyWrapper takeProxy() {
 
@@ -31,7 +31,9 @@ public class ProxyLeecher {
 
 			System.out.println("Reloading proxies...");
 
-			getProxies();
+			for (ProxyWrapper proxy : getProxies()) {
+				proxies.add(proxy);
+			}
 
 			try {
 				Thread.sleep(5000);
@@ -40,12 +42,13 @@ public class ProxyLeecher {
 			}
 		}
 
-		ProxyWrapper p = null;
+		ProxyWrapper p;
 
 		while (!proxies.isEmpty()) {
 			p = proxies.remove(0);
 
 			if (p.isValid) {
+				log.error("Found valid proxy!");
 				return p;
 			}
 		}

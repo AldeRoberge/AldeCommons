@@ -1,7 +1,7 @@
 package alde.commons.network;
 
 import alde.commons.network.batch.Handler;
-import alde.commons.network.batch.GetWebsiteTask;
+import alde.commons.network.batch.GetWebsiteTaskAvoidAnswer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,10 +47,10 @@ public class GetWebsite {
 	 * @param error    Website should not contain to be sure we haven't reached max requests per IP. Otherwise, change proxy.
 	 * @param maxRetry Number of max retries, will return the last string we got from the website (might be null)
 	 */
-	private void getWebsiteAsStringListUsingProxy(String url, String error, int maxRetry, Consumer<List<String>> consumer) {
+	private void getWebsiteAsStringListUsingProxy(String url, Consumer<List<String>> consumer, String error, int maxRetry) {
 		List<String> websiteAsString = new ArrayList<>();
 
-		proxyHandler.addTask(new GetWebsiteTask(url, error, maxRetry, consumer));
+		proxyHandler.addTask(new GetWebsiteTaskAvoidAnswer(url, consumer, error, maxRetry));
 	}
 
 	private alde.commons.network.ProxyWrapper getProxy() {

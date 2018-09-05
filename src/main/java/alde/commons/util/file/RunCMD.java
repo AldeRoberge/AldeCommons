@@ -2,7 +2,7 @@ package alde.commons.util.file;
 
 import java.io.File;
 
-class RunCMD {
+public class RunCMD {
 
 	public static void generateCMD(String runnableJarName) {
 

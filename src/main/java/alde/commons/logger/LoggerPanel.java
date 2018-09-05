@@ -1,6 +1,7 @@
 package alde.commons.logger;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JTextPane;
 import javax.swing.text.Element;
@@ -14,10 +15,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 
 /**
- * Singleton UI for the global Logger
- * 
- * Fancy HTML visualization
- * 
+ * Fancy HTML visualization for Log events. Matches well with Console (input)
  */
 public class LoggerPanel extends JTextPane {
 
@@ -62,6 +60,9 @@ public class LoggerPanel extends JTextPane {
 
 	private int currentLine = 0;
 
+	/**
+	 * Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
+	 */
 	private LoggerPanel() {
 		loggerListener.addListener(event -> {
 			try {
@@ -71,10 +72,10 @@ public class LoggerPanel extends JTextPane {
 			}
 		});
 
-		// Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
-
 		StyleSheet styleSheet = new StyleSheet();
-		styleSheet.addRule(".console {font-family: Consolas,monaco,monospace;}");
+		Font font = new Font("Consolas", Font.PLAIN, 20);
+		String bodyRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
+		styleSheet.addRule(bodyRule);
 
 		HTMLEditorKit htmlEditorKit = new HTMLEditorKit();
 		htmlEditorKit.setStyleSheet(styleSheet);

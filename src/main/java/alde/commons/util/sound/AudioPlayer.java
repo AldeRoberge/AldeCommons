@@ -18,7 +18,7 @@ import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
-class AudioPlayer implements BasicPlayerListener {
+public class AudioPlayer implements BasicPlayerListener {
 
 	private Logger log = LoggerFactory.getLogger(AudioPlayer.class);
 	
@@ -44,7 +44,7 @@ class AudioPlayer implements BasicPlayerListener {
 		log.info(newStatus);
 	}
 
-	private AudioPlayer() {
+	public AudioPlayer() {
 		audioVis = AudioVisualizer.getVisualiser();
 
 		log.info("Initialising...");

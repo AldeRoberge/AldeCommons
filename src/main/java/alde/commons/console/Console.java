@@ -24,14 +24,11 @@ public class Console extends UtilityJTextField {
 	/** Hint on the JTextField (disappears on input) */
 	private static String HINT = "Enter command here";
 
-	/** If a user inputs a wrong command, and another command matches by 3 characters, suggest the command. */
-	private static int COMMAND_DISTANCE_MIN = 3;
-
 	/** Singleton instance, use getConsole() to get */
 	private static Console console;
 
 	/** List of actions */
-	private static final List<alde.commons.console.ConsoleAction> actions = new ArrayList<>();
+	private static final List<ConsoleAction> actions = new ArrayList<>();
 
 	private Console() {
 		super(HINT, true);
@@ -62,7 +59,7 @@ public class Console extends UtilityJTextField {
 			 */
 			console.addReceiver(command -> {
 				boolean accepted = false;
-				for (alde.commons.console.ConsoleAction t : actions) {
+				for (ConsoleAction t : actions) {
 					for (String s : t.getKeywords()) {
 						if (command.contains(s)) {
 							accepted = true;
@@ -83,7 +80,7 @@ public class Console extends UtilityJTextField {
 					int closest = Integer.MAX_VALUE;
 					String suggestion = "";
 
-					for (alde.commons.console.ConsoleAction c : actions) {
+					for (ConsoleAction c : actions) {
 
 						for (String keyword : c.getKeywords()) {
 							int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, command);
@@ -96,7 +93,7 @@ public class Console extends UtilityJTextField {
 
 					}
 
-					if (closest <= COMMAND_DISTANCE_MIN) {
+					if (closest <= 3) {
 						log.info("Did you mean '" + suggestion + "'?");
 					}
 				}
@@ -112,12 +109,12 @@ public class Console extends UtilityJTextField {
 	 * 
 	 * For an example of implementation, @see HelpAction
 	 */
-	private void addAction(alde.commons.console.ConsoleAction c) {
+	public void addAction(ConsoleAction c) {
 
-		Iterator<alde.commons.console.ConsoleAction> it = actions.iterator();
+		Iterator<ConsoleAction> it = actions.iterator();
 		while (it.hasNext()) {
 
-			alde.commons.console.ConsoleAction otherAction = it.next();
+			ConsoleAction otherAction = it.next();
 
 			for (String keyword : c.getKeywords()) {
 
@@ -139,27 +136,27 @@ public class Console extends UtilityJTextField {
 }
 
 /** ConsoleAction that shows a list of all available ConsoleActions */
-class HelpAction extends alde.commons.console.ConsoleAction {
+class HelpAction extends ConsoleAction {
 
 	private static org.slf4j.Logger log = LoggerFactory.getLogger(HelpAction.class);
 
-	private List<alde.commons.console.ConsoleAction> consoleActions = new ArrayList<alde.commons.console.ConsoleAction>();
+	private List<ConsoleAction> consoleActions = new ArrayList<ConsoleAction>();
 
-	public HelpAction(List<alde.commons.console.ConsoleAction> consoleActions) {
+	public HelpAction(List<ConsoleAction> consoleActions) {
 		super();
 		this.consoleActions = consoleActions;
 	}
 
 	@Override
 	public void accept(String command) {
-		for (alde.commons.console.ConsoleAction c : consoleActions) {
+		for (ConsoleAction c : consoleActions) {
 			log.info(c.toString());
 		}
 	}
 
 	@Override
 	public String getDescription() {
-		return "Shows the help function";
+		return "Shows this message.";
 	}
 
 	@Override

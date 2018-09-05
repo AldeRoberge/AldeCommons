@@ -36,7 +36,7 @@ public class Worker {
 		proxyWrapper = ProxyLeecher.takeProxy();
 	}
 
-	public void receiveTask(GetWebsiteTask task) {
+	public void receiveTask(GetWebsiteTaskAvoidAnswer task) {
 		isBusy = true;
 
 		new Thread("Website answer") {
@@ -51,7 +51,7 @@ public class Worker {
 				isBusy = false;
 			}
 
-			private void checkForWebsite(GetWebsiteTask task, int currentAttempt) {
+			private void checkForWebsite(GetWebsiteTaskAvoidAnswer task, int currentAttempt) {
 
 				boolean failed = false;
 

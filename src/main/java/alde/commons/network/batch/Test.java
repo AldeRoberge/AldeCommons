@@ -1,7 +1,6 @@
 package alde.commons.network.batch;
 
-import java.util.List;
-import java.util.function.Consumer;
+import java.util.Arrays;
 
 public class Test {
 
@@ -11,28 +10,17 @@ public class Test {
 
 		System.out.println("Running...");
 
-		handler.addTask(new GetWebsiteTask("google.com", "hey", 5, new Consumer<List<String>>() {
-			@Override
-			public void accept(List<String> strings) {
-				System.out.println("Received content : " + strings.size());
-			}
-		}));
+		handler.addTask(new GetWebsiteTaskAvoidAnswer("https://www.google.com/", strings -> {
+			System.out.println("Got website answer : " + Arrays.asList(strings));
+		}, "", 1));
 
-		handler.addTask(new GetWebsiteTask("facebook.com", "hey", 5, new Consumer<List<String>>() {
-			@Override
-			public void accept(List<String> strings) {
-				System.out.println("Hey");
-			}
-		}));
+		handler.addTask(new GetWebsiteTaskAvoidAnswer("https://www.facebook.com/", strings -> {
+			System.out.println("Got website answer : " + Arrays.asList(strings));
+		}, "", 1));
 
-
-		handler.addTask(new GetWebsiteTask("reddit.com", "hey", 5, new Consumer<List<String>>() {
-			@Override
-			public void accept(List<String> strings) {
-				System.out.println("Hey");
-			}
-		}));
-
+		handler.addTask(new GetWebsiteTaskAvoidAnswer("https://www.google.com/", strings -> {
+			System.out.println("Got website answer : " + Arrays.asList(strings));
+		}, "", 1));
 
 		System.exit(0);
 

@@ -1,6 +1,6 @@
 package alde.commons.util.text;
 
-class StringGenerator {
+public class StringGenerator {
 
 	private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

@@ -11,19 +11,18 @@ import alde.commons.logger.LoggerPanel;
 
 public class ExampleConsole {
 
-	private JFrame frame;
+	private JFrame frmConsole;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					ExampleConsole window = new ExampleConsole();
-					window.frame.setVisible(true);
+					window.frmConsole.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,12 +41,13 @@ public class ExampleConsole {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frmConsole = new JFrame();
+		frmConsole.setTitle("Console");
+		frmConsole.setBounds(100, 100, 715, 355);
+		frmConsole.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		frame.getContentPane().add(Console.get(), BorderLayout.SOUTH);
-		frame.getContentPane().add(LoggerPanel.get(), BorderLayout.CENTER);
+		frmConsole.getContentPane().add(LoggerPanel.get(), BorderLayout.CENTER);
+		frmConsole.getContentPane().add(Console.get(), BorderLayout.SOUTH);
 	}
 
 }
