@@ -8,6 +8,8 @@ import javax.swing.WindowConstants;
 
 import alde.commons.console.Console;
 import alde.commons.logger.LoggerPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 
 public class ExampleConsole {
 
@@ -46,8 +48,17 @@ public class ExampleConsole {
 		frmConsole.setBounds(100, 100, 715, 355);
 		frmConsole.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		frmConsole.getContentPane().add(LoggerPanel.get(), BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane();
+		frmConsole.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		scrollPane.setViewportView(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		panel.add(LoggerPanel.get(), BorderLayout.CENTER);
+
 		frmConsole.getContentPane().add(Console.get(), BorderLayout.SOUTH);
+
 	}
 
 }

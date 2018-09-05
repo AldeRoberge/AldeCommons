@@ -54,6 +54,12 @@ public class AudioPlayer implements BasicPlayerListener {
 
 		// BasicPlayer is a BasicController.
 		control = player;
+		try {
+			player.setGain(1);
+		} catch (BasicPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Register BasicPlayerTest to BasicPlayerListener events.
 		// It means that this object will be notified on BasicPlayer

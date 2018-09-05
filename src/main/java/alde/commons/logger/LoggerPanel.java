@@ -73,7 +73,7 @@ public class LoggerPanel extends JTextPane {
 		});
 
 		StyleSheet styleSheet = new StyleSheet();
-		Font font = new Font("Consolas", Font.PLAIN, 20);
+		Font font = new Font("Consolas", Font.PLAIN, 12);
 		String bodyRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
 		styleSheet.addRule(bodyRule);
 
