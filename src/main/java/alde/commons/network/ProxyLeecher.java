@@ -13,49 +13,51 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alde.commons.util.as3.Vector;
 import alde.commons.util.text.StackTraceToString;
 
 public class ProxyLeecher {
 
 	private static boolean isLoadingProxies;
 
-	private static Vector<ProxyWrapper> proxies = new Vector<>();
+	private static List<ProxyWrapper> proxies = new ArrayList<>();
 
 	public static ProxyWrapper takeProxy() {
 
-		System.out.println("Number of proxies : " + proxies.size());
+		synchronized (proxies) {
 
-		if (proxies.size() <= 10 && !isLoadingProxies) {
-			isLoadingProxies = true;
+			System.out.println("Number of proxies : " + proxies.size());
 
-			System.out.println("Reloading proxies...");
+			if (proxies.size() <= 10 && !isLoadingProxies) {
+				isLoadingProxies = true;
 
-			for (ProxyWrapper proxy : getProxies()) {
-				proxies.add(proxy);
+				System.out.println("Reloading proxies...");
+
+				for (ProxyWrapper proxy : getProxies()) {
+					proxies.add(proxy);
+				}
+
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			ProxyWrapper p;
+
+			while (!proxies.isEmpty()) {
+				p = proxies.remove(0);
+
+				if (p.isValid) {
+					return p;
+				}
 			}
+
+			log.error("No more proxies!");
+
+			return null;
+
 		}
-
-		ProxyWrapper p;
-
-		while (!proxies.isEmpty()) {
-			p = proxies.remove(0);
-
-			if (p.isValid) {
-				log.error("Found valid proxy!");
-				return p;
-			}
-		}
-
-		log.error("No more proxies!");
-
-		return null;
 	}
 
 	private static final Logger log = LoggerFactory.getLogger(ProxyLeecher.class);

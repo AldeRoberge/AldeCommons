@@ -1,10 +1,5 @@
 package alde.commons.network;
 
-import alde.commons.network.batch.Handler;
-import alde.commons.network.batch.GetWebsiteTaskAvoidAnswer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +7,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.network.proxy.GetWebsiteTask;
+import alde.commons.network.proxy.GetWebsiteWorker;
+import alde.commons.network.proxy.GetWebsiteWorkerHandler;
 
 /**
  * Proxy Handler is aimed to be a top level utlity method of type 'get website as string'.
@@ -30,9 +32,10 @@ public class GetWebsite {
 
 	private static GetWebsite proxyHandlerImpl;
 
-	Handler proxyHandler = new Handler(10);
+	GetWebsiteWorkerHandler proxyHandler = new GetWebsiteWorkerHandler(10);
 
 	private static alde.commons.network.ProxyLeecher proxyLeecher = new alde.commons.network.ProxyLeecher();
+
 
 	public static GetWebsite get() {
 		if (proxyHandlerImpl == null) {
@@ -43,14 +46,13 @@ public class GetWebsite {
 	}
 
 	/**
-	 * @param url      Website to get
-	 * @param error    Website should not contain to be sure we haven't reached max requests per IP. Otherwise, change proxy.
-	 * @param maxRetry Number of max retries, will return the last string we got from the website (might be null)
+	 * @param URL      Website to get
+	 * @param avoid    Website should not contain to be sure we haven't reached max requests per IP. Otherwise, change proxy.
+	 * @param maxAttempt Number of max retries, will return the last string we got from the website (might be null)
 	 */
-	private void getWebsiteAsStringListUsingProxy(String url, Consumer<List<String>> consumer, String error, int maxRetry) {
-		List<String> websiteAsString = new ArrayList<>();
-
-		proxyHandler.addTask(new GetWebsiteTaskAvoidAnswer(url, consumer, error, maxRetry));
+	private void getWebsiteAsStringListUsingProxy(String URL, Consumer<List<String>> websiteContentConsumer,
+			String avoid, int maxAttempt) {
+		proxyHandler.addTask(new GetWebsiteTask(URL, avoid, maxAttempt, websiteContentConsumer));
 	}
 
 	private alde.commons.network.ProxyWrapper getProxy() {

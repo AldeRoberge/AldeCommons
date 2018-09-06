@@ -6,7 +6,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class UtilityJFrame extends JFrame {
 
-	protected UtilityJFrame() {
+	public UtilityJFrame() {
 		super();
 	}
 
@@ -14,16 +14,15 @@ public class UtilityJFrame extends JFrame {
 		super(name);
 
 		try {
-			// Set System L&F
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (UnsupportedLookAndFeelException e) {
-			// handle exception
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// handle exception
+			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// handle exception
+			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// handle exception
+			e.printStackTrace();
 		}
 
 	}
