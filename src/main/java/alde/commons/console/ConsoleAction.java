@@ -8,7 +8,7 @@ package alde.commons.console;
  * @see Console.HelpAction for an example
  *
  */
-abstract class ConsoleAction {
+public abstract class ConsoleAction {
 
 	/**
 	 * Triggered : accept user input (contains trigger and arguments)

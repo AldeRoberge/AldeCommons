@@ -25,8 +25,6 @@ public class ProxyLeecher {
 
 		synchronized (proxies) {
 
-			System.out.println("Number of proxies : " + proxies.size());
-
 			if (proxies.size() <= 10 && !isLoadingProxies) {
 				isLoadingProxies = true;
 
@@ -73,7 +71,7 @@ public class ProxyLeecher {
 		proxies.addAll(getProxiesFromGithub());
 		proxies.addAll(getProxiesFromSecondGithub());
 
-		log.info("Total of " + proxies.size() + " proxies.");
+		log.info("Found a total of " + proxies.size() + " proxies.");
 
 		Collections.shuffle(proxies);
 

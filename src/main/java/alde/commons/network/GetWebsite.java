@@ -32,10 +32,12 @@ public class GetWebsite {
 
 	private static GetWebsite proxyHandlerImpl;
 
-	GetWebsiteWorkerHandler proxyHandler = new GetWebsiteWorkerHandler(10);
+	GetWebsiteWorkerHandler proxyHandler = new GetWebsiteWorkerHandler();
 
 	private static alde.commons.network.ProxyLeecher proxyLeecher = new alde.commons.network.ProxyLeecher();
 
+	private GetWebsite() {
+	}
 
 	public static GetWebsite get() {
 		if (proxyHandlerImpl == null) {
@@ -53,10 +55,6 @@ public class GetWebsite {
 	private void getWebsiteAsStringListUsingProxy(String URL, Consumer<List<String>> websiteContentConsumer,
 			String avoid, int maxAttempt) {
 		proxyHandler.addTask(new GetWebsiteTask(URL, avoid, maxAttempt, websiteContentConsumer));
-	}
-
-	private alde.commons.network.ProxyWrapper getProxy() {
-		return proxyLeecher.takeProxy();
 	}
 
 	/**
@@ -92,7 +90,7 @@ public class GetWebsite {
 			}
 			in.close();
 		} catch (IOException e) {
-			log.error("Error with url : '" + url + "'.");
+			//log.error("Error with url : '" + url + "'.");
 			//e.printStackTrace();
 		}
 

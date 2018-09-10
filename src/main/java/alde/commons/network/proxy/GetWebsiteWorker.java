@@ -77,7 +77,6 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 			}
 
 			if (!failed) {
-				log.debug("Task completed sucessfully.");
 				completeTask();
 			} else {
 				updateProxy();
