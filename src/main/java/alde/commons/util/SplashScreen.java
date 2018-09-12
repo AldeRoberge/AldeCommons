@@ -29,23 +29,39 @@ import javax.swing.JPanel;
 /**
  * SplashScreen s = new SplashScreen().setTitle().setSubtitle();
  * s.show();
+ * 
+ * @author Alde
  */
 public class SplashScreen extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A task that is ran when closing the splash screen. D
+	 * Disposes of the program and runs a runAfterClose.
+	 */
 	private TimerTask closeTask;
 
-	private SplashScreen splashScreen;
-
+	/**
+	 * A Runnable to run after closing the SplashScreen.
+	 */
 	private Runnable runAfterClose;
 
-	SplashScreenPane splashScreenPane;
+	/**
+	 * The SplashScreenPane (JPanel that draws splash screen)
+	 */
+	private SplashScreenPane splashScreenPane;
 
+	/**
+	 * SplashScreen is a JFrame that draws images.
+	 * @param backgroundImage the initial background image
+	 * @param backgroundToImage the background image we fade to
+	 * @param titleImage foreground image
+	 */
 	public SplashScreen(BufferedImage backgroundImage, BufferedImage backgroundToImage, BufferedImage titleImage) {
 		this.splashScreen = this;
 
-		SplashScreenPane splashScreenPane = new SplashScreenPane(backgroundImage, backgroundToImage, titleImage);
+		splashScreenPane = new SplashScreenPane(backgroundImage, backgroundToImage, titleImage);
 
 		add(splashScreenPane);
 		setUndecorated(true);
@@ -74,22 +90,27 @@ public class SplashScreen extends JFrame {
 		});
 	}
 
-	public SplashScreen setAutomaticClose(int secondsBeforeClose) {
-		java.util.Timer timer = new java.util.Timer();
-		timer.schedule(closeTask, secondsBeforeClose * 1000);
+	int secondsBeforeClose = 5;
 
-		return splashScreen;
+	public void setAutomaticClose(int secondsBeforeClose) {
+		this.secondsBeforeClose = secondsBeforeClose;
 	}
 
-	public SplashScreen setRunnableAfterClose(final Runnable runAfterClose) {
+	public void setRunnableAfterClose(final Runnable runAfterClose) {
 		this.runAfterClose = runAfterClose;
-		return splashScreen;
 	}
 
 	@Override
 	public void show() {
 		super.setVisible(true);
 		splashScreenPane.startFading();
+
+		java.util.Timer timer = new java.util.Timer();
+		timer.schedule(closeTask, secondsBeforeClose * 1000);
+	}
+
+	public void setSubtitle(String subtext) {
+		splashScreenPane.setSubtitle(subtext);
 	}
 
 	class SplashScreenPane extends JPanel {
@@ -105,8 +126,10 @@ public class SplashScreen extends JFrame {
 
 		private float alpha = 0f;
 		private long startTime = -1;
-		
-		String subTitle = "Version 0";
+
+		String subtitle = "";
+
+		public JPanel pane;
 
 		SplashScreenPane(BufferedImage bgInImage, BufferedImage bgOutImage, BufferedImage titleImage) {
 
@@ -116,8 +139,10 @@ public class SplashScreen extends JFrame {
 
 			setLayout(new GridBagLayout());
 
+			/**
+			 * Close on click
+			 */
 			addMouseListener(new MouseAdapter() {
-
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					try {
@@ -128,14 +153,16 @@ public class SplashScreen extends JFrame {
 
 					closeTask.run();
 				}
-
 			});
 
-			alpha = 0f;
-			BufferedImage tmp = bgInImage;
+			/**BufferedImage tmp = bgInImage;
 			bgInImage = bgOutImage;
-			bgOutImage = tmp;
+			bgOutImage = tmp;*/
 
+		}
+
+		public void setSubtitle(String subtitle) {
+			this.subtitle = subtitle;
 		}
 
 		public void startFading() {
@@ -171,7 +198,7 @@ public class SplashScreen extends JFrame {
 					}
 				}
 			}, 0, 50, TimeUnit.MILLISECONDS);
-			
+
 		}
 
 		@Override
@@ -208,7 +235,7 @@ public class SplashScreen extends JFrame {
 			g2d.setColor(Color.WHITE);
 			g2d.draw(r);
 
-			drawCenteredString(g2d, r, subTitle, new Font("Arial", Font.BOLD, 12),
+			drawCenteredString(g2d, r, subtitle, new Font("Arial", Font.BOLD, 12),
 					(int) (bgOutImage.getHeight() / 1.5 / 3));
 
 			g2d.dispose();
@@ -218,10 +245,10 @@ public class SplashScreen extends JFrame {
 		void drawCenteredString(Graphics graphics, Rectangle rectangle, String toPrint, Font font, int yOffset) {
 			FontRenderContext frc = new FontRenderContext(null, true, true);
 			Rectangle2D r2D = font.getStringBounds(toPrint, frc);
-			
+
 			int rWidth = (int) Math.round(r2D.getWidth());
 			int rHeight = (int) Math.round(r2D.getHeight());
-			
+
 			int rX = (int) Math.round(r2D.getX());
 			int rY = (int) Math.round(r2D.getY());
 
