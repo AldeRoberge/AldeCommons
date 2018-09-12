@@ -56,23 +56,17 @@ public abstract class WorkerHandler<T extends Task> {
 
 				taskPanel.updateDataSet();
 
-				if (workers.isEmpty()) {
-					System.out.println("No workers found.");
-
-				} else {
-					if (queuedTasks.isEmpty()) {
-						System.out.println("No tasks found.");
-					} else {
-						for (final Worker<T> w : workers) {
-							if (!w.isBusy()) {
-								new Thread() {
-									public void run() {
-										w.receiveTask(queuedTasks.remove(0));
-									}
-								}.start();
+				if (!workers.isEmpty() && !queuedTasks.isEmpty()) {
+					new Thread() {
+						public void run() {
+							for (final Worker<T> w : workers) {
+								if (!w.isBusy()) {
+									w.receiveTask(queuedTasks.remove(0));
+								}
 							}
+
 						}
-					}
+					}.start();
 				}
 			}
 

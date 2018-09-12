@@ -26,86 +26,93 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class SplashScreen {
+/**
+ * SplashScreen s = new SplashScreen().setTitle().setSubtitle();
+ * s.show();
+ */
+public class SplashScreen extends JFrame {
 
-	private TimerTask close;
+	private static final long serialVersionUID = 1L;
 
-	public SplashScreen(final BufferedImage inImage, final BufferedImage outImage, final BufferedImage titleImage,
-			final boolean automaticClose, final int secondsBeforeClose, Runnable runAfterClose) {
+	private TimerTask closeTask;
 
-		EventQueue.invokeLater(new Runnable() {
+	private SplashScreen splashScreen;
+
+	private Runnable runAfterClose;
+
+	SplashScreenPane splashScreenPane;
+
+	public SplashScreen(BufferedImage backgroundImage, BufferedImage backgroundToImage, BufferedImage titleImage) {
+		this.splashScreen = this;
+
+		SplashScreenPane splashScreenPane = new SplashScreenPane(backgroundImage, backgroundToImage, titleImage);
+
+		add(splashScreenPane);
+		setUndecorated(true);
+		setBackground(Color.BLACK);
+		pack();
+		setLocationRelativeTo(null);
+		setOpacity(0f);
+
+		closeTask = new TimerTask() {
 			@Override
 			public void run() {
+				dispose();
+				closeTask.cancel();
 
-				final JFrame frame = new JFrame();
-
-				SplashScreenPane s = new SplashScreenPane(inImage, outImage, titleImage, frame);
-
-				frame.add(s);
-				frame.setUndecorated(true);
-				frame.setBackground(new Color(0, 0, 0, 0));
-				frame.pack();
-				frame.setLocationRelativeTo(null);
-				frame.setOpacity(0f);
-				frame.setVisible(true);
-
-				/* Automatic close */
-
-				if (automaticClose) {
-					close = new TimerTask() {
-						@Override
-						public void run() {
-							frame.dispose();
-							close.cancel();
-
-							if (runAfterClose != null) {
-								runAfterClose.run();
-							}
-						}
-					};
-
-					java.util.Timer timer = new java.util.Timer();
-					timer.schedule(close, secondsBeforeClose * 1000);
-
-					//
-
-					WindowListener exitListener = new WindowAdapter() {
-						@Override
-						public void windowClosing(WindowEvent e) {
-							close.run();
-						}
-					};
-					frame.addWindowListener(exitListener);
-
+				if (runAfterClose != null) {
+					runAfterClose.run();
 				}
+			}
+		};
 
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				closeTask.run();
 			}
 		});
 	}
 
-	private float currentFrameOpacity = 0F;
+	public SplashScreen setAutomaticClose(int secondsBeforeClose) {
+		java.util.Timer timer = new java.util.Timer();
+		timer.schedule(closeTask, secondsBeforeClose * 1000);
+
+		return splashScreen;
+	}
+
+	public SplashScreen setRunnableAfterClose(final Runnable runAfterClose) {
+		this.runAfterClose = runAfterClose;
+		return splashScreen;
+	}
+
+	@Override
+	public void show() {
+		super.setVisible(true);
+		splashScreenPane.startFading();
+	}
 
 	class SplashScreenPane extends JPanel {
 		private static final long serialVersionUID = 1L;
+
+		public float currentFrameOpacity = 0F;
 
 		static final long RUNNING_TIME = 2000;
 
 		private BufferedImage bgInImage;
 		private BufferedImage bgOutImage;
-
 		private BufferedImage textImage;
 
 		private float alpha = 0f;
 		private long startTime = -1;
+		
+		String subTitle = "Version 0";
 
-		SplashScreenPane(BufferedImage bgInImage, BufferedImage bgOutImage, BufferedImage titleImage,
-				final JFrame frame) {
+		SplashScreenPane(BufferedImage bgInImage, BufferedImage bgOutImage, BufferedImage titleImage) {
 
 			this.bgInImage = bgInImage;
 			this.bgOutImage = bgOutImage;
 			this.textImage = titleImage;
-
-			//
 
 			setLayout(new GridBagLayout());
 
@@ -119,7 +126,7 @@ public class SplashScreen {
 						e1.printStackTrace();
 					}
 
-					close.run();
+					closeTask.run();
 				}
 
 			});
@@ -129,9 +136,12 @@ public class SplashScreen {
 			bgInImage = bgOutImage;
 			bgOutImage = tmp;
 
+		}
+
+		public void startFading() {
 			final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-			Runnable helloRunnable = new Runnable() {
+			executor.scheduleAtFixedRate(new Runnable() {
 				@Override
 				public void run() {
 					if (startTime < 0) {
@@ -144,10 +154,10 @@ public class SplashScreen {
 						if ((currentFrameOpacity + alpha) >= 1) {
 							currentFrameOpacity = 1;
 
-							frame.setOpacity(1);
+							setOpacity(1);
 						} else {
 							currentFrameOpacity = alpha;
-							frame.setOpacity(currentFrameOpacity);
+							setOpacity(currentFrameOpacity);
 						}
 
 						if (duration >= RUNNING_TIME) {
@@ -160,10 +170,8 @@ public class SplashScreen {
 						repaint();
 					}
 				}
-			};
-
-			executor.scheduleAtFixedRate(helloRunnable, 0, 50, TimeUnit.MILLISECONDS);
-
+			}, 0, 50, TimeUnit.MILLISECONDS);
+			
 		}
 
 		@Override
@@ -200,27 +208,28 @@ public class SplashScreen {
 			g2d.setColor(Color.WHITE);
 			g2d.draw(r);
 
-			centerString(g2d, r, "Version 3", new Font("Arial", Font.BOLD, 12),
+			drawCenteredString(g2d, r, subTitle, new Font("Arial", Font.BOLD, 12),
 					(int) (bgOutImage.getHeight() / 1.5 / 3));
 
 			g2d.dispose();
 
 		}
 
-		void centerString(Graphics g, Rectangle r, String s, Font font, int yOffset) {
+		void drawCenteredString(Graphics graphics, Rectangle rectangle, String toPrint, Font font, int yOffset) {
 			FontRenderContext frc = new FontRenderContext(null, true, true);
-
-			Rectangle2D r2D = font.getStringBounds(s, frc);
+			Rectangle2D r2D = font.getStringBounds(toPrint, frc);
+			
 			int rWidth = (int) Math.round(r2D.getWidth());
 			int rHeight = (int) Math.round(r2D.getHeight());
+			
 			int rX = (int) Math.round(r2D.getX());
 			int rY = (int) Math.round(r2D.getY());
 
-			int a = (r.width / 2) - (rWidth / 2) - rX;
-			int b = (r.height / 2) - (rHeight / 2) - rY;
+			int a = (rectangle.width / 2) - (rWidth / 2) - rX;
+			int b = (rectangle.height / 2) - (rHeight / 2) - rY;
 
-			g.setFont(font);
-			g.drawString(s, r.x + a, r.y + b + yOffset);
+			graphics.setFont(font);
+			graphics.drawString(toPrint, rectangle.x + a, rectangle.y + b + yOffset);
 		}
 
 	}
