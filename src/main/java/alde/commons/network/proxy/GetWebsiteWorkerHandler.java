@@ -20,17 +20,4 @@ public class GetWebsiteWorkerHandler extends WorkerHandler<GetWebsiteTask> {
 		return instance;
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Testing 'WorkerHandler'...");
-
-		JFrame f = new JFrame();
-		f.setLayout(new BorderLayout());
-		f.getContentPane().add(GetWebsiteWorkerHandler.get().getTaskPanel(), BorderLayout.CENTER);
-
-		f.setVisible(true);
-		
-	}
-
-
-
 }
