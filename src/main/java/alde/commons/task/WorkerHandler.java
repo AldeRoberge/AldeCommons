@@ -18,7 +18,6 @@ import org.jfree.util.Rotation;
 
 /**
  * See alde.commons.network.proxy for a working example of Worker and Task
- * 
  * @author Alde
  */
 public abstract class WorkerHandler<T extends Task> {

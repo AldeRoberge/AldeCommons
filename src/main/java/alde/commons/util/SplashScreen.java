@@ -3,7 +3,6 @@ package alde.commons.util;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,10 +13,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -26,6 +25,11 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.util.sound.AudioPlayer;
+
 /**
  * SplashScreen s = new SplashScreen().setTitle().setSubtitle();
  * s.show();
@@ -33,6 +37,8 @@ import javax.swing.JPanel;
  * @author Alde
  */
 public class SplashScreen extends JFrame {
+
+	private static Logger log = LoggerFactory.getLogger(SplashScreen.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,7 +65,6 @@ public class SplashScreen extends JFrame {
 	 * @param titleImage foreground image
 	 */
 	public SplashScreen(BufferedImage backgroundImage, BufferedImage backgroundToImage, BufferedImage titleImage) {
-		this.splashScreen = this;
 
 		splashScreenPane = new SplashScreenPane(backgroundImage, backgroundToImage, titleImage);
 
@@ -90,6 +95,12 @@ public class SplashScreen extends JFrame {
 		});
 	}
 
+	File soundFile;
+
+	public void setSound(File soundFile) {
+		this.soundFile = soundFile;
+	}
+
 	int secondsBeforeClose = 5;
 
 	public void setAutomaticClose(int secondsBeforeClose) {
@@ -101,12 +112,24 @@ public class SplashScreen extends JFrame {
 	}
 
 	@Override
-	public void show() {
-		super.setVisible(true);
-		splashScreenPane.startFading();
+	public void setVisible(boolean visible) {
+		if (visible) {
+			super.setVisible(true);
+			splashScreenPane.startFading();
 
-		java.util.Timer timer = new java.util.Timer();
-		timer.schedule(closeTask, secondsBeforeClose * 1000);
+			java.util.Timer timer = new java.util.Timer();
+			timer.schedule(closeTask, secondsBeforeClose * 1000);
+
+			if (soundFile != null) {
+				AudioPlayer a = new AudioPlayer();
+
+				if (soundFile.exists()) {
+					a.play(soundFile);
+				} else {
+					log.error("Could not find sound file : " + soundFile.getAbsolutePath());
+				}
+			}
+		}
 	}
 
 	public void setSubtitle(String subtext) {
