@@ -1,15 +1,12 @@
 package alde.commons.util.file;
 
-
 /**
  * Get only the name (no extension)
  * Get only the extension
  * 
  * from https://stackoverflow.com/questions/924394/how-to-get-the-filename-without-the-extension-in-java
  */
-class FileNameUtil {
-
-	
+public class FileNameUtil {
 
 	/**
 	 * Remove the file extension from a filename, that may include a path.

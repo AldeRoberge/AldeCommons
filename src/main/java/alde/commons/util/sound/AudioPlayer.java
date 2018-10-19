@@ -21,7 +21,7 @@ import javazoom.jlgui.basicplayer.BasicPlayerListener;
 public class AudioPlayer implements BasicPlayerListener {
 
 	private Logger log = LoggerFactory.getLogger(AudioPlayer.class);
-	
+
 	/**
 	 * Volume and pan are stored between 0 and 100 in properties and converted from 0 to 1 in setVolume() and setGain()
 	 */
@@ -101,7 +101,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	}
 
 	// Between 0 and 100, converted to 0 and 1
-	private void setVolume(double i) {
+	public void setVolume(double i) {
 		try {
 			control.setGain(i / 100);
 			currentAudioVolume = i;
@@ -111,7 +111,7 @@ public class AudioPlayer implements BasicPlayerListener {
 	}
 
 	// Between -50 and 100, converted to -1 and 1
-	private void setPan(double i) {
+	public void setPan(double i) {
 		// setPan should be called after control.play().
 		try {
 			double pan = (i - 50) / 100 * 2;

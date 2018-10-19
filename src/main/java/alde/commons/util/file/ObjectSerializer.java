@@ -18,7 +18,7 @@ import alde.commons.util.text.StackTraceToString;
  * @param <T> object to deserialize on ObjectSerializer(String fileToSaveTo) and to get with get()
  * Always check if isNull() (if the file exists and is not empty) otherwise get() will return null
  */
-class ObjectSerializer<T extends Serializable> {
+public class ObjectSerializer<T extends Serializable> {
 
 	private static org.slf4j.Logger log = LoggerFactory.getLogger(FileEditor.class);
 
@@ -50,6 +50,7 @@ class ObjectSerializer<T extends Serializable> {
 
 			} catch (IOException | ClassNotFoundException e) {
 				log.error(StackTraceToString.sTTS(e));
+				e.printStackTrace();
 			}
 		} else {
 			log.warn("File " + file.getAbsolutePath() + " is empty!");

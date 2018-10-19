@@ -31,10 +31,11 @@ import org.slf4j.LoggerFactory;
 import alde.commons.util.sound.AudioPlayer;
 
 /**
+ * A SplashScreen to display while loading the application.
+ * 
  * SplashScreen s = new SplashScreen().setTitle().setSubtitle();
  * s.show();
  * 
- * @author Alde
  */
 public class SplashScreen extends JFrame {
 
@@ -57,6 +58,16 @@ public class SplashScreen extends JFrame {
 	 * The SplashScreenPane (JPanel that draws splash screen)
 	 */
 	private SplashScreenPane splashScreenPane;
+
+	/**
+	 * Seconds before the screen closes itself
+	 */
+	int secondsBeforeClose = 5;
+
+	/**
+	 * Sound to play on close
+	 */
+	File soundFile;
 
 	/**
 	 * SplashScreen is a JFrame that draws images.
@@ -95,13 +106,9 @@ public class SplashScreen extends JFrame {
 		});
 	}
 
-	File soundFile;
-
 	public void setSound(File soundFile) {
 		this.soundFile = soundFile;
 	}
-
-	int secondsBeforeClose = 5;
 
 	public void setAutomaticClose(int secondsBeforeClose) {
 		this.secondsBeforeClose = secondsBeforeClose;
@@ -237,8 +244,7 @@ public class SplashScreen extends JFrame {
 			Graphics2D g2d = (Graphics2D) g;
 			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-			g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
-					RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+			g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 			g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 			g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 			g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -252,14 +258,12 @@ public class SplashScreen extends JFrame {
 			g2d.setComposite(AlphaComposite.SrcAtop.derive(1f));
 			g2d.drawImage(textImage, 0, 0, getWidth(), getHeight(), this);
 
-			Rectangle r = new Rectangle(0, 0, (int) (bgOutImage.getWidth() / 1.5) - 1,
-					(int) (bgOutImage.getHeight() / 1.5) - 1);
+			Rectangle r = new Rectangle(0, 0, (int) (bgOutImage.getWidth() / 1.5) - 1, (int) (bgOutImage.getHeight() / 1.5) - 1);
 
 			g2d.setColor(Color.WHITE);
 			g2d.draw(r);
 
-			drawCenteredString(g2d, r, subtitle, new Font("Arial", Font.BOLD, 12),
-					(int) (bgOutImage.getHeight() / 1.5 / 3));
+			drawCenteredString(g2d, r, subtitle, new Font("Arial", Font.BOLD, 12), (int) (bgOutImage.getHeight() / 1.5 / 3));
 
 			g2d.dispose();
 
