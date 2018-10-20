@@ -32,7 +32,7 @@ public class GetWebsite {
 
 	private static GetWebsite proxyHandlerImpl;
 
-	GetWebsiteWorkerHandler proxyHandler = new GetWebsiteWorkerHandler();
+	GetWebsiteWorkerHandler proxyHandler = GetWebsiteWorkerHandler.get();
 
 	private static alde.commons.network.ProxyLeecher proxyLeecher = new alde.commons.network.ProxyLeecher();
 

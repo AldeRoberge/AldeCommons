@@ -58,16 +58,17 @@ public abstract class WorkerHandler<T extends Task> {
 				int amountOfFreeWorkers = 0;
 
 				for (Worker<T> w : workers) {
+
 					amountOfWorkers++;
 
 					if (!w.isBusy()) {
 						amountOfFreeWorkers++;
 					}
+
 				}
 
-				String toSay = getClass().getName() + " " + queuedTasks.size() + " queued tasks. "
-						+ amountOfSentTasks + " completed tasks out of " + amountOfTasks + ". "
-						+ amountOfFreeWorkers + " free workers out of " + amountOfWorkers + ".";
+				String toSay = getClass().getName() + " " + queuedTasks.size() + " queued tasks. " + amountOfSentTasks + " completed tasks out of " + amountOfTasks + ". " + amountOfFreeWorkers
+						+ " free workers out of " + amountOfWorkers + ".";
 
 				System.out.println(toSay);
 

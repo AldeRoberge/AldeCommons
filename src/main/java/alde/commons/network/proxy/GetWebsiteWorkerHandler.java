@@ -10,6 +10,9 @@ public class GetWebsiteWorkerHandler extends WorkerHandler<GetWebsiteTask> {
 
 	static GetWebsiteWorkerHandler instance;
 
+	private GetWebsiteWorkerHandler() {
+	}
+
 	public static GetWebsiteWorkerHandler get() {
 		if (instance == null) {
 			instance = new GetWebsiteWorkerHandler();
