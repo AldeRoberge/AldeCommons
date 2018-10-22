@@ -136,6 +136,8 @@ public class SplashScreen extends JFrame {
 					log.error("Could not find sound file : " + soundFile.getAbsolutePath());
 				}
 			}
+		} else {
+			System.err.println("Cannot set splash screen to non visible.");
 		}
 	}
 

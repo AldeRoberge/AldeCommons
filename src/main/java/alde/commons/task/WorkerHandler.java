@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.jfree.util.Log;
+
 /**
  * See alde.commons.network.proxy for a working example of Worker and Task
  * @author Alde
@@ -67,10 +69,8 @@ public abstract class WorkerHandler<T extends Task> {
 
 				}
 
-				String toSay = getClass().getName() + " " + queuedTasks.size() + " queued tasks. " + amountOfSentTasks + " completed tasks out of " + amountOfTasks + ". " + amountOfFreeWorkers
-						+ " free workers out of " + amountOfWorkers + ".";
-
-				System.out.println(toSay);
+				Log.info(queuedTasks.size() + " queued tasks. " + amountOfSentTasks + " completed tasks out of " + amountOfTasks + ". " + amountOfFreeWorkers + " free workers out of "
+						+ amountOfWorkers + ".");
 
 			}
 		}, 0, 5000);
