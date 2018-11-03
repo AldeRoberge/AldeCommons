@@ -11,10 +11,6 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alde.commons.network.proxy.GetWebsiteTask;
-import alde.commons.network.proxy.GetWebsiteWorker;
-import alde.commons.network.proxy.GetWebsiteWorkerHandler;
-
 /**
  * Proxy Handler is aimed to be a top level utlity method of type 'get website as string'.
  * <p>
@@ -34,7 +30,7 @@ public class GetWebsite {
 
 	GetWebsiteWorkerHandler proxyHandler = GetWebsiteWorkerHandler.get();
 
-	private static alde.commons.network.ProxyLeecher proxyLeecher = new alde.commons.network.ProxyLeecher();
+	private static alde.commons.network.proxy.ProxyLeecher proxyLeecher = new alde.commons.network.proxy.ProxyLeecher();
 
 	private GetWebsite() {
 	}

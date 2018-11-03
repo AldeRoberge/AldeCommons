@@ -1,4 +1,4 @@
-package alde.commons.network;
+package alde.commons.network.proxy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,6 +44,11 @@ public class ProxyWrapper {
 	@Override
 	public int hashCode() {
 		return Objects.hash(host);
+	}
+
+	@Override
+	public String toString() {
+		return "Host : '" + host + "', Port : '" + port + "'.";
 	}
 
 }

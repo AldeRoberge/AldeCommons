@@ -1,4 +1,4 @@
-package alde.commons.network.proxy;
+package alde.commons.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import java.net.URLConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alde.commons.network.ProxyLeecher;
-import alde.commons.network.ProxyWrapper;
+import alde.commons.network.proxy.ProxyLeecher;
+import alde.commons.network.proxy.ProxyWrapper;
 import alde.commons.task.Worker;
 
 public class GetWebsiteWorker extends Worker<GetWebsiteTask> {

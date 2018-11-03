@@ -1,4 +1,4 @@
-package alde.commons.network;
+package alde.commons.network.proxy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,12 +7,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import alde.commons.util.math.MathUtil;
 import alde.commons.util.text.StackTraceToString;
 
 public class ProxyLeecher {
@@ -43,12 +45,23 @@ public class ProxyLeecher {
 
 			ProxyWrapper p;
 
-			while (!proxies.isEmpty()) {
-				p = proxies.remove(0);
+			try {
 
-				if (p.isValid) {
-					return p;
+				while (!proxies.isEmpty()) {
+
+					int proxyNum = MathUtil.getRandomNumberInRange(0, proxies.size());
+
+					System.out.println("Removing proxy : " + proxyNum + "...");
+
+					p = proxies.remove(proxyNum);
+
+					if (p.isValid) {
+						return p;
+					}
 				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 			log.error("No more proxies!");
@@ -66,9 +79,12 @@ public class ProxyLeecher {
 
 		log.info("Getting all proxies...");
 
+		//proxies.addAll(getProxiesFromFateZero());
 		proxies.addAll(getProxiesFromFreeProxyListDotNet("https://www.us-proxy.org/"));
 		proxies.addAll(getProxiesFromFreeProxyListDotNet("https://free-proxy-list.net/"));
-		proxies.addAll(getProxiesFromGithub());
+		proxies.addAll(getProxiesFromGithub("https://raw.githubusercontent.com/a2u/free-proxy-list/master/free-proxy-list.txt"));
+		proxies.addAll(getProxiesFromGithub("https://raw.githubusercontent.com/x-o-r-r-o/proxy-list/master/proxy-list.txt"));
+		proxies.addAll(getProxiesFromGithub("https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/socks.txt"));
 		proxies.addAll(getProxiesFromSecondGithub());
 
 		log.info("Found a total of " + proxies.size() + " proxies.");
@@ -79,6 +95,51 @@ public class ProxyLeecher {
 
 		return proxies;
 	}
+
+	public static void main(String[] args) {
+		System.out.println("Loading...");
+		/*for (ProxyWrapper proxy : getProxiesFromFateZero()) {
+			System.out.println(proxy);
+		}*/
+	}
+
+	/**private static List<ProxyWrapper> getProxiesFromFateZero() {
+	
+		List<ProxyWrapper> proxies = new ArrayList<>();
+	
+		URL oracle;
+		try {
+			oracle = new URL("https://raw.githubusercontent.com/fate0/proxylist/master/proxy.list");
+	
+			BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+	
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+	
+				try {
+	
+					String host = inputLine.substring(inputLine.indexOf("\"host\": \"") + 9, inputLine.indexOf("\", \"country\""));
+					String port = inputLine.substring(inputLine.indexOf("\"port\": ") + 8, inputLine.indexOf(", \"type\""));
+	
+					proxies.add(new ProxyWrapper(host, Integer.parseInt(port)));
+	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	
+			}
+	
+			in.close();
+	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+		log.info("Found " + proxies.size() + " proxies from fatezero github.");
+	
+		return proxies;
+	
+	}*/
 
 	private static List<ProxyWrapper> getProxiesFromSecondGithub() {
 
@@ -120,13 +181,20 @@ public class ProxyLeecher {
 
 	}
 
-	private static List<ProxyWrapper> getProxiesFromGithub() {
+	/**
+	 * Get proxies from url
+	 * 
+	 * format :
+	 * 
+	 * email : password
+	 */
+	private static List<ProxyWrapper> getProxiesFromGithub(String url) {
 
 		List<ProxyWrapper> proxies = new ArrayList<>();
 
 		URL oracle;
 		try {
-			oracle = new URL("https://raw.githubusercontent.com/a2u/free-proxy-list/master/free-proxy-list.txt");
+			oracle = new URL(url);
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
 
@@ -209,12 +277,10 @@ public class ProxyLeecher {
 		URLConnection connection;
 		try {
 			connection = new URL(s).openConnection();
-			connection.setRequestProperty("User-Agent",
-					"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			connection.connect();
 
-			BufferedReader r = new BufferedReader(
-					new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
+			BufferedReader r = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
 
 			StringBuilder sb = new StringBuilder();
 			String line;

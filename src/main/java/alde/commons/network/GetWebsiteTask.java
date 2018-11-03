@@ -1,4 +1,4 @@
-package alde.commons.network.proxy;
+package alde.commons.network;
 
 import java.util.ArrayList;
 import java.util.List;
