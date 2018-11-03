@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 import org.jfree.util.Log;
 
@@ -13,12 +14,21 @@ import org.jfree.util.Log;
  */
 public abstract class WorkerHandler<T extends Task> {
 
-	volatile List<Worker<T>> workers = new ArrayList<Worker<T>>();
+	public static final int LOOK_FOR_FREE_WORKER_MS_DELAY = 5000;
 
+	volatile List<Worker> workers = new ArrayList<>();
 	volatile List<T> queuedTasks = new ArrayList<T>();
 
 	int amountOfTasks = 0;
 	int amountOfSentTasks = 0;
+
+	List<Consumer<List<Worker>>> listeningForWorkerChanges = new ArrayList<Consumer<List<Worker>>>();
+
+	WorkerHandlerUI workerHandlerUI = new WorkerHandlerUI(this);
+
+	public WorkerHandlerUI getUI() {
+		return workerHandlerUI;
+	}
 
 	public void addTask(T task) {
 		queuedTasks.add(task);
@@ -27,6 +37,7 @@ public abstract class WorkerHandler<T extends Task> {
 
 	public void addWorker(Worker<T> worker) {
 		workers.add(worker);
+		triggerWorkersChanged();
 	}
 
 	public WorkerHandler() {
@@ -81,7 +92,18 @@ public abstract class WorkerHandler<T extends Task> {
 				}
 
 			}
-		}, 0, 5000);
+		}, 0, LOOK_FOR_FREE_WORKER_MS_DELAY);
+	}
+
+	public void registerListeningForWorkerChanges(Consumer<List<Worker>> consumer) {
+		System.out.println(consumer + " " + listeningForWorkerChanges);
+		listeningForWorkerChanges.add(consumer);
+	}
+
+	private void triggerWorkersChanged() {
+		for (Consumer<List<Worker>> consumer : listeningForWorkerChanges) {
+			consumer.accept(workers);
+		}
 	}
 
 }

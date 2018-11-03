@@ -18,7 +18,7 @@ public class GetWebsiteWorkerHandler extends WorkerHandler<GetWebsiteTask> {
 		if (instance == null) {
 			instance = new GetWebsiteWorkerHandler();
 			for (int i = 0; i < 500; i++) {
-				instance.addWorker(new GetWebsiteWorker());
+				instance.addWorker(new GetWebsiteWorker("Worker " + i));
 			}
 		}
 		return instance;

@@ -21,7 +21,8 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 
 	ProxyWrapper proxyWrapper;
 
-	public GetWebsiteWorker() {
+	public GetWebsiteWorker(String workerName) {
+		super(workerName);
 		updateProxy();
 	}
 
@@ -41,7 +42,7 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 		task.answer.clear();
 
 		if (task.currentAttempt > task.maxAttempt) {
-			System.out.println("Max attempt (" + task.currentAttempt + "/" + task.maxAttempt + ") reached.");
+			System.out.println("Max attempt (" + (task.currentAttempt - 1) + "/" + task.maxAttempt + ") reached.");
 			completeTask();
 		} else {
 			boolean failed = false;
