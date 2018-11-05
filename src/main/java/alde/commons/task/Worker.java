@@ -6,13 +6,10 @@ public abstract class Worker<T extends Task> {
 
 	private boolean isBusy;
 
-	// Worker stats
-	String name;
-	int completedTasks = 0;
-	int receivedTasks = 0;
+	WorkerStats workerStats;
 
 	public Worker(String name) {
-		this.name = name;
+		this.workerStats = new WorkerStats(name);
 	}
 
 	public boolean isBusy() {
@@ -23,14 +20,14 @@ public abstract class Worker<T extends Task> {
 		isBusy = true;
 		this.task = task;
 
-		receivedTasks++;
+		workerStats.receivedTasks++;
 	}
 
 	public void completeTask() {
 		isBusy = false;
 		this.task.completed();
 
-		completedTasks++;
+		workerStats.completedTasks++;
 	}
 
 }

@@ -13,11 +13,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import alde.commons.fileImporter.FileImporter;
 import alde.commons.util.math.MathUtil;
 import alde.commons.util.text.StackTraceToString;
 
 public class ProxyLeecher {
 
+	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
+
+	
 	private static boolean isLoadingProxies;
 
 	private static List<ProxyWrapper> proxies = new ArrayList<>();
@@ -29,7 +33,7 @@ public class ProxyLeecher {
 			if (proxies.size() <= 10 && !isLoadingProxies) {
 				isLoadingProxies = true;
 
-				System.out.println("Reloading proxies...");
+				log.info("Reloading proxies...");
 
 				for (ProxyWrapper proxy : getProxies()) {
 					proxies.add(proxy);
@@ -67,7 +71,6 @@ public class ProxyLeecher {
 		}
 	}
 
-	private static final Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
 
 	private static List<ProxyWrapper> getProxies() {
 
@@ -93,7 +96,7 @@ public class ProxyLeecher {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Loading...");
+		//System.out.println("Loading...");
 		/*for (ProxyWrapper proxy : getProxiesFromFateZero()) {
 			System.out.println(proxy);
 		}*/

@@ -72,7 +72,7 @@ public class WorkerHandlerUI extends JPanel implements ActionListener {
 
 	/** Update the table on the EDT */
 	void setTableData(List<Worker> workers) {
-		System.out.println("Received list of workers...");
+		log.info("Received list of workers...");
 		tableModel.setFiles(workers);
 	}
 
@@ -95,9 +95,9 @@ class WorkerTableModel extends AbstractTableModel {
 		Worker worker = workers.get(row);
 		switch (column) {
 		case 0:
-			return worker.receivedTasks;
+			return worker.workerStats.receivedTasks;
 		case 1:
-			return worker.completedTasks;
+			return worker.workerStats.completedTasks;
 		default:
 			System.err.println("Logic Error");
 		}

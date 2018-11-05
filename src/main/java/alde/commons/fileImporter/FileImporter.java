@@ -41,7 +41,7 @@ public class FileImporter extends UtilityJFrame {
 
 	public static void main(String[] args) {
 		FileImporter f = new FileImporter(k -> {
-			System.out.println("Received " + k.size() + " files.");
+			log.info("Received " + k.size() + " files.");
 		}, true, null);
 	}
 

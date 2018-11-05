@@ -12,16 +12,16 @@ public class GetWebsiteTask extends Task {
 	String avoid;
 
 	int currentAttempt = 0;
-	int maxAttempt;
+	int numberOfMaximumAttempts;
 
 	Consumer<List<String>> websiteContentConsumer;
 
 	List<String> answer;
 
-	public GetWebsiteTask(String URL, String avoid, int maxAttempt, Consumer<List<String>> websiteContentConsumer) {
+	public GetWebsiteTask(String URL, String toAvoid, int numberOfMaximumAttempts, Consumer<List<String>> websiteContentConsumer) {
 		this.URL = URL;
-		this.avoid = avoid;
-		this.maxAttempt = maxAttempt;
+		this.avoid = toAvoid;
+		this.numberOfMaximumAttempts = numberOfMaximumAttempts;
 		this.websiteContentConsumer = websiteContentConsumer;
 
 		answer = new ArrayList<String>();

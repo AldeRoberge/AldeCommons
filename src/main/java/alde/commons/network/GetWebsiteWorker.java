@@ -15,6 +15,10 @@ import alde.commons.network.proxy.ProxyLeecher;
 import alde.commons.network.proxy.ProxyWrapper;
 import alde.commons.task.Worker;
 
+/**
+ * GetWebsiteWorker receives GetWebsiteTasks, and using his proxy, gets the data from the website.
+ * If the proxy is bad, it changes for a new one.
+ */
 public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 
 	private static Logger log = LoggerFactory.getLogger(GetWebsiteWorker.class);
@@ -23,10 +27,10 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 
 	public GetWebsiteWorker(String workerName) {
 		super(workerName);
-		updateProxy();
+		changeProxy();
 	}
 
-	private void updateProxy() {
+	private void changeProxy() {
 		proxyWrapper = ProxyLeecher.takeProxy();
 	}
 
@@ -41,8 +45,8 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 		task.currentAttempt++;
 		task.answer.clear();
 
-		if (task.currentAttempt > task.maxAttempt) {
-			System.out.println("Max attempt (" + (task.currentAttempt - 1) + "/" + task.maxAttempt + ") reached.");
+		if (task.currentAttempt > task.numberOfMaximumAttempts) {
+			log.info("Max attempt (" + (task.currentAttempt - 1) + "/" + task.numberOfMaximumAttempts + ") reached.");
 			completeTask();
 		} else {
 			boolean failed = false;
@@ -80,7 +84,7 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 			if (!failed) {
 				completeTask();
 			} else {
-				updateProxy();
+				changeProxy();
 				checkForWebsiteLoop();
 			}
 

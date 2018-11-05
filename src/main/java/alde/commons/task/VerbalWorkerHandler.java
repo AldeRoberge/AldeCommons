@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.network.proxy.ProxyLeecher;
+
 public class VerbalWorkerHandler<T extends Task> extends WorkerHandler<T> {
+
+	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
 
 	List<Consumer<List<Worker>>> listeningForWorkerChanges = new ArrayList<Consumer<List<Worker>>>();
 
@@ -15,7 +22,7 @@ public class VerbalWorkerHandler<T extends Task> extends WorkerHandler<T> {
 	}
 
 	public void registerListeningForWorkerChanges(Consumer<List<Worker>> consumer) {
-		System.out.println(consumer + " " + listeningForWorkerChanges);
+		log.info(consumer + " " + listeningForWorkerChanges);
 		listeningForWorkerChanges.add(consumer);
 	}
 

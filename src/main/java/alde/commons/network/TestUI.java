@@ -8,8 +8,15 @@ import java.util.function.Consumer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.network.proxy.ProxyLeecher;
+
 public class TestUI {
 
+	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
+	
 	private JFrame frame;
 
 	/**
@@ -50,7 +57,7 @@ public class TestUI {
 		GetWebsiteWorkerHandler.get().addTask(new GetWebsiteTask("google.com", "ajwdawdjaw", 1, new Consumer<List<String>>() {
 			@Override
 			public void accept(List<String> t) {
-				System.out.println("Received answer : ");
+				log.info("Received answer : ");
 			}
 		}));
 
