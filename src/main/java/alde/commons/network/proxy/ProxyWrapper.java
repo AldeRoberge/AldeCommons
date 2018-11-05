@@ -24,11 +24,14 @@ public class ProxyWrapper {
 	public String host;
 	public int port;
 
+	public String from;
+
 	boolean isValid = true;
 
-	public ProxyWrapper(String host, int port) {
+	public ProxyWrapper(String host, int port, String from) {
 		this.host = host;
 		this.port = port;
+		this.from = from;
 	}
 
 	@Override
@@ -48,7 +51,7 @@ public class ProxyWrapper {
 
 	@Override
 	public String toString() {
-		return "Host : '" + host + "', Port : '" + port + "'.";
+		return "Host : '" + host + "', Port : '" + port + "', From : '" + from + "'.";
 	}
 
 }

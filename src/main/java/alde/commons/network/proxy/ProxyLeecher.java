@@ -50,9 +50,6 @@ public class ProxyLeecher {
 				while (!proxies.isEmpty()) {
 
 					int proxyNum = MathUtil.getRandomNumberInRange(0, proxies.size());
-
-					System.out.println("Removing proxy : " + proxyNum + "...");
-
 					p = proxies.remove(proxyNum);
 
 					if (p.isValid) {
@@ -161,7 +158,7 @@ public class ProxyLeecher {
 					String host = line[0].substring(0, inputLine.indexOf(":"));
 					String port = line[0].substring(inputLine.indexOf(":") + 1);
 
-					proxies.add(new ProxyWrapper(host, Integer.parseInt(port)));
+					proxies.add(new ProxyWrapper(host, Integer.parseInt(port), "second github"));
 
 				} catch (Exception e) {
 					// Left empty
@@ -206,7 +203,7 @@ public class ProxyLeecher {
 					String host = inputLine.substring(0, inputLine.indexOf(":"));
 					String port = inputLine.substring(inputLine.indexOf(":") + 1);
 
-					proxies.add(new ProxyWrapper(host, Integer.parseInt(port)));
+					proxies.add(new ProxyWrapper(host, Integer.parseInt(port), url));
 
 				} catch (Exception e) {
 					// Left empty
@@ -225,11 +222,11 @@ public class ProxyLeecher {
 
 	}
 
-	private static List<ProxyWrapper> getProxiesFromFreeProxyListDotNet(String s) {
+	private static List<ProxyWrapper> getProxiesFromFreeProxyListDotNet(String url) {
 
 		List<ProxyWrapper> proxies = new ArrayList<>();
 
-		String website = getWebsiteAsString(s);
+		String website = getWebsiteAsString(url);
 
 		if (website != null) {
 
@@ -246,7 +243,7 @@ public class ProxyLeecher {
 						String host = proxyL[0].replace("<tr><td>", "");
 						String port = proxyL[1].replace("<td>", "");
 
-						proxies.add(new ProxyWrapper(host, Integer.parseInt(port)));
+						proxies.add(new ProxyWrapper(host, Integer.parseInt(port), url));
 
 					} catch (Exception e) {
 						// Left empty
@@ -263,7 +260,7 @@ public class ProxyLeecher {
 			log.warn("Website is null... Skipping...");
 		}
 
-		log.info("Found " + proxies.size() + " proxies from '" + s + "'.");
+		log.info("Found " + proxies.size() + " proxies from '" + url + "'.");
 
 		return proxies;
 

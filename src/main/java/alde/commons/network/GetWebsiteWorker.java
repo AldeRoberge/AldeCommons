@@ -58,7 +58,7 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 				}
 				in.close();
 			} catch (IOException e) {
-				log.error("Error with proxy : " + e.getMessage());
+				log.error("Error with proxy '" + proxyWrapper + "', " + e.getMessage());
 				failed = true;
 			}
 
