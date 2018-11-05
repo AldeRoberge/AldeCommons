@@ -1,7 +1,8 @@
 package alde.commons.util.file.extensions;
 
-import javax.swing.filechooser.FileFilter;
 import java.io.File;
+
+import javax.swing.filechooser.FileFilter;
 
 /**
  * Original credits : 

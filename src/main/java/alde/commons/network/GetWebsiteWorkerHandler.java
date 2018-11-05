@@ -1,12 +1,8 @@
 package alde.commons.network;
 
-import java.awt.BorderLayout;
+import alde.commons.task.VerbalWorkerHandler;
 
-import javax.swing.JFrame;
-
-import alde.commons.task.WorkerHandler;
-
-public class GetWebsiteWorkerHandler extends WorkerHandler<GetWebsiteTask> {
+public class GetWebsiteWorkerHandler extends VerbalWorkerHandler<GetWebsiteTask> {
 
 	static GetWebsiteWorkerHandler instance;
 

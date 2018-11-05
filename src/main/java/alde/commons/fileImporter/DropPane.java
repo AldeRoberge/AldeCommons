@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
@@ -27,8 +29,6 @@ import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 /**
  * Based on https://stackoverflow.com/questions/13597233/how-to-drag-and-drop-files-from-a-directory-in-java

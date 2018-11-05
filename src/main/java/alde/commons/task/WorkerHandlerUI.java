@@ -2,9 +2,7 @@ package alde.commons.task;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,19 +13,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.swing.border.LineBorder;
 
 /**
 UI for WorkerHandler
 */
 public class WorkerHandlerUI extends JPanel implements ActionListener {
 
-	WorkerHandler workerHandler;
+	VerbalWorkerHandler workerHandler;
 
 	static Logger log = LoggerFactory.getLogger(WorkerHandlerUI.class);
 
@@ -35,7 +32,7 @@ public class WorkerHandlerUI extends JPanel implements ActionListener {
 	private JTable table;
 	private WorkerTableModel tableModel;
 
-	public WorkerHandlerUI(WorkerHandler<?> workerHandler) {
+	public WorkerHandlerUI(VerbalWorkerHandler<?> workerHandler) {
 
 		this.workerHandler = workerHandler;
 

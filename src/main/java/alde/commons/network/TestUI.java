@@ -1,12 +1,12 @@
 package alde.commons.network;
 
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.List;
 import java.util.function.Consumer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 
 public class TestUI {
 

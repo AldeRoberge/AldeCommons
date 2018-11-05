@@ -1,13 +1,25 @@
 package alde.commons.util.as3;
 
-import alde.commons.util.text.StringUtils;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import alde.commons.util.text.StringUtils;
 
 public class AS3ToJava extends StringUtils {
 
