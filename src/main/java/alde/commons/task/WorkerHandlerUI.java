@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
 UI for WorkerHandler
 */
-public class WorkerHandlerUI extends JPanel implements ActionListener {
+public class WorkerHandlerUI extends JPanel {
 
 	VerbalWorkerHandler workerHandler;
 
@@ -33,8 +33,20 @@ public class WorkerHandlerUI extends JPanel implements ActionListener {
 	private WorkerTableModel tableModel;
 
 	public WorkerHandlerUI(VerbalWorkerHandler<?> workerHandler) {
-
 		this.workerHandler = workerHandler;
+
+		setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, BorderLayout.CENTER);
+
+		table = new JTable();
+		table.setAutoCreateRowSorter(true);
+		tableModel = new WorkerTableModel();
+		table.setModel(tableModel);
+		table.setRowHeight(40);
+
+		scrollPane.setViewportView(table);
 
 		workerHandler.registerListeningForWorkerChanges(new Consumer<List<Worker>>() {
 			@Override
@@ -43,42 +55,12 @@ public class WorkerHandlerUI extends JPanel implements ActionListener {
 			}
 		});
 
-		setLayout(new BorderLayout(3, 3));
-
-		JPanel detailView = new JPanel(new BorderLayout(3, 3));
-		detailView.setBorder(new LineBorder(new Color(0, 0, 0), 4));
-
-		table = new JTable();
-		table.setRowSelectionAllowed(true);
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.setAutoCreateRowSorter(true);
-		table.setShowVerticalLines(true);
-		table.setSelectionBackground(new Color(136, 23, 152));
-		table.setSelectionForeground(Color.WHITE);
-
-		table.setBackground(Color.BLACK);
-
-		tableModel = new WorkerTableModel();
-		table.setModel(tableModel);
-
-		table.setRowHeight(40);
-
-		JScrollPane tableScroll = new JScrollPane(table);
-		Dimension d = tableScroll.getPreferredSize();
-		tableScroll.setPreferredSize(new Dimension((int) d.getWidth(), (int) d.getHeight() / 2));
-		detailView.add(tableScroll, BorderLayout.CENTER);
-
 	}
 
 	/** Update the table on the EDT */
 	void setTableData(List<Worker> workers) {
 		log.info("Received list of workers...");
 		tableModel.setFiles(workers);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-
 	}
 
 }
@@ -89,14 +71,16 @@ class WorkerTableModel extends AbstractTableModel {
 
 	private List<Worker> workers = new ArrayList<>();
 
-	private String[] columns = { "Received tasks", "Completed tasks" };
+	private String[] columns = { "Name", "Received tasks", "Completed tasks" };
 
 	public Object getValueAt(int row, int column) {
 		Worker worker = workers.get(row);
 		switch (column) {
 		case 0:
-			return worker.workerStats.receivedTasks;
+			return worker.workerStats.name;
 		case 1:
+			return worker.workerStats.receivedTasks;
+		case 2:
 			return worker.workerStats.completedTasks;
 		default:
 			System.err.println("Logic Error");

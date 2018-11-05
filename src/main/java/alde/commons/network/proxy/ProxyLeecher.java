@@ -134,7 +134,7 @@ public class ProxyLeecher {
 			e.printStackTrace();
 		}
 	
-		log.info("Found " + proxies.size() + " proxies from fatezero github.");
+		log.debug("Found " + proxies.size() + " proxies from fatezero github.");
 	
 		return proxies;
 	
@@ -174,7 +174,7 @@ public class ProxyLeecher {
 			e.printStackTrace();
 		}
 
-		log.info("Found " + proxies.size() + " proxies from github.");
+		log.debug("Found " + proxies.size() + " proxies from github.");
 
 		return proxies;
 
@@ -218,7 +218,7 @@ public class ProxyLeecher {
 			e.printStackTrace();
 		}
 
-		log.info("Found " + proxies.size() + " proxies from github.");
+		log.debug("Found " + proxies.size() + " proxies from github.");
 
 		return proxies;
 
@@ -262,7 +262,7 @@ public class ProxyLeecher {
 			log.warn("Website is null... Skipping...");
 		}
 
-		log.info("Found " + proxies.size() + " proxies from '" + url + "'.");
+		log.debug("Found " + proxies.size() + " proxies from '" + url + "'.");
 
 		return proxies;
 

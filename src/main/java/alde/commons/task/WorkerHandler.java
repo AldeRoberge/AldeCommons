@@ -6,6 +6,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import alde.commons.network.proxy.ProxyLeecher;
 
 /**
  * WorkerHandler delegates tasks to Workers
@@ -15,11 +19,12 @@ import org.jfree.util.Log;
  */
 public abstract class WorkerHandler<T extends Task> {
 
-	volatile List<Worker> workers = new ArrayList<>();
-	volatile List<T> queuedTasks = new ArrayList<T>();
+	private static Logger log = LoggerFactory.getLogger(WorkerHandler.class);
 
-	int amountOfTasks = 0;
-	int amountOfSentTasks = 0;
+	public volatile List<Worker> workers = new ArrayList<>();
+	public volatile List<T> queuedTasks = new ArrayList<T>();
+
+	int amountOfTasks, amountOfSentTasks;
 
 	public void addTask(T task) {
 		queuedTasks.add(task);
@@ -30,11 +35,16 @@ public abstract class WorkerHandler<T extends Task> {
 		workers.add(worker);
 	}
 
+	public void addWorkers(List<Worker<T>> workers) {
+		workers.addAll(workers);
+	}
+
 	public WorkerHandler() {
 		start();
 	}
 
 	private void start() {
+
 		Timer lookForFreeWorkers = new Timer();
 		lookForFreeWorkers.schedule(new TimerTask() {
 			public void run() {
@@ -44,18 +54,19 @@ public abstract class WorkerHandler<T extends Task> {
 		}, 0, 5000);
 	}
 
-	private void checkForFreeWorkers() {
+	synchronized private void checkForFreeWorkers() {
 
-		if (!workers.isEmpty() && !queuedTasks.isEmpty()) {
-			for (final Worker<T> w : workers) {
-				if (!w.isBusy()) {
+		for (final Worker<T> w : workers) {
+			if (!w.isBusy()) {
+
+				if (!workers.isEmpty() && !queuedTasks.isEmpty()) {
 					w.receiveTask(queuedTasks.remove(0));
 					amountOfSentTasks++;
 				}
 			}
 		}
 
-		Log.info(queuedTasks.size() + " queued tasks. " + amountOfSentTasks + " completed tasks out of " + amountOfTasks + ".");
+		log.info(workers.size() + " workers, " + queuedTasks.size() + " queued tasks. " + amountOfSentTasks + " completed tasks out of " + amountOfTasks + ".");
 
 	}
 
