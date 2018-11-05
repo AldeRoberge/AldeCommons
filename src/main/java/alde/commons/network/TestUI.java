@@ -16,7 +16,7 @@ import alde.commons.network.proxy.ProxyLeecher;
 public class TestUI {
 
 	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
-	
+
 	private JFrame frame;
 
 	/**
@@ -54,12 +54,14 @@ public class TestUI {
 
 		//String URL, String avoid, int maxAttempt, Consumer<List<String>> websiteContentConsumer
 
-		GetWebsiteWorkerHandler.get().addTask(new GetWebsiteTask("google.com", "ajwdawdjaw", 1, new Consumer<List<String>>() {
-			@Override
-			public void accept(List<String> t) {
-				log.info("Received answer : ");
-			}
-		}));
+		for (int i = 0; i < 100; i++) {
+			GetWebsiteWorkerHandler.get().addTask(new GetWebsiteTask("google.com", "ajwdawdjaw", 1, new Consumer<List<String>>() {
+				@Override
+				public void accept(List<String> t) {
+					log.info("Received answer : ");
+				}
+			}));
+		}
 
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 	}

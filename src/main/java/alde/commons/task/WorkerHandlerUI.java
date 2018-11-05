@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.function.Consumer;
 
 import javax.swing.JPanel;
@@ -44,7 +46,7 @@ public class WorkerHandlerUI extends JPanel {
 		table.setAutoCreateRowSorter(true);
 		tableModel = new WorkerTableModel();
 		table.setModel(tableModel);
-		table.setRowHeight(40);
+		table.setRowHeight(20);
 
 		scrollPane.setViewportView(table);
 
@@ -54,6 +56,13 @@ public class WorkerHandlerUI extends JPanel {
 				setTableData(t);
 			}
 		});
+
+		Timer repaint = new Timer();
+		repaint.schedule(new TimerTask() {
+			public void run() {
+				repaint();
+			}
+		}, 0, 5000);
 
 	}
 
