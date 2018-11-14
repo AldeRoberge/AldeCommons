@@ -4,7 +4,7 @@ import alde.commons.task.VerbalWorkerHandler;
 
 public class GetWebsiteWorkerHandler extends VerbalWorkerHandler<GetWebsiteTask> {
 
-	public static final int NUMBER_OF_WORKERS = 500;
+	public static final int NUMBER_OF_WORKERS = 250;
 
 	static GetWebsiteWorkerHandler instance;
 
