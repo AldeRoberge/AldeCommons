@@ -9,10 +9,10 @@ import java.util.List;
  */
 public abstract class PropertiesExample {
 
-	public PropertiesExample(String propertyFilePath) {
+	static {
 		propertyFile = new PropertyFileManager("alde-commons-example.properties");
 	}
-	
+
 	private static PropertyFileManager propertyFile;
 
 	//@formatter:off
