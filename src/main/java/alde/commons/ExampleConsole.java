@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import alde.commons.console.Console;
 import alde.commons.logger.LoggerPanel;
+import alde.commons.properties.PropertiesExample;
 import alde.commons.util.SplashScreen;
 
 public class ExampleConsole {
@@ -51,37 +52,43 @@ public class ExampleConsole {
 
 	private static void showSplashScreen(Runnable r) {
 
-		boolean showSplashScreen = true;
+		if (PropertiesExample.SHOW_SPLASH_SCREEN.getValueAsBoolean()) {
 
-		if (showSplashScreen) {
+			boolean showSplashScreen = true;
 
-			//log.info("Opening splash screen...");
+			if (showSplashScreen) {
 
-			try {
-				BufferedImage inImage = getBufferedImage("/splashScreen/splashScreen_in.png");
-				BufferedImage outImage = getBufferedImage("/splashScreen/splashScreen_out.png");
-				BufferedImage textImage = getBufferedImage("/splashScreen/splashScreen_title.png");
-
-				SplashScreen s = new SplashScreen(inImage, outImage, textImage);
-
-				s.setAutomaticClose(5);
-				s.setRunnableAfterClose(r);
-				s.setSubtitle("Loading complete");
+				//log.info("Opening splash screen...");
 
 				try {
-					s.setSound(new File(ExampleConsole.class.getResource("/splashScreen/boot.wav").toURI()));
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
+					BufferedImage inImage = getBufferedImage("/splashScreen/splashScreen_in.png");
+					BufferedImage outImage = getBufferedImage("/splashScreen/splashScreen_out.png");
+					BufferedImage textImage = getBufferedImage("/splashScreen/splashScreen_title.png");
+
+					SplashScreen s = new SplashScreen(inImage, outImage, textImage);
+
+					s.setAutomaticClose(PropertiesExample.SPLASH_SCREEN_TIME.getValueAsInt());
+					s.setRunnableAfterClose(r);
+					s.setSubtitle("Loading complete");
+
+					try {
+						s.setSound(new File(ExampleConsole.class.getResource("/splashScreen/boot.wav").toURI()));
+					} catch (URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+
+					s.setVisible(true);
+
+				} catch (Exception e) {
+					//log.error("Error with opening splash screen.");
+					e.printStackTrace();
+
+					r.run();
 				}
-
-				s.setVisible(true);
-
-			} catch (Exception e) {
-				//log.error("Error with opening splash screen.");
-				e.printStackTrace();
-
+			} else {
 				r.run();
 			}
+
 		} else {
 			r.run();
 		}
