@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 import java.util.TooManyListenersException;
+import java.util.function.Consumer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,13 +43,13 @@ public class DropPane extends JPanel {
 	private boolean dragOver = false;
 	private BufferedImage target;
 
-	private final JLabel title = new JLabel("Drag and drop files here");
-	private final JLabel subTitle = new JLabel("0 files to be imported.");
+	private final JLabel title = new JLabel("Drop file(s) here");
 
-	private FileImporter fileImporter;
+	public Consumer<File> callback;
 
-	public DropPane(FileImporter f) {
-		this.fileImporter = f;
+	public DropPane(Consumer<File> callback) {
+
+		this.callback = callback;
 
 		/*try {
 			//target = ImageIO.read(new File(Icons.CROSS.getImagePath()));
@@ -64,14 +65,6 @@ public class DropPane extends JPanel {
 		gbc_title.gridx = 0;
 		gbc_title.gridy = 0;
 		add(title, gbc_title);
-
-		GridBagConstraints gbc_subTitle = new GridBagConstraints();
-		gbc_subTitle.insets = new Insets(0, 0, 0, 5);
-		gbc_subTitle.gridx = 0;
-		gbc_subTitle.gridy = 1;
-		add(subTitle, gbc_subTitle);
-
-		updateMessage();
 
 	}
 
@@ -176,7 +169,11 @@ public class DropPane extends JPanel {
 					log.info(droppedFiles + ", size : " + droppedFiles.size());
 
 					if (droppedFiles != null && droppedFiles.size() > 0) {
-						fileImporter.importAll(droppedFiles);
+
+						for (File f : droppedFiles) {
+							callback.accept(f);
+						}
+
 						dtde.dropComplete(true);
 					}
 
@@ -207,14 +204,4 @@ public class DropPane extends JPanel {
 		}
 	}
 
-	public void updateMessage() {
-		int nbFiles = fileImporter.getTotalFilesToImport();
-
-		if (nbFiles == 1) {
-			subTitle.setText("1 file to be imported.");
-		} else {
-			subTitle.setText(nbFiles + " files to be imported.");
-		}
-
-	}
 }

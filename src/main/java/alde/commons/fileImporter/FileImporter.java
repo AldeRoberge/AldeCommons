@@ -42,20 +42,19 @@ public class FileImporter extends UtilityJFrame {
 	public static void main(String[] args) {
 		FileImporter f = new FileImporter(k -> {
 			log.info("Received " + k.size() + " files.");
-		}, true, null);
+		}, false, ExtensionFilter.PICTURE_FILES);
 	}
 
 	private ExtensionFilter acceptedFileTypes;
 
 	private List<File> filesToImport = new ArrayList<File>();
 	private DropPane dropPanel;
-	private JButton btnImport;
+	private JButton btnNext;
 
 	/**
 	 * Create the frame.
 	 */
-	private FileImporter(Consumer<List<File>> fileListConsumer, boolean includeSubfolders,
-			ExtensionFilter acceptedFileTypes) {
+	public FileImporter(Consumer<List<File>> fileListConsumer, boolean includeSubfolders, ExtensionFilter acceptedFileTypes) {
 
 		this.acceptedFileTypes = acceptedFileTypes;
 
@@ -67,51 +66,63 @@ public class FileImporter extends UtilityJFrame {
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				filesToImport.clear();
-				dropPanel.updateMessage();
 				setVisible(false);
 			}
 		});
 
-		setBounds(100, 100, 553, 262);
+		setBounds(100, 100, 571, 289);
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
-		JPanel container = new JPanel();
-		contentPane.add(container, BorderLayout.CENTER);
-		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+		JPanel dragAndDropPanel = new JPanel();
+		contentPane.add(dragAndDropPanel, BorderLayout.CENTER);
+		dragAndDropPanel.setLayout(new BoxLayout(dragAndDropPanel, BoxLayout.X_AXIS));
 
-		dropPanel = new DropPane(this);
-		container.add(dropPanel);
+		dropPanel = new DropPane(new Consumer<File>() {
+			@Override
+			public void accept(File file) {
+				importFile(file);
+			}
 
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		});
+		dragAndDropPanel.add(dropPanel);
 
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
+		JPanel actionsPanel = new JPanel();
+		contentPane.add(actionsPanel, BorderLayout.SOUTH);
+		actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
+
+		JPanel includeSubfolderPanel = new JPanel();
+		includeSubfolderPanel.setVisible(includeSubfolders);
+		actionsPanel.add(includeSubfolderPanel);
 
 		JCheckBox chckBoxIncludeSubFolders = new JCheckBox("Include subfolders");
-		panel_1.add(chckBoxIncludeSubFolders);
+		chckBoxIncludeSubFolders.setSelected(includeSubfolders);
+		includeSubfolderPanel.add(chckBoxIncludeSubFolders);
 
-		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
+		JPanel actionPanel = new JPanel();
+		actionsPanel.add(actionPanel);
 
 		JButton btnOpenFileBrowser = new JButton("Open file browser");
-		panel_2.add(btnOpenFileBrowser);
+		actionPanel.add(btnOpenFileBrowser);
 
-		btnImport = new JButton("Import");
-		panel_2.add(btnImport);
-		btnImport.addActionListener(new ActionListener() {
+		btnNext = new JButton("Next");
+		actionPanel.add(btnNext);
+		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (filesToImport.size() > 0) {
+					log.info("Sent files...");
+					
 					fileListConsumer.accept(filesToImport);
 					filesToImport.clear();
-					setVisible(false);
-					dropPanel.updateMessage();
+				} else {
+					log.info("No files to import...");
 				}
+
+				setVisible(false);
+				dispose();
 			}
 		});
 		btnOpenFileBrowser.addActionListener(new ActionListener() {
@@ -133,7 +144,6 @@ public class FileImporter extends UtilityJFrame {
 				// WAV, AU, AIFF ,MP3 and Ogg Vorbis files
 
 				chooser.setFileFilter(acceptedFileTypes);
-
 				chooser.setMultiSelectionEnabled(true); // shift + click to select multiple files
 				chooser.setPreferredSize(new Dimension(800, 600));
 				chooser.setAcceptAllFileFilterUsed(false);
@@ -141,7 +151,7 @@ public class FileImporter extends UtilityJFrame {
 
 				//replace null with a JPanel that has an icon to set an icon to chooser
 				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					btnImport.requestFocus();
+					btnNext.requestFocus();
 
 					String directory = chooser.getCurrentDirectory().toString();
 
@@ -149,7 +159,9 @@ public class FileImporter extends UtilityJFrame {
 
 					File[] files = chooser.getSelectedFiles();
 
-					importAll(Arrays.asList(files));
+					for (File f : files) {
+						importFile(f);
+					}
 
 					//
 				} else {
@@ -163,21 +175,17 @@ public class FileImporter extends UtilityJFrame {
 		setVisible(true);
 	}
 
-	void importAll(List<File> files) {
-		for (File file : files) { //we do this because the user might choose more than 1 folder
-			if (file.isDirectory()) {
-				getAllFiles(file.getAbsolutePath(), true, 0);
-			} else {
-				addFileToImport(file);
-			}
+	private void importFile(File file) {
+		if (file.isDirectory()) {
+			getAllFiles(file.getAbsolutePath(), true, 0);
+		} else {
+			addFileToImport(file);
 		}
-
 	}
 
 	private void getAllFiles(String directoryName, boolean includeSubfolders, int totalOfFiles) {
 
-		log.info(
-				"Getting all files for directory : " + directoryName + ", including subfolders : " + includeSubfolders);
+		log.info("Getting all files for directory : " + directoryName + ", including subfolders : " + includeSubfolders);
 
 		File directory = new File(directoryName);
 
@@ -212,7 +220,6 @@ public class FileImporter extends UtilityJFrame {
 
 			if (accept) {
 				filesToImport.add(f);
-				dropPanel.updateMessage();
 			}
 		}
 	}
