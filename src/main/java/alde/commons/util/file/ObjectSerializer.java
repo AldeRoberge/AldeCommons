@@ -23,21 +23,41 @@ public class ObjectSerializer<T extends Serializable> {
 	private static org.slf4j.Logger log = LoggerFactory.getLogger(FileEditor.class);
 
 	private File file; //file to serialise object to
+
 	private T t;
 
-	public boolean isNull() {
-		return (t == null);
+	public File getFile() {
+		return file;
 	}
 
-	public T get() {
-		return t;
+	public void save() {
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(t);
+			oos.close();
+			fos.close();
+		} catch (IOException ioe) {
+			log.info("Error while serialising");
+			ioe.printStackTrace();
+		}
 	}
 
 	/**
 	 * @param file path of file to create and save data to
 	 */
+	public ObjectSerializer(File file, T t) {
+		this.file = file;
+		this.t = t;
+	}
+
 	public ObjectSerializer(File file) {
 		this.file = file;
+	}
+
+	public T get() {
+
+		T t = null;
 
 		if (file.exists() && !(file.length() == 0)) {
 			try {
@@ -53,24 +73,13 @@ public class ObjectSerializer<T extends Serializable> {
 				e.printStackTrace();
 			}
 		} else {
-			log.warn("File " + file.getAbsolutePath() + " is empty!");
+			log.warn("File " + file.getAbsolutePath() + " is empty or does not exist!");
 		}
 
-	}
+		System.out.println("Returning : " + t);
 
-	public void set(T t) {
-		this.t = t;
+		return t;
 
-		try {
-			FileOutputStream fos = new FileOutputStream(file);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(t);
-			oos.close();
-			fos.close();
-		} catch (IOException ioe) {
-			log.info("Error while serialising");
-			ioe.printStackTrace();
-		}
 	}
 
 }
