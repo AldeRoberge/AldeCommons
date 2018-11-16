@@ -63,7 +63,8 @@ public class ExtensionFilter extends FileFilter {
 
 		String path = file.getAbsolutePath();
 		for (String ext : extensions) {
-			if (path.endsWith(ext) && (path.charAt(path.length() - ext.length()) == '.')) {
+
+			if (path.endsWith(ext)) {
 				return true;
 			}
 		}

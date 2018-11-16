@@ -114,7 +114,7 @@ public class FileImporter extends UtilityJFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (filesToImport.size() > 0) {
 					log.info("Sent files...");
-					
+
 					fileListConsumer.accept(filesToImport);
 					filesToImport.clear();
 				} else {
@@ -207,6 +207,9 @@ public class FileImporter extends UtilityJFrame {
 	}
 
 	private void addFileToImport(File f) {
+
+		log.info("Received file to import!");
+
 		if (filesToImport.contains(f)) {
 			log.warn("File to import is already imported.");
 		} else {
@@ -216,6 +219,9 @@ public class FileImporter extends UtilityJFrame {
 				accept = true;
 			} else if (acceptedFileTypes.accept(f)) {
 				accept = true;
+			} else {
+				log.info("File is not accepted.");
+				accept = false;
 			}
 
 			if (accept) {
