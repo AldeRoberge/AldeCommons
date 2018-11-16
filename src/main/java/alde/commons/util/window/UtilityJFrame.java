@@ -6,13 +6,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class UtilityJFrame extends JFrame {
 
-	public UtilityJFrame() {
-		super();
-	}
-
-	public UtilityJFrame(String name) {
-		super(name);
-
+	static {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (UnsupportedLookAndFeelException e) {
@@ -24,6 +18,14 @@ public class UtilityJFrame extends JFrame {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public UtilityJFrame() {
+		super();
+	}
+
+	public UtilityJFrame(String name) {
+		super(name);
 
 	}
 

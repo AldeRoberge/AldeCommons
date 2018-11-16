@@ -18,17 +18,17 @@ public class PropertyFileManager {
 	private static final Logger log = LoggerFactory.getLogger(PropertyFileManager.class);
 
 	private final File propertyFile;
-	
+
 	private PropertiesConfiguration config;
-	
+
 	public PropertyFileManager(String propertyFilePath) {
-		
+
 		if (propertyFilePath == null) {
 			System.err.println("Property file path is null!");
 		} else if (propertyFilePath.equals("")) {
 			System.err.println("Property file path is empty!");
-		} 
-	
+		}
+
 		propertyFile = new File(propertyFilePath);
 
 		try {
@@ -36,12 +36,12 @@ public class PropertyFileManager {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		try {
-			
+
 			config = new PropertiesConfiguration(propertyFile);
 			log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
-			
+
 		} catch (ConfigurationException e) {
 			log.error("Could not create PropertiesConfiguration.");
 			e.printStackTrace();
