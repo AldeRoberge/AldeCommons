@@ -67,9 +67,7 @@ public class AutoCompleteService implements CompletionService<String> {
 	public String autoComplete(String startsWith) {
 
 		if (startsWith == null) {
-			new IllegalArgumentException("Auto complete data is null");
-
-			return null;
+			throw new IllegalArgumentException("Auto complete data is null");
 		}
 
 		// Naive implementation, but good enough for the sample

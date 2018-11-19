@@ -1,16 +1,17 @@
 package alde.commons.properties;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+
 /**
  * Global property persistence
+ *
  * @see Apache's PropertiesConfiguration
  */
 public class PropertyFileManager {
@@ -40,7 +41,7 @@ public class PropertyFileManager {
 		try {
 
 			config = new PropertiesConfiguration(propertyFile);
-			log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
+			log.debug("Restoring perfectpitch.properties from '" + propertyFile.getAbsolutePath() + "'...");
 
 		} catch (ConfigurationException e) {
 			log.error("Could not create PropertiesConfiguration.");

@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class PropertiesExample {
 
 	static {
-		propertyFile = new PropertyFileManager("alde-commons-example.properties");
+		propertyFile = new PropertyFileManager("alde-commons-example.perfectpitch.properties");
 	}
 
 	private static PropertyFileManager propertyFile;
@@ -23,7 +23,7 @@ public abstract class PropertiesExample {
 
 	/**
 	 * Gets all the Properties of the superclass using reflection
-	 * @return List<Property> list of properties
+	 * @return List<Property> list of perfectpitch.properties
 	 */
 	public static List<Property> getProperties() {
 		List<Property> properties = new ArrayList<>();

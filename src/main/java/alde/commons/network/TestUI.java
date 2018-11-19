@@ -5,15 +5,14 @@ import java.awt.EventQueue;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alde.commons.network.proxy.ProxyLeecher;
 
-public class TestUI {
+class TestUI {
 
 	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
 
@@ -38,7 +37,7 @@ public class TestUI {
 	/**
 	 * Create the application.
 	 */
-	public TestUI() {
+	private TestUI() {
 		initialize();
 	}
 
@@ -48,7 +47,7 @@ public class TestUI {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 764, 309);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		JPanel panel = GetWebsiteWorkerHandler.get().getUI();
 

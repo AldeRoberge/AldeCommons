@@ -2,13 +2,13 @@ package alde.commons.task;
 
 public abstract class Worker<T extends Task> {
 
-	public T task;
+	protected T task;
 
 	private boolean isBusy;
 
 	WorkerStats workerStats;
 
-	public Worker(String name) {
+	protected Worker(String name) {
 		this.workerStats = new WorkerStats(name);
 	}
 
@@ -23,7 +23,7 @@ public abstract class Worker<T extends Task> {
 		workerStats.receivedTasks++;
 	}
 
-	public void completeTask() {
+	protected void completeTask() {
 		isBusy = false;
 		this.task.completed();
 

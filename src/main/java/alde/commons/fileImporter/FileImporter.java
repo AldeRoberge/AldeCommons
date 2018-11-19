@@ -1,5 +1,5 @@
 /*
-  FileImporter is a great way to let your user import files.
+  FileImporter is a great way to let your perfectpitch.player.user import files.
   Requires a class (here FileImporterAgent) that implements the method importFiles(ArrayList<File> files);
   Call "new FileImporter(FileImporterAgent me)"
  */

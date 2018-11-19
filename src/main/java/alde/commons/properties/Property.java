@@ -163,7 +163,7 @@ enum Type {
 }
 
 /**
- * JPanel that allows the user to edit the property
+ * JPanel that allows the perfectpitch.player.user to edit the property
  */
 class EditPropertyPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -254,7 +254,7 @@ class EditPropertyPanel extends JPanel {
 				update();
 			}
 
-			// Notifies the user if the value entered does not match the type
+			// Notifies the perfectpitch.player.user if the value entered does not match the type
 			void update() {
 				newValue = inputField.getText();
 
