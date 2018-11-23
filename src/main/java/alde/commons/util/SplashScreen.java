@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
@@ -17,17 +18,22 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import alde.commons.ExampleConsole;
+import alde.commons.properties.PropertiesExample;
 import alde.commons.util.sound.AudioPlayer;
 
 /**
@@ -38,6 +44,68 @@ import alde.commons.util.sound.AudioPlayer;
  * 
  */
 public class SplashScreen extends JFrame {
+
+	public static Image getImage(String name) {
+
+		try {
+			return ImageIO.read(ExampleConsole.class.getResourceAsStream(name));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		//log.error("Could not get image file '" + name + "'.");
+
+		return null;
+	}
+
+	public static BufferedImage getBufferedImage(String name) {
+		return (BufferedImage) getImage(name);
+	}
+
+	private static void example(Runnable r) {
+
+		if (PropertiesExample.SHOW_SPLASH_SCREEN.getValueAsBoolean()) {
+
+			boolean showSplashScreen = true;
+
+			if (showSplashScreen) {
+
+				//log.info("Opening splash screen...");
+
+				try {
+					BufferedImage inImage = getBufferedImage("/splashScreen/splashScreen_in.png");
+					BufferedImage outImage = getBufferedImage("/splashScreen/splashScreen_out.png");
+					BufferedImage textImage = getBufferedImage("/splashScreen/splashScreen_title.png");
+
+					SplashScreen s = new SplashScreen(inImage, outImage, textImage);
+
+					s.setAutomaticClose(PropertiesExample.SPLASH_SCREEN_TIME.getValueAsInt());
+					s.setRunnableAfterClose(r);
+					s.setSubtitle("Loading complete");
+
+					try {
+						s.setSound(new File(ExampleConsole.class.getResource("/splashScreen/boot.wav").toURI()));
+					} catch (URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+
+					s.setVisible(true);
+
+				} catch (Exception e) {
+					//log.error("Error with opening splash screen.");
+					e.printStackTrace();
+
+					r.run();
+				}
+			} else {
+				r.run();
+			}
+
+		} else {
+			r.run();
+		}
+
+	}
 
 	private static Logger log = LoggerFactory.getLogger(SplashScreen.class);
 

@@ -61,7 +61,7 @@ public class FileImporter extends UtilityJFrame {
 		//setIconImage(Icons.IMPORT.getImage());
 		setTitle("Import");
 
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
