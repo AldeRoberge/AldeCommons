@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>alde.commons</groupId>
+    <artifactId>AldeCommons</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    
+    <!-- Output to jar format -->
+    <packaging>jar</packaging>
+
+    <name>AldeCommons</name>
+    <url>https://github.com/iObsidian/AldeMIDI</url>
+
+    <properties>
+        <jdk.version>1.7</jdk.version>
+        <jodatime.version>2.5</jodatime.version>
+        <junit.version>4.11</junit.version>
+        <log4j.version>1.2.17</log4j.version>
+    </properties>
+
+    <dependencies>
+       <!-- <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${jodatime.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency> -->
+    </dependencies>
+
+    <build>
+        <finalName>AldeCommons</finalName>
+        <plugins>
+            <plugin>
+                <groupId>de.ntcomputer</groupId>
+                <artifactId>executable-packer-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <configuration>
+                    <mainClass>alde.commons.ExampleConsole</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>pack-executable-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    
+</project>
