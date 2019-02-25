@@ -76,7 +76,7 @@ public class ObjectSerializer<T extends Serializable> {
 			log.warn("File " + file.getAbsolutePath() + " is empty or does not exist!");
 		}
 
-		System.out.println("Returning : " + t);
+		log.info("Returning : " + t);
 
 		return t;
 

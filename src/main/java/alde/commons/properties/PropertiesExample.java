@@ -16,8 +16,8 @@ public abstract class PropertiesExample {
 	private static PropertyFileManager propertyFile;
 
 	//@formatter:off
-	public static final Property SHOW_SPLASH_SCREEN = new Property("SHOW_SPLASH_SCREEN", "Display splash screen on start", Property.TRUE, propertyFile);
-	public static final Property SPLASH_SCREEN_TIME = new Property("SPLASH_SCREEN_TIME","Seconds before closing splash screen", "5", propertyFile);
+	public static final BooleanProperty SHOW_SPLASH_SCREEN = new BooleanProperty("SHOW_SPLASH_SCREEN", "Display splash screen on start", true, propertyFile);
+	public static final IntProperty SPLASH_SCREEN_TIME = new IntProperty("SPLASH_SCREEN_TIME","Seconds before closing splash screen", 5, propertyFile);
 	public static final Property DOMAIN_FILE = new Property("DOMAIN_FILE","Relative path to the file containing the domains (separated by line breaks)", "domains.txt", propertyFile);
 	//@formatter:on
 

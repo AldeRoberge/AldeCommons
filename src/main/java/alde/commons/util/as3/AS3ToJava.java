@@ -19,9 +19,13 @@ import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import alde.commons.util.file.FileEditor;
 import alde.commons.util.text.StringUtils;
+import org.slf4j.LoggerFactory;
 
 public class AS3ToJava extends StringUtils {
+
+	private static org.slf4j.Logger log = LoggerFactory.getLogger(AS3ToJava.class);
 
 	private JFrame frame;
 
@@ -62,7 +66,7 @@ public class AS3ToJava extends StringUtils {
 
 	private static void debug(String string) {
 		if (DEBUG) {
-			System.out.println(string);
+			log.info(string);
 		}
 	}
 
@@ -274,7 +278,7 @@ public class AS3ToJava extends StringUtils {
 					String dictionaryName = getFollowingWord(line, " in ");
 					String varName = getPreviousWord(line, " in ");
 
-					System.out.println(dictionaryName + ", " + varName);
+					log.info(dictionaryName + ", " + varName);
 
 					line = rotate(line, " in ", ".contains(");
 
@@ -320,11 +324,11 @@ public class AS3ToJava extends StringUtils {
 
 					String type = getFollowingWord(line, " as ");
 
-					System.out.println("Type : " + type);
+					log.info("Type : " + type);
 
 					line = rotate(line, " as ", " "); // rotate type and object name and remove ' as '
 
-					System.out.println(line);
+					log.info(line);
 
 					line = replace(line, type, "(" + type + ")"); // add parentheses
 
@@ -448,7 +452,7 @@ public class AS3ToJava extends StringUtils {
 
 		if (!line.contains("()")) { // if it has parameters
 			String paramLine = getInbetween(line, "(", ")");
-			System.out.println("Param line : " + paramLine);
+			log.info("Param line : " + paramLine);
 
 			for (String param : paramLine.split(", ")) {
 				param = param.replace(",", "");
@@ -466,11 +470,11 @@ public class AS3ToJava extends StringUtils {
 
 				params.add(parameter);
 
-				System.out.println(parameter.toStringToString());
+				log.info(parameter.toStringToString());
 			}
 		}
 
-		System.out.println("Number of params found : " + params.size() + ", has optional params : " + hasOptionalParams);
+		log.info("Number of params found : " + params.size() + ", has optional params : " + hasOptionalParams);
 
 		List<String> allParams = new ArrayList<>();
 		List<String> onlyNonOptionalParams = new ArrayList<>();
@@ -485,7 +489,7 @@ public class AS3ToJava extends StringUtils {
 		}
 		String nonOptionalParamLine = StringUtils.generateSeparatedStringFromStringList(onlyNonOptionalParams);
 
-		System.out.println("Non optional param line : " + nonOptionalParamLine);
+		log.info("Non optional param line : " + nonOptionalParamLine);
 
 		String function = visibility + " " + returnType + " " + functionName;
 
@@ -506,11 +510,11 @@ public class AS3ToJava extends StringUtils {
 		String curlyOrNot = line.contains("{") ? "{" : ""; // Sometimes the curly bracket is on the other line
 
 		if (DEBUG) {
-			System.out.println("visibility : " + visibility);
-			System.out.println("returnType : " + returnType);
-			System.out.println("name : " + functionName);
-			System.out.println("actualParamLine : " + actualParamLine);
-			System.out.println("curlyorNot : " + curlyOrNot);
+			log.info("visibility : " + visibility);
+			log.info("returnType : " + returnType);
+			log.info("name : " + functionName);
+			log.info("actualParamLine : " + actualParamLine);
+			log.info("curlyorNot : " + curlyOrNot);
 		}
 
 		String re = function + "(" + actualParamLine + ") " + " "

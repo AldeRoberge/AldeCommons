@@ -5,78 +5,108 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Global property persistence
  *
- * @see Apache's PropertiesConfiguration
+ * @see PropertiesConfiguration
  */
 public class PropertyFileManager {
 
-	private static final Logger log = LoggerFactory.getLogger(PropertyFileManager.class);
+    private static final Logger log = LoggerFactory.getLogger(PropertyFileManager.class);
 
-	private final File propertyFile;
+    private static final String DEFAULT_PROPERTY_FILE_PATH = "properties.properties";
 
-	private PropertiesConfiguration config;
+    private final File propertyFile;
 
-	public PropertyFileManager(String propertyFilePath) {
+    private PropertiesConfiguration config;
 
-		if (propertyFilePath == null) {
-			System.err.println("Property file path is null!");
-		} else if (propertyFilePath.equals("")) {
-			System.err.println("Property file path is empty!");
-		}
+    public PropertyFileManager(String propertyFilePath) {
 
-		propertyFile = new File(propertyFilePath);
+        if (propertyFilePath == null || propertyFilePath.equals("")) {
+            log.error("Invalid property file path! Setting to default '" + DEFAULT_PROPERTY_FILE_PATH + "'.");
+            propertyFile = new File(DEFAULT_PROPERTY_FILE_PATH);
+        } else {
+            propertyFile = new File(propertyFilePath);
+        }
 
-		try {
-			Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+        try {
+            boolean created = Paths.get(propertyFile.toURI()).toFile().createNewFile(); // Create file if it doesn't already exist
 
-		try {
+            if (created) {
+                log.info("Created new property file '" + propertyFilePath + "'.");
+            }
 
-			config = new PropertiesConfiguration(propertyFile);
-			log.debug("Restoring perfectpitch.properties from '" + propertyFile.getAbsolutePath() + "'...");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
 
-		} catch (ConfigurationException e) {
-			log.error("Could not create PropertiesConfiguration.");
-			e.printStackTrace();
-		}
+        try {
 
-	}
+            config = new PropertiesConfiguration(propertyFile);
+            log.debug("Restoring perfectpitch.properties from '" + propertyFile.getAbsolutePath() + "'...");
 
-	public String savePropertyValue(String key, String value) {
+        } catch (ConfigurationException e) {
+            log.error("Could not create PropertiesConfiguration.");
+            e.printStackTrace();
+        }
 
-		log.debug("Saving property '" + key + "' with value '" + value + "'.");
+    }
 
-		try {
-			config.setProperty(key, value);
-			config.save();
-		} catch (ConfigurationException e) {
-			log.error("Error while setting property '" + key + "' from '" + propertyFile.getPath() + "'.", e);
-			e.printStackTrace();
-		}
+    public String savePropertyValue(String key, String value) {
 
-		return value;
+        log.debug("Saving property '" + key + "' with value '" + value + "'.");
 
-	}
+        try {
+            config.setProperty(key, value);
+            config.save();
+        } catch (ConfigurationException e) {
+            log.error("Error while setting property '" + key + "' from '" + propertyFile.getPath() + "'.", e);
+            e.printStackTrace();
+        }
 
-	public String getPropertyValue(String key, String defaultValue) {
+        return value;
 
-		log.debug("Getting property '" + key + "'.");
+    }
 
-		String value = (String) config.getProperty(key);
+    public String getPropertyValue(String key, String defaultValue) {
 
-		if (value == null) {
-			savePropertyValue(key, defaultValue);
-			return defaultValue;
-		} else {
-			return value;
-		}
-	}
+        log.debug("Getting property '" + key + "'.");
+
+        String value = (String) config.getProperty(key);
+
+        if (value == null) {
+            savePropertyValue(key, defaultValue);
+            return defaultValue;
+        } else {
+            return value;
+        }
+    }
+}
+
+class PropertiesPanel extends JPanel {
+
+    private static final long serialVersionUID = 1L;
+
+    public PropertiesPanel(List<Property> properties) {
+        setLayout(new BorderLayout(0, 0));
+
+        JScrollPane propertyScrollPane = new JScrollPane();
+        add(propertyScrollPane, BorderLayout.CENTER);
+
+        JPanel propertyPanel = new JPanel();
+        propertyScrollPane.setViewportView(propertyPanel);
+
+        propertyPanel.setLayout(new BoxLayout(propertyPanel, BoxLayout.Y_AXIS));
+
+        for (Property p : properties) {
+            propertyPanel.add(p.getEditPropertyPanel());
+        }
+    }
 }

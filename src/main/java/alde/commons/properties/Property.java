@@ -19,302 +19,303 @@ import org.slf4j.LoggerFactory;
 
 public class Property {
 
-	private static final Logger log = LoggerFactory.getLogger(Property.class);
+    private static final Logger log = LoggerFactory.getLogger(Property.class);
 
-	public static final String TRUE = "TRUE";
-	public static final String FALSE = "FALSE";
+    public static final String TRUE = "TRUE";
+    public static final String FALSE = "FALSE";
 
-	private PropertyFileManager propertyManager;
+    PropertyFileManager propertyManager;
 
-	private String key;
-	private String description;
-	private String defaultValue;
-	private String value;
+    String key;
+    String description;
+    String defaultValue;
+    String value;
 
-	private EditPropertyPanel editPropertyPanel;
+    private EditPropertyPanel editPropertyPanel;
 
-	/**
-	 * @param keyName          Key to store value to
-	 * @param defaultValue     Default value returned if no property of this key exists
-	 * @param propertyManager  PropertyFileManager used to store and retrieve keys
-	 */
-	public Property(String keyName, String defaultValue, PropertyFileManager propertyManager) {
-		this(keyName, "", defaultValue, propertyManager);
-	}
+    /**
+     * @param keyName         Key to store value to
+     * @param defaultValue    Default value returned if no property of this key exists
+     * @param propertyManager PropertyFileManager used to store and retrieve keys
+     */
+    public Property(String keyName, String defaultValue, PropertyFileManager propertyManager) {
+        this(keyName, "", defaultValue, propertyManager);
+    }
 
-	/**
-	 * @param keyName          Key to store value to
-	 * @param description      Description of what this property does
-	 * @param defaultValue     Default value returned if no property of this key exists
-	 * @param propertyManager  PropertyFileManager used to store and retrieve keys
-	 */
-	public Property(String keyName, String description, String defaultValue, PropertyFileManager propertyManager) {
-		this.key = keyName;
-		this.description = description;
-		this.defaultValue = defaultValue;
-		this.value = propertyManager.getPropertyValue(keyName, defaultValue);
-		this.propertyManager = propertyManager;
-	}
+    /**
+     * @param keyName         Key to store value to
+     * @param description     Description of what this property does
+     * @param defaultValue    Default value returned if no property of this key exists
+     * @param propertyManager PropertyFileManager used to store and retrieve keys
+     */
+    public Property(String keyName, String description, String defaultValue, PropertyFileManager propertyManager) {
+        this.key = keyName;
+        this.description = description;
+        this.defaultValue = defaultValue;
+        this.value = propertyManager.getPropertyValue(keyName, defaultValue);
+        this.propertyManager = propertyManager;
+    }
 
-	public EditPropertyPanel getEditPropertyPanel() {
-		if (editPropertyPanel == null) {
-			editPropertyPanel = new EditPropertyPanel(this);
-		}
+    public EditPropertyPanel getEditPropertyPanel() {
+        if (editPropertyPanel == null) {
+            editPropertyPanel = new EditPropertyPanel(this);
+        }
 
-		return editPropertyPanel;
-	}
+        return editPropertyPanel;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public String setValue(String value) {
-		propertyManager.savePropertyValue(key, value);
-		this.value = value;
+    public String setValue(String value) {
+        propertyManager.savePropertyValue(key, value);
+        this.value = value;
 
-		return value;
-	}
+        return value;
+    }
 
-	/**
-	 * Set boolean value
-	 */
-	public boolean setValue(boolean value) {
-		String booleanStringValue = Boolean.toString(value).toUpperCase();
-		propertyManager.savePropertyValue(key, booleanStringValue);
-		this.value = booleanStringValue;
+    /**
+     * Set boolean value
+     */
+    public boolean setValue(boolean value) {
+        String booleanStringValue = Boolean.toString(value).toUpperCase();
+        propertyManager.savePropertyValue(key, booleanStringValue);
+        this.value = booleanStringValue;
 
-		getEditPropertyPanel().updateFieldWithNewValue();
+        getEditPropertyPanel().updateFieldWithNewValue();
 
-		return value;
-	}
+        return value;
+    }
 
-	/**
-	 * Set int value
-	 */
-	public int setValue(int value) {
-		String stringValue = Integer.toString(value);
+    /**
+     * Set int value
+     */
+    public int setValue(int value) {
+        String stringValue = Integer.toString(value);
 
-		propertyManager.savePropertyValue(key, stringValue);
-		this.value = stringValue;
+        propertyManager.savePropertyValue(key, stringValue);
+        this.value = stringValue;
 
-		return value;
-	}
+        return value;
+    }
 
-	/**
-	 * Returns value as boolean, returns false if parsing is impossible
-	 */
-	public boolean getValueAsBoolean() {
-		switch (value) {
-		case TRUE:
-			return true;
-		case FALSE:
-			return false;
-		default:
-			log.error("isTrue() on " + key + " for value " + value
-					+ " is impossible. (Boolean string values are case sensitive!).");
-			setValue(defaultValue);
-			return false;
-		}
-	}
+    /**
+     * Returns value as boolean, returns false if parsing is impossible
+     */
+    public boolean getValueAsBoolean() {
+        switch (value) {
+            case TRUE:
+                return true;
+            case FALSE:
+                return false;
+            default:
+                log.error("isTrue() on " + key + " for value " + value
+                        + " is impossible. (Boolean string values are case sensitive!).");
+                setValue(defaultValue);
+                return false;
+        }
+    }
 
-	/**
-	 * Returns value as int, returns 0 if impossible
-	 * @return
-	 */
-	public int getValueAsInt() {
+    /**
+     * Returns value as int, returns 0 if impossible
+     *
+     * @return
+     */
+    public int getValueAsInt() {
 
-		try {
-			return Integer.parseInt(value);
-		} catch (Exception e) {
-			log.error("Could not get value as int (value : " + value + ", key : " + key
-					+ "), attempting with default value", e);
-		}
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            log.error("Could not get value as int (value : " + value + ", key : " + key
+                    + "), attempting with default value", e);
+        }
 
-		try {
-			return Integer.parseInt(defaultValue);
-		} catch (Exception e) {
-			log.error("Could not get default value as int (value : " + defaultValue + ", key : " + key + ")", e);
-		}
+        try {
+            return Integer.parseInt(defaultValue);
+        } catch (Exception e) {
+            log.error("Could not get default value as int (value : " + defaultValue + ", key : " + key + ")", e);
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
-	public boolean isDefaultValue() {
-		return this.value.equals(defaultValue);
-	}
+    public boolean isDefaultValue() {
+        return this.value.equals(defaultValue);
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public String getKey() {
+        return key;
+    }
 
-	@Override
-	public String toString() {
-		return getValue();
-	}
+    @Override
+    public String toString() {
+        return getValue();
+    }
 
 }
 
 enum Type {
-	BOOLEAN, INTEGER, ANY;
+    BOOLEAN, INTEGER, ANY;
 }
 
 /**
  * JPanel that allows the perfectpitch.player.user to edit the property
  */
 class EditPropertyPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Property property;
+    private Property property;
 
-	private final JPanel warningPanel;
+    private final JPanel warningPanel;
 
-	private String newValue;
-	private JTextField inputField;
+    private String newValue;
+    private JTextField inputField;
 
-	private JLabel label;
+    private JLabel label;
 
-	private final JButton saveButton;
+    private final JButton saveButton;
 
-	/**
-	 * Type is detected based on the default value
-	 */
-	private final Type flaggedType;
-	private final String warning;
+    /**
+     * Type is detected based on the default value
+     */
+    private final Type flaggedType;
+    private final String warning;
 
-	public void updateFieldWithNewValue() {
-		inputField.setText(property.getValue());
-	}
+    public void updateFieldWithNewValue() {
+        inputField.setText(property.getValue());
+    }
 
-	public EditPropertyPanel(final Property property) {
-		this.property = property;
-		setLayout(new BorderLayout(0, 0));
+    public EditPropertyPanel(final Property property) {
+        this.property = property;
+        setLayout(new BorderLayout(0, 0));
 
-		inputField = new JTextField(property.getValue());
-		inputField.setColumns(10);
-		add(inputField, BorderLayout.CENTER);
+        inputField = new JTextField(property.getValue());
+        inputField.setColumns(10);
+        add(inputField, BorderLayout.CENTER);
 
-		if (isBooleanStringValue(property.getValue())) {
-			flaggedType = Type.BOOLEAN;
-			warning = "This property was automaticaly flagged as 'string boolean value only'.";
-		} else if (isOnlyNumbers(property.getValue())) {
-			flaggedType = Type.INTEGER;
-			warning = "This property was automaticaly flagged as 'integers only'";
-		} else {
-			flaggedType = Type.ANY;
-			warning = "";
-		}
+        if (isBooleanStringValue(property.getValue())) {
+            flaggedType = Type.BOOLEAN;
+            warning = "This property was automaticaly flagged as 'string boolean value only'.";
+        } else if (isOnlyNumbers(property.getValue())) {
+            flaggedType = Type.INTEGER;
+            warning = "This property was automaticaly flagged as 'integers only'";
+        } else {
+            flaggedType = Type.ANY;
+            warning = "";
+        }
 
-		saveButton = new JButton("Save");
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				property.setValue(newValue);
-				setIsEdited(false);
-			}
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                property.setValue(newValue);
+                setIsEdited(false);
+            }
 
-		});
-		add(saveButton, BorderLayout.EAST);
-		saveButton.setVisible(false);
+        });
+        add(saveButton, BorderLayout.EAST);
+        saveButton.setVisible(false);
 
-		label = new JLabel();
-		updateLabelText(false);
-		label.setToolTipText(property.getKey());
-		add(label, BorderLayout.WEST);
+        label = new JLabel();
+        updateLabelText(false);
+        label.setToolTipText(property.getKey());
+        add(label, BorderLayout.WEST);
 
-		//
+        //
 
-		warningPanel = new JPanel();
-		add(warningPanel, BorderLayout.SOUTH);
+        warningPanel = new JPanel();
+        add(warningPanel, BorderLayout.SOUTH);
 
-		JLabel warningLabel = new JLabel(warning);
-		warningLabel.setForeground(Color.RED);
-		warningPanel.add(warningLabel);
+        JLabel warningLabel = new JLabel(warning);
+        warningLabel.setForeground(Color.RED);
+        warningPanel.add(warningLabel);
 
-		warningPanel.setVisible(false);
+        warningPanel.setVisible(false);
 
-		//
+        //
 
-		inputField.getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				update();
-			}
+        inputField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                update();
+            }
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				update();
-			}
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                update();
+            }
 
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				update();
-			}
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                update();
+            }
 
-			// Notifies the perfectpitch.player.user if the value entered does not match the type
-			void update() {
-				newValue = inputField.getText();
+            // Notifies the perfectpitch.player.user if the value entered does not match the type
+            void update() {
+                newValue = inputField.getText();
 
-				if (flaggedType == Type.BOOLEAN && !isBooleanStringValue(newValue)) { //boolean type
-					setWarningPanelVisibility(true);
-				} else if (flaggedType == Type.INTEGER && !isOnlyNumbers(newValue)) { //number type
-					setWarningPanelVisibility(true);
-				} else {
-					setWarningPanelVisibility(false);
-				}
+                if (flaggedType == Type.BOOLEAN && !isBooleanStringValue(newValue)) { //boolean type
+                    setWarningPanelVisibility(true);
+                } else if (flaggedType == Type.INTEGER && !isOnlyNumbers(newValue)) { //number type
+                    setWarningPanelVisibility(true);
+                } else {
+                    setWarningPanelVisibility(false);
+                }
 
-				if (!property.getValue().equals(newValue)) {
-					setIsEdited(true);
-				} else {
-					setIsEdited(false);
-				}
-			}
-		});
+                if (!property.getValue().equals(newValue)) {
+                    setIsEdited(true);
+                } else {
+                    setIsEdited(false);
+                }
+            }
+        });
 
-		setWarningPanelVisibility(false);
+        setWarningPanelVisibility(false);
 
-	}
+    }
 
-	private void setWarningPanelVisibility(boolean visibility) {
-		warningPanel.setVisible(visibility);
+    private void setWarningPanelVisibility(boolean visibility) {
+        warningPanel.setVisible(visibility);
 
-		if (visibility) {
-			setMaximumSize(new Dimension(800, 25));
-		} else {
-			setMaximumSize(new Dimension(800, 45));
-		}
-	}
+        if (visibility) {
+            setMaximumSize(new Dimension(800, 25));
+        } else {
+            setMaximumSize(new Dimension(800, 45));
+        }
+    }
 
-	private boolean isOnlyNumbers(String value) {
-		return value.matches("[0-9]+");
-	}
+    private boolean isOnlyNumbers(String value) {
+        return value.matches("[0-9]+");
+    }
 
-	private boolean isBooleanStringValue(String value) {
-		return (value.equals(Property.TRUE) || value.equals(Property.FALSE));
-	}
+    private boolean isBooleanStringValue(String value) {
+        return (value.equals(Property.TRUE) || value.equals(Property.FALSE));
+    }
 
-	/**
-	 * @param isEdited shows 'Save' button and asterix on label
-	 */
-	private void setIsEdited(boolean isEdited) {
-		saveButton.setVisible(isEdited);
-		updateLabelText(isEdited);
-	}
+    /**
+     * @param isEdited shows 'Save' button and asterix on label
+     */
+    private void setIsEdited(boolean isEdited) {
+        saveButton.setVisible(isEdited);
+        updateLabelText(isEdited);
+    }
 
-	private void updateLabelText(boolean isEdited) {
-		String asterix = "";
+    private void updateLabelText(boolean isEdited) {
+        String asterix = "";
 
-		if (isEdited) {
-			label.setFont(label.getFont().deriveFont(Font.BOLD));
-			asterix = "*";
-		} else {
-			label.setFont(label.getFont().deriveFont(Font.PLAIN));
-		}
+        if (isEdited) {
+            label.setFont(label.getFont().deriveFont(Font.BOLD));
+            asterix = "*";
+        } else {
+            label.setFont(label.getFont().deriveFont(Font.PLAIN));
+        }
 
-		label.setText("    " + property.getDescription() + asterix + "   :   ");
-	}
+        label.setText("    " + property.getDescription() + asterix + "   :   ");
+    }
 
 }
