@@ -76,7 +76,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="library" name="ECLIPSE" level="application" />
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="module-library">
       <library name="basicplayer3.0.jar">
         <CLASSES>
