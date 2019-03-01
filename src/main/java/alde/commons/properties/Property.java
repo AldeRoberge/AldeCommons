@@ -298,7 +298,7 @@ class EditPropertyPanel extends JPanel {
     }
 
     /**
-     * @param isEdited shows 'Save' button and asterix on label
+     * @param isEdited shows 'Save' button and asterix on infoLabel
      */
     private void setIsEdited(boolean isEdited) {
         saveButton.setVisible(isEdited);

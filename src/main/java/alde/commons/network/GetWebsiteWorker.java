@@ -23,7 +23,7 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 
 	private static Logger log = LoggerFactory.getLogger(GetWebsiteWorker.class);
 
-	ProxyWrapper proxyWrapper;
+	private ProxyWrapper proxyWrapper;
 
 	public GetWebsiteWorker(String workerName) {
 		super(workerName);
@@ -62,7 +62,7 @@ public class GetWebsiteWorker extends Worker<GetWebsiteTask> {
 				}
 				in.close();
 			} catch (IOException e) {
-				log.error("Error with proxy '" + proxyWrapper + "', " + e.getMessage());
+				log.debug("Error with proxy '" + proxyWrapper + "', " + e.getMessage());
 				failed = true;
 			}
 

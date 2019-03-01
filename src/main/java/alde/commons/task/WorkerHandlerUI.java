@@ -26,7 +26,7 @@ UI for WorkerHandler
 */
 public class WorkerHandlerUI extends JPanel {
 
-	VerbalWorkerHandler workerHandler;
+	WorkerHandler workerHandler;
 
 	static Logger log = LoggerFactory.getLogger(WorkerHandlerUI.class);
 
@@ -50,12 +50,7 @@ public class WorkerHandlerUI extends JPanel {
 
 		scrollPane.setViewportView(table);
 
-		workerHandler.registerListeningForWorkerChanges(new Consumer<List<Worker>>() {
-			@Override
-			public void accept(List<Worker> t) {
-				setTableData(t);
-			}
-		});
+		workerHandler.registerListeningForWorkerChanges(this::setTableData);
 
 		Timer repaint = new Timer();
 		repaint.schedule(new TimerTask() {

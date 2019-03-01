@@ -21,7 +21,6 @@ public class ProxyLeecher {
 
 	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
 
-	
 	private static boolean isLoadingProxies;
 
 	private static List<ProxyWrapper> proxies = new ArrayList<>();
@@ -96,10 +95,10 @@ public class ProxyLeecher {
 	}
 
 	public static void main(String[] args) {
-		//System.out.println("Loading...");
-		/*for (ProxyWrapper proxy : getProxiesFromFateZero()) {
+		System.out.println("Loading...");
+		for (ProxyWrapper proxy : getProxies()) {
 			System.out.println(proxy);
-		}*/
+		}
 	}
 
 	/**private static List<ProxyWrapper> getProxiesFromFateZero() {

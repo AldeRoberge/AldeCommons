@@ -14,9 +14,11 @@ import alde.commons.network.proxy.ProxyLeecher;
 
 class TestUI {
 
-	private static Logger log = LoggerFactory.getLogger(ProxyLeecher.class);
+	private static Logger log = LoggerFactory.getLogger(TestUI.class);
 
 	private JFrame frame;
+
+	public JLabel infoLabel;
 
 	/**
 	 * Launch the application.
@@ -49,6 +51,12 @@ class TestUI {
 		frame.setBounds(100, 100, 764, 309);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+
+		infoLabel = new JLabel("");
+
+		frame.add(infoLabel, BorderLayout.NORTH);
+
+
 		JPanel panel = GetWebsiteWorkerHandler.get().getUI();
 
 		//String URL, String avoid, int maxAttempt, Consumer<List<String>> websiteContentConsumer
@@ -58,6 +66,10 @@ class TestUI {
 				@Override
 				public void accept(List<String> t) {
 					log.info("Received answer : ");
+
+					infoLabel.setText("Tasks : ");
+
+
 				}
 			}));
 		}

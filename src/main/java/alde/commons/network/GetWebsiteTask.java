@@ -14,7 +14,7 @@ public class GetWebsiteTask extends Task {
 	int currentAttempt = 0;
 	int numberOfMaximumAttempts;
 
-	Consumer<List<String>> websiteContentConsumer;
+	private Consumer<List<String>> websiteContentConsumer;
 
 	List<String> answer;
 

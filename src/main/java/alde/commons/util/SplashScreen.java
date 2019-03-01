@@ -29,11 +29,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import alde.commons.ExampleProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alde.commons.ExampleConsole;
-import alde.commons.properties.PropertiesExample;
 import alde.commons.util.sound.AudioPlayer;
 
 /**
@@ -64,7 +64,7 @@ public class SplashScreen extends JFrame {
 
 	private static void example(Runnable r) {
 
-		if (PropertiesExample.SHOW_SPLASH_SCREEN.getValueAsBoolean()) {
+		if (ExampleProperties.SHOW_SPLASH_SCREEN.getValueAsBoolean()) {
 
 			boolean showSplashScreen = true;
 
@@ -79,7 +79,7 @@ public class SplashScreen extends JFrame {
 
 					SplashScreen s = new SplashScreen(inImage, outImage, textImage);
 
-					s.setAutomaticClose(PropertiesExample.SPLASH_SCREEN_TIME.getValueAsInt());
+					s.setAutomaticClose(ExampleProperties.SPLASH_SCREEN_TIME.getValueAsInt());
 					s.setRunnableAfterClose(r);
 					s.setSubtitle("Loading complete");
 

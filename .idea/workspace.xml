@@ -7,10 +7,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="48a01357-da3d-4697-a2dc-0992899a4df2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/alde/commons/ExampleProperties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AldeCommons.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AldeCommons.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsite.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteWorker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/TestUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/TestUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyLeecher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyLeecher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/properties/PropertiesExample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/properties/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/properties/Property.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/task/WorkerHandlerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/task/WorkerHandlerUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/util/SplashScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/util/SplashScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/util/text/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/util/text/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/basicplayer3.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-collections-3.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-collections4-4.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-collections4-4.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-configuration-1.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-io-2.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-lang-2.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-lang3-3.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-logging-1.0.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-logging-1.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/commons-logging-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hamcrest-core-1.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jcommon-1.0.23.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.19-experimental.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.19-swt.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.19.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/jfreesvg-2.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/junit-4.11.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kj_dsp1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/logback-classic-1.2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/logback-core-1.2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mp3spi1.9.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/orsoncharts-1.4-eval-nofx.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/orsonpdf-1.6-eval.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/servlet.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/slf4j-api-1.7.25.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/boot.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/splashScreen_in.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/splashScreen_out.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/splashScreen_title.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/swtgraphics2d.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tritonus-utils.jar" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,30 +60,6 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="-1133955035">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.10" value="1" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="JAVA" value="2" />
-          <entry key="XML" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="XML" value="72" />
-        </counts>
-      </usages-collector>
-    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -57,12 +75,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/alde/commons/fileImporter/FileImporter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="68" column="34" lean-forward="true" selection-start-line="68" selection-start-column="34" selection-end-line="68" selection-end-column="34" />
-              <folding>
-                <element signature="e#1885#2011#0" expanded="true" />
-                <element signature="e#2010#2011#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -102,10 +116,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1048" />
+    <option name="x" value="753" />
+    <option name="y" value="254" />
+    <option name="width" value="974" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -115,6 +129,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -157,11 +172,19 @@
               <item name="commons" type="462c0819:PsiDirectoryNode" />
               <item name="fileImporter" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="commons" type="462c0819:PsiDirectoryNode" />
+              <item name="properties" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -218,9 +241,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.246875" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24946696" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -236,9 +259,10 @@
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4984375" visible="true" weight="0.32169312" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5015625" side_tool="true" visible="true" weight="0.32169312" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4978678" visible="true" weight="0.3206934" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5021322" side_tool="true" visible="true" weight="0.3206934" />
       <window_info anchor="bottom" id="Messages" order="11" />
+      <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -252,9 +276,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/alde/commons/fileImporter/DropPane.java">
@@ -273,12 +294,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/alde/commons/fileImporter/FileImporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="68" column="34" lean-forward="true" selection-start-line="68" selection-start-column="34" selection-end-line="68" selection-end-column="34" />
-          <folding>
-            <element signature="e#1885#2011#0" expanded="true" />
-            <element signature="e#2010#2011#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="238">
+          <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
         </state>
       </provider>
     </entry>
