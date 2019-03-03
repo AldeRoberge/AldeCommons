@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alde.commons.ExampleConsole;
-import alde.commons.util.sound.AudioPlayer;
 
 /**
  * A SplashScreen to display while loading the application.
@@ -174,6 +173,7 @@ public class SplashScreen extends JFrame {
 		});
 	}
 
+	@Deprecated
 	public void setSound(File soundFile) {
 		this.soundFile = soundFile;
 	}
@@ -195,7 +195,7 @@ public class SplashScreen extends JFrame {
 			java.util.Timer timer = new java.util.Timer();
 			timer.schedule(closeTask, secondsBeforeClose * 1000);
 
-			if (soundFile != null) {
+			/*if (soundFile != null) {
 				AudioPlayer a = new AudioPlayer();
 
 				if (soundFile.exists()) {
@@ -203,7 +203,7 @@ public class SplashScreen extends JFrame {
 				} else {
 					log.error("Could not find sound file : " + soundFile.getAbsolutePath());
 				}
-			}
+			}*/
 		} else {
 			System.err.println("Cannot set splash screen to non visible.");
 		}

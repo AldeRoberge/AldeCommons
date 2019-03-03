@@ -6,54 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="48a01357-da3d-4697-a2dc-0992899a4df2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/alde/commons/ExampleProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AldeCommons.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AldeCommons.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/GetWebsiteWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/TestUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/TestUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyLeecher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyLeecher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/network/proxy/ProxyWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/properties/PropertiesExample.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/properties/Property.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/properties/Property.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/task/WorkerHandlerUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/task/WorkerHandlerUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/util/SplashScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/util/SplashScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/alde/commons/util/text/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/alde/commons/util/text/StringUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/basicplayer3.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-collections-3.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-collections4-4.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-collections4-4.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-configuration-1.6.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-io-2.6.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-lang-2.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-lang3-3.7.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-logging-1.0.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-logging-1.1.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/commons-logging-1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hamcrest-core-1.3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jcommon-1.0.23.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.19-experimental.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.19-swt.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jfreechart-1.0.19.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jfreesvg-2.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/junit-4.11.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kj_dsp1.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/logback-classic-1.2.3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/logback-core-1.2.3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mp3spi1.9.5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/orsoncharts-1.4-eval-nofx.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/orsonpdf-1.6-eval.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/servlet.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/slf4j-api-1.7.25.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/boot.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/splashScreen_in.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/splashScreen_out.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/splashScreen/splashScreen_title.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/swtgraphics2d.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tritonus-utils.jar" beforeDir="false" />
-    </list>
+    <list default="true" id="48a01357-da3d-4697-a2dc-0992899a4df2" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,61 +83,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="commons" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="commons" type="462c0819:PsiDirectoryNode" />
-              <item name="fileImporter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AldeCommons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AldeCommons" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="commons" type="462c0819:PsiDirectoryNode" />
-              <item name="properties" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -241,9 +140,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24946696" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24946696" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -259,7 +158,7 @@
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4978678" visible="true" weight="0.3206934" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4978678" visible="true" weight="0.3206934" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5021322" side_tool="true" visible="true" weight="0.3206934" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="right" id="Maven" />
