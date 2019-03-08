@@ -1,5 +1,9 @@
-package alde.commons.util.autoCompleteJTextField;
+package alde.commons.util.jtextfield.autocomplete;
 
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,3 +92,20 @@ public class AutoCompleteService implements CompletionService<String> {
 	}
 
 }
+
+interface CompletionService<T> {
+
+	/**
+	 * Autocomplete the passed string. The method will return the matching
+	 * object when one single object matches the search criteria. As long as
+	 * multiple objects stored in the service matches, the method will return
+	 * <code>null</code>.
+	 *
+	 * @param startsWith prefix string
+	 * @return the matching object or <code>null</code> if multiple matches are
+	 * found.
+	 */
+	T autoComplete(String startsWith);
+}
+
+
