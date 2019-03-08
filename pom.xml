@@ -34,23 +34,12 @@
             <version>1.2.3</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
         </dependency>
-
-
-
-
-
-
-
-
-
-
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
         <dependency>
@@ -88,7 +77,6 @@
             <scope>provided</scope>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/com.object-refinery/orsoncharts -->
         <dependency>
             <groupId>com.object-refinery</groupId>
@@ -103,16 +91,12 @@
             <version>0.3.7-1</version>
         </dependency>
 
-
-
-
         <!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-
 
     </dependencies>
 
