@@ -1,21 +1,14 @@
 package alde.commons.properties;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Property {
 
@@ -72,36 +65,30 @@ public class Property {
         return value;
     }
 
-    public String setValue(String value) {
+    public void setValue(String value) {
         propertyManager.savePropertyValue(key, value);
         this.value = value;
-
-        return value;
     }
 
     /**
      * Set boolean value
      */
-    public boolean setValue(boolean value) {
+    public void setValue(boolean value) {
         String booleanStringValue = Boolean.toString(value).toUpperCase();
         propertyManager.savePropertyValue(key, booleanStringValue);
         this.value = booleanStringValue;
 
         getEditPropertyPanel().updateFieldWithNewValue();
-
-        return value;
     }
 
     /**
      * Set int value
      */
-    public int setValue(int value) {
+    public void setValue(int value) {
         String stringValue = Integer.toString(value);
 
         propertyManager.savePropertyValue(key, stringValue);
         this.value = stringValue;
-
-        return value;
     }
 
     /**
@@ -123,8 +110,6 @@ public class Property {
 
     /**
      * Returns value as int, returns 0 if impossible
-     *
-     * @return
      */
     public int getValueAsInt() {
 
@@ -184,7 +169,6 @@ class EditPropertyPanel extends JPanel {
      * Type is detected based on the default value
      */
     private final Type flaggedType;
-    private final String warning;
 
     public void updateFieldWithNewValue() {
         inputField.setText(property.getValue());
@@ -198,6 +182,7 @@ class EditPropertyPanel extends JPanel {
         inputField.setColumns(10);
         add(inputField, BorderLayout.CENTER);
 
+        String warning;
         if (isBooleanStringValue(property.getValue())) {
             flaggedType = Type.BOOLEAN;
             warning = "This property was automaticaly flagged as 'string boolean value only'.";

@@ -17,7 +17,6 @@ public abstract class ConsoleAction {
 
 	/**
 	 * Returns a description of the action as a basic phrase that ends with a dot.
-	 * 
 	 */
 	protected abstract String getDescription();
 
