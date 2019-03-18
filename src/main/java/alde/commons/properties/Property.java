@@ -181,10 +181,11 @@ class EditPropertyPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		String warning;
-		if (isBooleanStringValue(property.getValue())) {
+
+		if (property instanceof BooleanProperty) {
 			flaggedType = Type.BOOLEAN;
 			warning = "Incorrect value, only booleans are allowed.";
-		} else if (isOnlyNumbers(property.getValue())) {
+		} else if (property instanceof IntProperty) {
 			flaggedType = Type.INTEGER;
 			warning = "Incorrect value, only integers are allowed.";
 		} else {
