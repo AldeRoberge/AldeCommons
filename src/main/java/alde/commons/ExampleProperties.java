@@ -25,7 +25,6 @@ public class ExampleProperties {
 	//@formatter:off
 	public static final BooleanProperty SHOW_SPLASH_SCREEN = new BooleanProperty("SHOW_SPLASH_SCREEN", "Display splash screen on start", true, propertyFile);
 	public static final IntProperty SPLASH_SCREEN_TIME = new IntProperty("SPLASH_SCREEN_TIME", "Seconds before closing splash screen", 5, propertyFile);
-	public static final Property DOMAIN_FILE = new Property("DOMAIN_FILE", "Relative path to the file containing the domains (separated by line breaks)", "domains.txt", propertyFile);
 	//@formatter:on
 
 	/**
