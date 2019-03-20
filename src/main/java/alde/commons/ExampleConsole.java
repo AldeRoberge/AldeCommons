@@ -58,9 +58,9 @@ public class ExampleConsole {
 		scrollPane.setViewportView(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		panel.add(LoggerPanel.get(), BorderLayout.CENTER);
+		panel.add(new LoggerPanel(), BorderLayout.CENTER);
 
-		frmConsole.getContentPane().add(Console.get(), BorderLayout.SOUTH);
+		frmConsole.getContentPane().add(new Console(), BorderLayout.SOUTH);
 
 		frmConsole.setVisible(true);
 

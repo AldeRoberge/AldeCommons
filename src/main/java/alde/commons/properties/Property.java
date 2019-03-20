@@ -78,7 +78,7 @@ public class Property {
 		propertyManager.savePropertyValue(key, booleanStringValue);
 		this.value = booleanStringValue;
 
-		getEditPropertyPanel().updateFieldWithNewValue();
+		getEditPropertyPanel().valueHasChanged(Boolean.toString(value));
 	}
 
 	/**
@@ -171,10 +171,6 @@ class EditPropertyPanel extends JPanel {
 	 * Type is detected based on the default value
 	 */
 	private final Type flaggedType;
-
-	public void updateFieldWithNewValue() {
-		inputField.setText(property.getValue());
-	}
 
 	public EditPropertyPanel(final Property property) {
 		this.property = property;
@@ -336,6 +332,12 @@ class EditPropertyPanel extends JPanel {
 		label.setText("    " + property.getDescription() + asterix + "   :   ");
 	}
 
-	public void valueHasChanged() {
+	public void valueHasChanged(String newValue) {
+		if (flaggedType == Type.BOOLEAN) {
+			booleanInputField.setSelectedItem(Boolean.getBoolean(newValue));
+		} else {
+			inputField.setText(property.getValue());
+		}
+
 	}
 }

@@ -52,7 +52,7 @@ public class PropertyFileManager {
         try {
 
             config = new PropertiesConfiguration(propertyFile);
-            log.debug("Restoring perfectpitch.properties from '" + propertyFile.getAbsolutePath() + "'...");
+            log.debug("Restoring properties from '" + propertyFile.getAbsolutePath() + "'...");
 
         } catch (ConfigurationException e) {
             log.error("Could not create PropertiesConfiguration.");

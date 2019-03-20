@@ -24,16 +24,11 @@ public class Console extends UtilityJTextField {
     private static String HINT = "Enter command here";
 
     /**
-     * Singleton instance, use getConsole() to get
-     */
-    private static Console console;
-
-    /**
      * List of actions
      */
     private static final List<ConsoleAction> actions = new ArrayList<>();
 
-    private Console() {
+    public Console() {
         super(HINT);
 
         setFont(getFont().deriveFont(Font.BOLD));
@@ -46,13 +41,12 @@ public class Console extends UtilityJTextField {
         CompoundBorder border = new CompoundBorder(line, empty);
         setBorder(border);
 
-
-        console.addAction(new HelpAction(actions));
+        addAction(new HelpAction(actions));
 
         /*
          * Receive input
          */
-        console.addActionListener(actionEvent -> {
+        addActionListener(actionEvent -> {
 
             String command = getText();
 
@@ -101,16 +95,6 @@ public class Console extends UtilityJTextField {
     }
 
     /**
-     * @return Console singleton
-     */
-    public static Console get() {
-        if (console == null) {
-            console = new Console();
-        }
-        return console;
-    }
-
-    /**
      * Use this static method to addAction listeners.
      * <p>
      * Console.addAction(ConsoleAction)
@@ -136,7 +120,7 @@ public class Console extends UtilityJTextField {
         }
 
         // Adds the keyWords of the action to the autoCompleteService
-        get().addData(c.getKeywords());
+        addData(c.getKeywords());
         actions.add(c);
 
     }

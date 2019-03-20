@@ -17,7 +17,7 @@ import java.util.List;
 public class ExampleProperties {
 
 	static {
-		propertyFile = new PropertyFileManager("alde-commons-example.perfectpitch.properties");
+		propertyFile = new PropertyFileManager("alde-commons-example.properties");
 	}
 
 	private static PropertyFileManager propertyFile;
@@ -31,7 +31,7 @@ public class ExampleProperties {
 	/**
 	 * Gets all the Properties of the superclass using reflection
 	 *
-	 * @return List<Property> list of perfectpitch.properties
+	 * @return List<Property> list of properties
 	 */
 	public static List<Property> getProperties() {
 		List<Property> properties = new ArrayList<>();

@@ -50,20 +50,12 @@ public class LoggerPanel extends JTextPane {
 
 	//
 
-	public static LoggerPanel get() {
-		if (loggerPanel == null) {
-			loggerPanel = new LoggerPanel();
-		}
-
-		return loggerPanel;
-	}
-
 	private int currentLine = 0;
 
 	/**
 	 * Based on http://www.java2s.com/Tutorials/Java/Swing_How_to/JTextPane/Style_JTextPane_with_HTML_CSS_and_StyleSheet.htm
 	 */
-	private LoggerPanel() {
+	public LoggerPanel() {
 		LoggerListener.addListener(event -> {
 			try {
 				addContent(formatLogToColorizedHTML(event));

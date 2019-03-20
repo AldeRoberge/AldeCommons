@@ -55,7 +55,7 @@ public class BooleanProperty extends Property {
 
 		setValue(propertyManager.savePropertyValue(key, booleanValue));
 
-		getEditPropertyPanel().valueHasChanged();
+		getEditPropertyPanel().valueHasChanged(String.valueOf(value));
 
 		return value;
 	}
