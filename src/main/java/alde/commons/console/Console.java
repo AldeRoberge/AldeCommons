@@ -89,6 +89,9 @@ public class Console extends UtilityJTextField {
                     log.info("Did you mean '" + suggestion + "'?");
                 }
             }
+            
+            setText("");
+            
         });
 
 

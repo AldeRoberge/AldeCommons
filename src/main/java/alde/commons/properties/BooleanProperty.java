@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Boolean wrapper for Property, provides utility to save and restore boolean
- * properties.
+ * discordwebcam.properties.
  * 
  * @see Property
  */

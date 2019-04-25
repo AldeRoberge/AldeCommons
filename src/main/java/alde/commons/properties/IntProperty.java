@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Int wrapper for Property, provides utility to save and restore integer
- * properties.
+ * discordwebcam.properties.
  * 
  * @see Property
  */

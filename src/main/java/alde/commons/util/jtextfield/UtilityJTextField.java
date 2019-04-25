@@ -11,9 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * - Shows hint (grayed out text)
- * - Remembers inputs (use arrows to move up and down)
- * - Shows autocomplete suggestions
+ * - Shows hint (grayed out text) - Remembers inputs (use arrows to move up and
+ * down) - Shows autocomplete suggestions
  */
 public class UtilityJTextField extends JTextField {
 
@@ -76,7 +75,7 @@ public class UtilityJTextField extends JTextField {
 
 	@Override
 	public void paint(Graphics g) {
-
+		g.setColor(Color.BLACK);
 		super.paint(g);
 
 		if (isPassword || getText().length() == 0) {
