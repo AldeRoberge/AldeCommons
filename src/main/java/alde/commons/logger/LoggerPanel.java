@@ -102,6 +102,10 @@ public class LoggerPanel extends JTextPane {
 
 	}
 
+
+
+
+
 	private String formatLogToColorizedHTML(ILoggingEvent event) {
 		currentLine++;
 

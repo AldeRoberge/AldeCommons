@@ -23,9 +23,14 @@ public class BannerUtil {
 			WriteToFile w = new WriteToFile(bannerFilePath);
 			w.write("Replace this file (" + bannerFilePath + ") with a banner to print on every launch.");
 		} else {
+
+			StringBuilder ss = new StringBuilder();
+
 			for (String s : GetFileAsList.getFileAsList(f)) {
-				log.info(s);
+				ss.append(s + "\n");
 			}
+
+			log.info(ss.toString());
 		}
 	}
 

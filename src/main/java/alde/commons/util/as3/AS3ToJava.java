@@ -154,7 +154,7 @@ public class AS3ToJava extends StringUtils {
 				numberOfLines = 0;
 
 				for (String line : leftTextArea.getText().split(newLine)) {
-					rightTextArea.append(staticParse(line) + newLine);
+					rightTextArea.append(staticCSharpParse(line) + newLine);
 					updateInfo();
 				}
 			}
@@ -190,7 +190,7 @@ public class AS3ToJava extends StringUtils {
 		infoButton.setText("Errors : " + numberOfErrors + ", Number of lines : " + numberOfLines);
 	}
 
-	private String staticParse(String line) {
+	private String staticJavaParse(String line) {
 
 		numberOfLines++;
 
@@ -407,6 +407,222 @@ public class AS3ToJava extends StringUtils {
 		return line;
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private String staticCSharpParse(String line) {
+
+		numberOfLines++;
+
+		try {
+
+			if (line.contains("package ")) { // remove package
+				line = "";
+			} else if (line.contains("import ")) { // remove imports
+				line = "";
+			} else {
+
+				/*
+				Remove '_'
+				 */
+				line = replace(line, "_:", ":");
+				line = replace(line, "_;", ";");
+				line = replace(line, "_ = ", " = ");
+				line = replace(line, "_ ", " ");
+				line = replace(line, "_.", ".");
+				line = replace(line, "_(", "(");
+				line = replace(line, "_)", ")");
+				line = replace(line, "_[", "[");
+				line = replace(line, "_]", "]");
+				line = replace(line, "_,", ",");
+
+				line = replace(line, "uint", "int");
+				line = replace(line, "Boolean", "bool");
+
+				line = replace(line, ".push(", ".add(");
+
+				line = replace(line, "ByteArray", "byte[]");
+				line = replace(line, "new String();", "\"\"");
+
+				line = replace(line, "= NaN", "= 0");
+
+				if (line.contains("Vector.<")) {
+					line = line.replace("Vector.<", "Vector<");
+				}
+
+				line = line.replace("Number", "double");
+				line = line.replace("<Number>", "<Double>");
+
+				line = replace(line, "<int>", "<int>");
+				line = replace(line, "<float>", "<float>");
+				line = replace(line, "<double>", "<double>");
+
+				line = replace(line, "double.MAX_VALUE", "Double.MAX_VALUE");
+				line = replace(line, "double.MIN_VALUE", "Double.MIN_VALUE");
+
+				//
+
+				//
+
+				/*
+				Converts
+			     for each(loc3 in vec)
+			    to
+			     for (loc3 : vec)
+				 */
+				if (line.contains("for each") && line.contains(" in ")) {
+					line = line.replace("for each", "foreach");
+				}
+				
+				line = line.replace("native ", " ");
+
+				/*
+				 * The 'in' keyword in Java does not exist. We'll use .contains instead
+				 */
+				if (line.contains(" in ")) {
+					String dictionaryName = getFollowingWord(line, " in ");
+					String varName = getPreviousWord(line, " in ");
+
+					log.info(dictionaryName + ", " + varName);
+
+					line = rotate(line, " in ", ".contains(");
+
+					line = line.replace(varName, varName + ")");
+				}
+
+				/*
+				Converts AS3's native array declaration to Java's
+				 [...]
+				to
+				 {...}
+				 */
+				if (line.contains("<") && line.contains(">[")) {
+
+					String type = line.substring(line.indexOf("<") + 1, line.indexOf(">"));
+
+					line = replace(line, "[", "{");
+					line = replace(line, "]", "}");
+
+					line = replace(line, "<", "[");
+					line = replace(line, ">", "]");
+
+					if (line.contains("{")) {
+
+						String squared = "[" + type + "]";
+
+						line = replace(line, squared, ""); // Switch type before the [] (double[])
+						line = replace(line, "{", type + "[]{");
+					}
+
+				}
+
+				
+				/*
+				Converts fields
+				 public static var texture:BitmapData;
+				to
+				 public static BitmapData texture;
+				 */
+				if (!line.contains("function") && line.contains(":") && !line.contains("{") && line.contains(";")
+						&& !line.contains("?") && !line.contains("return")) {
+
+					debug("Line : " + line + " treated as a field.");
+
+					StringBuilder visibility = new StringBuilder();
+
+					String nameAndType = "";
+
+					String[] l2 = line.split(" ");
+
+					boolean reachedNameAndType = false;
+
+					for (String l : l2) {
+						if (!l.contains(":") && !reachedNameAndType) {
+							visibility.append(l).append(" ");
+						} else {
+							if (!reachedNameAndType) {
+								reachedNameAndType = true;
+
+								nameAndType = l;
+							}
+						}
+					}
+
+					String name = nameAndType.substring(0, nameAndType.indexOf(":"));
+					String type = nameAndType.substring(nameAndType.indexOf(":") + 1);
+
+					debug("Name  " + name + ", Type : " + type);
+
+					if (type.contains(";")) {
+						type = type.replace(";", "");
+					}
+
+					String restOfTheDeclaration = "";
+
+					if (line.contains("=")) {
+						restOfTheDeclaration = line.substring(line.indexOf(" = "));
+					} else {
+						restOfTheDeclaration = ";";
+					}
+
+					debug("FIELD : Visiblity : " + visibility + ", Type : " + type + ", Name : " + name + ", Rest : "
+							+ restOfTheDeclaration);
+
+					if (visibility.toString().contains("var ")) {
+						visibility = new StringBuilder(visibility.toString().replace("var ", " "));
+					}
+
+					return visibility + type + " " + name + restOfTheDeclaration;
+
+				}
+
+				if (line.contains("function")) {
+					line = treatFunction(line);
+				}
+			}
+		} catch (Exception e) {
+			numberOfErrors++;
+
+			System.err.println("Error with line : " + line);
+			e.printStackTrace();
+		}
+
+		return line;
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// override public function drawShadow(graphicsData:Vector.<IGraphicsData>, camera:Camera, time:int) : void
 	private String treatFunction(String line) {

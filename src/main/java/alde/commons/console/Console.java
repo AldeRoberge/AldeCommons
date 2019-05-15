@@ -47,54 +47,54 @@ public class Console extends UtilityJTextField {
          * Receive input
          */
         addActionListener(actionEvent -> {
-
             String command = getText();
-
-            boolean accepted = false;
-            for (ConsoleAction t : actions) {
-                for (String s : t.getKeywords()) {
-                    if (command.contains(s)) {
-                        accepted = true;
-                        t.accept(command);
-                        break;
-                    }
-                }
-            }
-
-            /*
-             * Use levenshtein to get the closest match to the user command.
-             * If the closest match is too far away, do not suggest anything.
-             */
-            if (!accepted) {
-
-                log.error("No action found for command '" + command + "'.");
-
-                int closest = Integer.MAX_VALUE;
-                String suggestion = "";
-
-                for (ConsoleAction c : actions) {
-
-                    for (String keyword : c.getKeywords()) {
-                        int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, command);
-
-                        if (distance < closest) {
-                            closest = distance;
-                            suggestion = keyword;
-                        }
-                    }
-
-                }
-
-                if (closest <= 3) {
-                    log.info("Did you mean '" + suggestion + "'?");
-                }
-            }
-            
+            receivedCommand(command);
             setText("");
-            
         });
 
 
+    }
+
+    public void receivedCommand(String command) {
+        boolean accepted = false;
+        for (ConsoleAction t : actions) {
+            for (String s : t.getKeywords()) {
+                if (command.contains(s)) {
+                    accepted = true;
+                    t.accept(command);
+                    break;
+                }
+            }
+        }
+
+        /*
+         * Use levenshtein to get the closest match to the user command.
+         * If the closest match is too far away, do not suggest anything.
+         */
+        if (!accepted) {
+
+            log.error("No action found for command '" + command + "'.");
+
+            int closest = Integer.MAX_VALUE;
+            String suggestion = "";
+
+            for (ConsoleAction c : actions) {
+
+                for (String keyword : c.getKeywords()) {
+                    int distance = LevenshteinDistance.computeLevenshteinDistance(keyword, command);
+
+                    if (distance < closest) {
+                        closest = distance;
+                        suggestion = keyword;
+                    }
+                }
+
+            }
+
+            if (closest <= 3) {
+                log.info("Did you mean '" + suggestion + "'?");
+            }
+        }
     }
 
     /**

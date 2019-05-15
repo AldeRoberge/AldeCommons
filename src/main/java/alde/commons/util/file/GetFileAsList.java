@@ -21,12 +21,12 @@ public class GetFileAsList {
 
 		if (f == null) {
 			log.error("File is null.");
-			return null;
+			return new ArrayList<>();
 		}
 
 		if (!f.exists()) {
 			log.error("File does not exist.");
-			return null;
+			return new ArrayList<>();
 		}
 
 		List<String> strings = new ArrayList<>();
