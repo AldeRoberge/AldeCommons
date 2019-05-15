@@ -464,11 +464,15 @@ public class AS3ToJava extends StringUtils {
 				line = replace(line, "<float>", "<float>");
 				line = replace(line, "<double>", "<double>");
 
-				line = replace(line, "double.MAX_VALUE", "Double.MAX_VALUE");
-				line = replace(line, "double.MIN_VALUE", "Double.MIN_VALUE");
-
 				//
 
+				line = replace(line, "static const", "const");
+				
+				
+				line = replace(line, "MAX_VALUE", "MaxValue");
+				
+				
+				
 				//
 
 				/*
