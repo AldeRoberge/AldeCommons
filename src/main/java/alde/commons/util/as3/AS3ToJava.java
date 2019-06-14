@@ -210,7 +210,7 @@ public class AS3ToJava extends StringUtils {
 			} else {
 
 				/*
-				Remove '_'
+				 * Remove '_'
 				 */
 				line = replace(line, "_:", ":");
 				line = replace(line, "_;", ";");
@@ -260,15 +260,12 @@ public class AS3ToJava extends StringUtils {
 				//
 
 				/*
-				Converts
-			     for each(loc3 in vec)
-			    to
-			     for (loc3 : vec)
+				 * Converts for each(loc3 in vec) to for (loc3 : vec)
 				 */
 				if (line.contains("for each") && line.contains(" in ")) {
 					line = line.replace(" in ", " : ").replace("for each", "for");
 				}
-				
+
 				line = line.replace("native ", " ");
 
 				/*
@@ -286,10 +283,7 @@ public class AS3ToJava extends StringUtils {
 				}
 
 				/*
-				Converts AS3's native array declaration to Java's
-				 [...]
-				to
-				 {...}
+				 * Converts AS3's native array declaration to Java's [...] to {...}
 				 */
 				if (line.contains("<") && line.contains(">[")) {
 
@@ -312,15 +306,12 @@ public class AS3ToJava extends StringUtils {
 				}
 
 				/*
-				 * Converts
-				 *  dict = obj as Dictionary;
-				 * to
-				 *  dict = (Dictionary) obj;
+				 * Converts dict = obj as Dictionary; to dict = (Dictionary) obj;
 				 */
 				if (line.contains(" as ")) {
 
-					//bitmapData = obj as BitmapData;
-					//bitmapData = obj as BitmapData;
+					// bitmapData = obj as BitmapData;
+					// bitmapData = obj as BitmapData;
 
 					String type = getFollowingWord(line, " as ");
 
@@ -335,10 +326,8 @@ public class AS3ToJava extends StringUtils {
 				}
 
 				/*
-				Converts fields
-				 public static var texture:BitmapData;
-				to
-				 public static BitmapData texture;
+				 * Converts fields public static var texture:BitmapData; to public static
+				 * BitmapData texture;
 				 */
 				if (!line.contains("function") && line.contains(":") && !line.contains("{") && line.contains(";")
 						&& !line.contains("?") && !line.contains("return")) {
@@ -394,7 +383,7 @@ public class AS3ToJava extends StringUtils {
 				}
 
 				if (line.contains("function")) {
-					line = treatFunction(line);
+					line = treatFunction(line, false);
 				}
 			}
 		} catch (Exception e) {
@@ -407,16 +396,7 @@ public class AS3ToJava extends StringUtils {
 		return line;
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	private String staticCSharpParse(String line) {
 
 		numberOfLines++;
@@ -430,7 +410,7 @@ public class AS3ToJava extends StringUtils {
 			} else {
 
 				/*
-				Remove '_'
+				 * Remove '_'
 				 */
 				line = replace(line, "_:", ":");
 				line = replace(line, "_;", ";");
@@ -467,24 +447,20 @@ public class AS3ToJava extends StringUtils {
 				//
 
 				line = replace(line, "static const", "const");
-				
-				
+
+				line = replace(line, "String", "string");
+
 				line = replace(line, "MAX_VALUE", "MaxValue");
-				
-				
-				
+
 				//
 
 				/*
-				Converts
-			     for each(loc3 in vec)
-			    to
-			     for (loc3 : vec)
+				 * Converts for each(loc3 in vec) to for (loc3 : vec)
 				 */
 				if (line.contains("for each") && line.contains(" in ")) {
 					line = line.replace("for each", "foreach");
 				}
-				
+
 				line = line.replace("native ", " ");
 
 				/*
@@ -502,10 +478,7 @@ public class AS3ToJava extends StringUtils {
 				}
 
 				/*
-				Converts AS3's native array declaration to Java's
-				 [...]
-				to
-				 {...}
+				 * Converts AS3's native array declaration to Java's [...] to {...}
 				 */
 				if (line.contains("<") && line.contains(">[")) {
 
@@ -527,12 +500,9 @@ public class AS3ToJava extends StringUtils {
 
 				}
 
-				
 				/*
-				Converts fields
-				 public static var texture:BitmapData;
-				to
-				 public static BitmapData texture;
+				 * Converts fields public static var texture:BitmapData; to public static
+				 * BitmapData texture;
 				 */
 				if (!line.contains("function") && line.contains(":") && !line.contains("{") && line.contains(";")
 						&& !line.contains("?") && !line.contains("return")) {
@@ -588,7 +558,7 @@ public class AS3ToJava extends StringUtils {
 				}
 
 				if (line.contains("function")) {
-					line = treatFunction(line);
+					line = treatFunction(line, true);
 				}
 			}
 		} catch (Exception e) {
@@ -601,35 +571,10 @@ public class AS3ToJava extends StringUtils {
 		return line;
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	// override public function drawShadow(graphicsData:Vector.<IGraphicsData>, camera:Camera, time:int) : void
-	private String treatFunction(String line) {
+	// override public function drawShadow(graphicsData:Vector.<IGraphicsData>,
+	// camera:Camera, time:int) : void
+	private String treatFunction(String line, boolean cSharp) {
 
 		// Visibility
 
@@ -651,7 +596,7 @@ public class AS3ToJava extends StringUtils {
 
 		String returnType = "";
 
-		if (!line.contains(") {") && line.contains("{")) { //is not constructor (has return type)
+		if (!line.contains(") {") && line.contains("{")) { // is not constructor (has return type)
 			if (line.contains("):")) {
 				returnType = line.substring(line.indexOf("):") + 2, line.indexOf("{"));
 			} else if (line.contains(") :")) {
@@ -663,7 +608,8 @@ public class AS3ToJava extends StringUtils {
 
 		// Name
 
-		String functionName = getInbetween(line, "function ", "(").replaceAll("\\s+$", ""); // get name and remove whitespace
+		String functionName = getInbetween(line, "function ", "(").replaceAll("\\s+$", ""); // get name and remove
+																							// whitespace
 
 		// Params
 
@@ -713,7 +659,8 @@ public class AS3ToJava extends StringUtils {
 
 		String function = visibility + " " + returnType + " " + functionName;
 
-		StringBuilder otherConstructorWithoutOptionals = new StringBuilder(function + " (" + nonOptionalParamLine + " ) { " + newLine + function + " ( ");
+		StringBuilder otherConstructorWithoutOptionals = new StringBuilder(
+				function + " (" + nonOptionalParamLine + " ) { " + newLine + function + " ( ");
 
 		for (Parameter p : params) {
 			if (p.isOptionalParameter) {
@@ -726,7 +673,6 @@ public class AS3ToJava extends StringUtils {
 
 		String actualParamLine = StringUtils.generateSeparatedStringFromStringList(allParams);
 
-
 		String curlyOrNot = line.contains("{") ? "{" : ""; // Sometimes the curly bracket is on the other line
 
 		if (DEBUG) {
@@ -737,18 +683,20 @@ public class AS3ToJava extends StringUtils {
 			log.info("curlyorNot : " + curlyOrNot);
 		}
 
-		String re = function + "(" + actualParamLine + ") " + " "
-				+ curlyOrNot;
+		String re = function + "(" + actualParamLine + ") " + " " + curlyOrNot;
 
-		if (hasOptionalParams) {
-			re += otherConstructorWithoutOptionals;
+		if (cSharp) {
+			if (hasOptionalParams) {
+				re += otherConstructorWithoutOptionals;
+			}
 		}
+		
+
 
 		return re;
 	}
 
 }
-
 
 class Parameter {
 
@@ -763,14 +711,9 @@ class Parameter {
 		return type + " " + name;
 	}
 
-
 	public String toStringToString() {
-		return "Parameter{" +
-				"type='" + type + '\'' +
-				", name='" + name + '\'' +
-				", isOptionalParameter=" + isOptionalParameter +
-				", defaultValue='" + defaultValue + '\'' +
-				'}';
+		return "Parameter{" + "type='" + type + '\'' + ", name='" + name + '\'' + ", isOptionalParameter="
+				+ isOptionalParameter + ", defaultValue='" + defaultValue + '\'' + '}';
 	}
 
 }
